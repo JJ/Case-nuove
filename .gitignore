@@ -321,3 +321,6 @@ TSWLatexianTemp*
 .Rproj.user
 *.Rproj
 .Rhistory
+
+# emacs
+*~
