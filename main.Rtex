@@ -237,48 +237,10 @@ f(x) = (x+a)(x+b)
 \end{figure}
 
 
-%% The Appendices part is started with the command \appendix;
-%% appendix sections are then done as normal sections
-\appendix
-\section{Example Appendix Section}
-\label{app1}
+\bibliographystyle{elsarticle-num-names} 
+\bibliography{ours}
 
-Appendix text.
-
-%% For citations use: 
-%%       \citet{<label>} ==> Lamport [21]
-%%       \citep{<label>} ==> [21]
-%%
-Example citation, See \citet{lamport94}.
-
-%% If you have bib database file and want bibtex to generate the
-%% bibitems, please use
-%%
-%%  \bibliographystyle{elsarticle-num-names} 
-%%  \bibliography{<your bibdatabase>}
-
-%% else use the following coding to input the bibitems directly in the
-%% TeX file.
-
-%% Refer following link for more details about bibliography and citations.
-%% https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
-
-\begin{thebibliography}{00}
-
-%% For authoryear reference style
-%% \bibitem[Author(year)]{label}
-%% Text of bibliographic item
-
-\bibitem[Lamport(1994)]{lamport94}
-  Leslie Lamport,
-  \textit{\LaTeX: a document preparation system},
-  Addison Wesley, Massachusetts,
-  2nd edition,
-  1994.
-
-\end{thebibliography}
 \end{document}
 
 \endinput
-%%
-%% End of file `elsarticle-template-num-names.tex'.
+
