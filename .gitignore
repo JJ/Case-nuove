@@ -324,3 +324,5 @@ TSWLatexianTemp*
 
 # emacs
 *~
+*.pdf
+*.tex
