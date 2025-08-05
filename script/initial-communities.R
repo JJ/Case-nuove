@@ -57,7 +57,7 @@ plot(main_component_graph,
 #
 
 communities <- cluster_edge_betweenness(main_component_graph, weights = E(main_component_graph)$weight)
-plot(communities, main_component_graph)
+plot(communities, main_component_graph, vertex.size = 2, layout= layout_with_kk)
 
 # List community membership by community, starting with the most numerous one
 
