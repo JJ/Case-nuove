@@ -69,3 +69,21 @@ for (community in names(sorted_communities)) {
   cat(paste(members, collapse = ", "), "\n\n")
 }
 
+# Create a data frame with columns equal to family name, betweenness and closeness centrality.
+
+centrality_df <- data.frame(
+  Family = V(main_component_graph)$name,
+  Betweenness = V(main_component_graph)$betweenness,
+  Closeness = V(main_component_graph)$closeness
+)
+
+# show the first 10 rows by betweenness and closeness
+
+centrality_by_betweenness <- centrality_df %>%
+  arrange(desc(Betweenness))
+centrality_by_closeness <- centrality_df %>%
+  arrange(desc(Closeness))
+
+head(centrality_by_betweenness, 20)
+head(centrality_by_closeness, 20)
+
