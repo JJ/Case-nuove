@@ -39,6 +39,7 @@ main_component_graph <- simplify(main_component_graph, remove.multiple = TRUE, e
 
 V(main_component_graph)$betweenness <- betweenness(main_component_graph)
 V(main_component_graph)$closeness <- closeness(main_component_graph)
+V(main_component_graph)$eigen_centrality <- unlist(unname(eigen_centrality(main_component_graph)[[1]]))
 
 plot(main_component_graph,
      vertex.size = 1+V(main_component_graph)$betweenness/100,
@@ -74,7 +75,8 @@ for (community in names(sorted_communities)) {
 centrality_df <- data.frame(
   Family = V(main_component_graph)$name,
   Betweenness = V(main_component_graph)$betweenness,
-  Closeness = V(main_component_graph)$closeness
+  Closeness = V(main_component_graph)$closeness,
+  EigenCentrality = V(main_component_graph)$eigen_centrality
 )
 
 # show the first 10 rows by betweenness and closeness
@@ -83,7 +85,9 @@ centrality_by_betweenness <- centrality_df %>%
   arrange(desc(Betweenness))
 centrality_by_closeness <- centrality_df %>%
   arrange(desc(Closeness))
+centrality_by_eigen <- centrality_df %>%
+  arrange(desc(EigenCentrality))
 
 head(centrality_by_betweenness, 20)
 head(centrality_by_closeness, 20)
-
+head(centrality_by_eigen, 40)
