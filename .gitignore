@@ -326,3 +326,4 @@ TSWLatexianTemp*
 *~
 *.pdf
 *.tex
+.RData
