@@ -52,4 +52,20 @@ plot(main_component_graph,
      main = "Main Component of Marriages Before the Ducale (1413) - Betweenness Centrality"
 )
 
+# analyze communities using weights for main_component_graph
+#
+
+communities <- cluster_edge_betweenness(main_component_graph, weights = E(main_component_graph)$weight)
+plot(communities, main_component_graph)
+
+# List community membership by community, starting with the most numerous one
+
+community_membership <- membership(communities)
+community_sizes <- table(community_membership)
+sorted_communities <- sort(community_sizes, decreasing = TRUE)
+for (community in names(sorted_communities)) {
+  cat("Community", community, "has", sorted_communities[community], "members:\n")
+  members <- V(main_component_graph)$name[community_membership == as.numeric(community)]
+  cat(paste(members, collapse = ", "), "\n\n")
+}
 
