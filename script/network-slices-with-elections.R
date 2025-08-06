@@ -4,6 +4,7 @@ library(igraph)
 load("data/venice-marriages-filtered.rda")
 load("data/ducali_dogi_data.rda")
 
+DEPTH_IN_YEARS <- 50
 
 results_df <- data.frame( Year = integer(),
                           Casata_doge = character(),
@@ -23,7 +24,7 @@ for (i in 1:nrow(ducali_dogi_data)) {
 
 
   marriages_before_ducale <- venice_marriages %>%
-    filter(year <= election_year & year >= election_year - 75)
+    filter(year <= election_year & year >= election_year - DEPTH_IN_YEARS)
 
   marriage_graph_before_first_ducale <- graph_from_data_frame(
     marriages_before_ducale,
