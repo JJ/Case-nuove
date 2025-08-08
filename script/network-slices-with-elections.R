@@ -58,6 +58,7 @@ for (i in 1:nrow(ducali_dogi_data)) {
   doge_family_betweenness_position <- which(centrality_by_betweenness$Family == casata)
   doge_family_closeness_position <- which(centrality_by_closeness$Family == casata)
   doge_family_eigen_centrality_position <- which(centrality_by_eigen$Family == casata)
+
   if (length(doge_family_betweenness_position) == 0) {
     doge_family_betweenness_position <- NA
   }

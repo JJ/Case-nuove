@@ -138,6 +138,10 @@ Ultimately, we would like to find a predictor for the family that is the most li
 
 We will try to draw the implications on the results above on our current understanding of the historic dynamics behind the Republica Serenissima in its heyday.
 
+\section{Methodology}
+
+We are using data coming from two different sources: our {\sf dogesr} package \cite{merelo2022good} and the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra}. One of the initial adaptations to the data that was made is to re-normalize Venetian family names so that they had the same spelling in the two datasets and could thus be used accordingly.
+
 \section*{Acknowledgements}
 
 This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanis
