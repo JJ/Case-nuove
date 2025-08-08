@@ -138,6 +138,10 @@ Ultimately, we would like to find a predictor for the family that is the most li
 
 We will try to draw the implications on the results above on our current understanding of the historic dynamics behind the Republica Serenissima in its heyday.
 
+\section*{Acknowledgements}
+
+This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanis
+h Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
 
 \bibliographystyle{elsarticle-num-names}
 \bibliography{ours,case-nuove}
