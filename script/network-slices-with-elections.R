@@ -4,7 +4,7 @@ library(igraph)
 load("data/venice-marriages-filtered.rda")
 load("data/ducali_dogi_data.rda")
 
-DEPTH_IN_YEARS <- 30
+DEPTH_IN_YEARS <- 90
 
 results_df <- data.frame( Year = integer(),
                           Casata_doge = character(),
