@@ -2,11 +2,7 @@
 
 load("data/doges.years.rda")
 
-# filter the data from the year 1383
-
 doges.years.after1383 <- doges.years[doges.years$Start > 1383, ]
-
-# Leave only columns Family and Start and change Start to Year
 
 doges.years.after1383 <- doges.years.after1383[, c("Family.doge", "Start")]
 colnames(doges.years.after1383) <- c("Casata","Year")
@@ -21,6 +17,9 @@ doges.years.after1383$Type <- sapply(doges.years.after1383$Casata, function(fami
   }
 })
 
+doges.years.after1383$Casata <- gsub("Trivisan", "Trevisan", doges.years.after1383$Casata)
+doges.years.after1383$Casata <- gsub("Da Ponte", "Ponte", doges.years.after1383$Casata)
+doges.years.after1383$Casata <- gsub("Molin", "Da Molin", doges.years.after1383$Casata)
 
 ducali_dogi_data <- doges.years.after1383[ doges.years.after1383$Year <= 1656, ]
 save(ducali_dogi_data, file = "data/ducali_dogi_data.rda")
