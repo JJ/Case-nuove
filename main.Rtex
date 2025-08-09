@@ -142,6 +142,10 @@ We will try to draw the implications on the results above on our current underst
 
 We are using data coming from two different sources: our {\sf dogesr} package \cite{merelo2022good} and the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra}. One of the initial adaptations to the data that was made is to re-normalize Venetian family names so that they had the same spelling in the two datasets and could thus be used accordingly.
 
+\sections{Results}
+
+In order to answer the research questions, we will first analyze slices of the social network as indicated in the methodology above.
+
 \section*{Acknowledgements}
 
 This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanis
