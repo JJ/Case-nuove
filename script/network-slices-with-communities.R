@@ -54,3 +54,16 @@ for (i in 1:nrow(ducali_dogi_data)) {
                                            FamiliesInFirstCommunity = families_in_first_community))
 
 }
+
+library(ggplot2)
+ggplot(communities_results_df, aes(x = Year, y = FamiliesInFirstCommunity)) +
+  geom_line(color = "blue") +
+  geom_point(aes(color = Type), size = 2) +
+  labs(title = "Families in Network Over Time",
+       x = "Year",
+       y = "Families in Network") +
+  theme_minimal() +
+  scale_color_manual(values = c("Ducali"="gold", "Nuovissime" = "blue", "Nuove" = "green", "Apostoliche" = "red", "Evangeliche" = "black")) +
+  theme(legend.title = element_blank())
+
+ggsave("figures/communities_over_time.png", width = 10, height = 6)
