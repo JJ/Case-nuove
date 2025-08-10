@@ -6,12 +6,12 @@ load("data/ducali_dogi_data.rda")
 
 DEPTH_IN_YEARS <- 90
 
-results_df <- data.frame( Year = integer(),
+communities_results_df <- data.frame( Year = integer(),
                           Casata_doge = character(),
                           Type = character(),
-                          DogeFamilyCommunityRank = integer(),
-                          DogeFamilyDucaliPercentage = numeric(),
-                          DogeFamilyLunghiPercentage = numeric() );
+                          FamiliesInNetwork = integer(),
+                          FamiliesinMainComponent = numeric(),
+                          FamiliesInFirstCommunity = numeric() );
 
 for (i in 1:nrow(ducali_dogi_data)) {
   election_year <- ducali_dogi_data$Year[i]
@@ -28,9 +28,12 @@ for (i in 1:nrow(ducali_dogi_data)) {
     directed = FALSE,
     vertices = unique(c(marriages_before_ducale$husband_familyname_std, marriages_before_ducale$wife_familyname_std))
   )
+  families_in_graph <- length(V(marriage_graph_before_first_ducale)$name)
 
   main_component <- components(marriage_graph_before_first_ducale)$membership
   main_component_graph <- subgraph(marriage_graph_before_first_ducale, V(marriage_graph_before_first_ducale)$name[main_component == 1])
+
+  families_in_main_component <- length(V(main_component_graph)$name)/ families_in_graph
 
   main_component_graph <- simplify(main_component_graph, remove.multiple = TRUE, edge.attr.comb = "sum")
 
@@ -39,10 +42,15 @@ for (i in 1:nrow(ducali_dogi_data)) {
   community_membership <- membership(communities)
   community_sizes <- table(community_membership)
   sorted_communities <- sort(community_sizes, decreasing = TRUE)
-  for (community in names(sorted_communities)) {
-    cat("Community", community, "has", sorted_communities[community], "members:\n")
-    members <- V(main_component_graph)$name[community_membership == as.numeric(community)]
-    cat(paste(members, collapse = ", "), "\n\n")
-  }
+
+  families_in_first_community <- sorted_communities[1] / families_in_graph
+
+  communities_results_df <- rbind(communities_results_df,
+                                data.frame(Year = election_year,
+                                           Casata_doge = casata,
+                                           Type = type,
+                                           FamiliesInNetwork = families_in_graph,
+                                           FamiliesinMainComponent = families_in_main_component,
+                                           FamiliesInFirstCommunity = families_in_first_community))
 
 }
