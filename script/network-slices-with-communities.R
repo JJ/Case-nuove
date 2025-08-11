@@ -11,14 +11,13 @@ communities_results_df <- data.frame( Year = integer(),
                           Type = character(),
                           FamiliesInNetwork = integer(),
                           FamiliesinMainComponent = numeric(),
-                          FamiliesInFirstCommunity = numeric() );
+                          FamiliesInFirstCommunity = numeric(),
+                          DogeCommunityRank = numeric());
 
 for (i in 1:nrow(ducali_dogi_data)) {
   election_year <- ducali_dogi_data$Year[i]
   casata <- ducali_dogi_data$Casata[i]
   type <- ducali_dogi_data$Type[i]
-
-
 
   marriages_before_ducale <- venice_marriages %>%
     filter(year <= election_year & year >= election_year - DEPTH_IN_YEARS)
@@ -44,6 +43,8 @@ for (i in 1:nrow(ducali_dogi_data)) {
   sorted_communities <- sort(community_sizes, decreasing = TRUE)
 
   families_in_first_community <- sorted_communities[1] / families_in_graph
+
+  community_with_doge <- which(community_membership[V(main_component_graph)$name == casata])
 
   communities_results_df <- rbind(communities_results_df,
                                 data.frame(Year = election_year,
