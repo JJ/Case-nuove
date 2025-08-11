@@ -44,13 +44,13 @@ for (i in 1:nrow(ducali_dogi_data)) {
 
   families_in_first_community <- sorted_communities[1] / families_in_graph
 
-# find the rank of the community out of communities where the doge (included in the variable casata) is a member. 1. Find the community in communities where the doge is 2. find the rank of that community using sorted_communities
-#
   doge_community <- community_membership[casata]
   doge_community_rank <- 0
   if (!is.na(doge_community)) {
+    cat(sorted_communities, "\n")
     doge_community_rank <- which(names(sorted_communities) == doge_community)
   }
+  cat( "Casata ", casata, "i", i, "Doge Community Rank:", doge_community_rank, "\n")
 
   communities_results_df <- rbind(communities_results_df,
                                 data.frame(Year = election_year,
@@ -64,9 +64,10 @@ for (i in 1:nrow(ducali_dogi_data)) {
 }
 
 library(ggplot2)
+communities_results_df$DogeCommunityRank <- as.factor(communities_results_df$DogeCommunityRank)
 ggplot(communities_results_df, aes(x = Year, y = FamiliesInFirstCommunity)) +
   geom_line(color = "blue") +
-  geom_point(aes(color = Type), size = 2) +
+  geom_point(aes(color = Type,shape=DogeCommunityRank), size = 3) +
   labs(title = "Families in Network Over Time",
        x = "Year",
        y = "Families in Network") +
