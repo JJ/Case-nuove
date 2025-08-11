@@ -44,7 +44,13 @@ for (i in 1:nrow(ducali_dogi_data)) {
 
   families_in_first_community <- sorted_communities[1] / families_in_graph
 
-  community_with_doge <- which(community_membership[V(main_component_graph)$name == casata])
+# find the rank of the community out of communities where the doge (included in the variable casata) is a member. 1. Find the community in communities where the doge is 2. find the rank of that community using sorted_communities
+#
+  doge_community <- community_membership[casata]
+  doge_community_rank <- 0
+  if (!is.na(doge_community)) {
+    doge_community_rank <- which(names(sorted_communities) == doge_community)
+  }
 
   communities_results_df <- rbind(communities_results_df,
                                 data.frame(Year = election_year,
@@ -52,7 +58,8 @@ for (i in 1:nrow(ducali_dogi_data)) {
                                            Type = type,
                                            FamiliesInNetwork = families_in_graph,
                                            FamiliesinMainComponent = families_in_main_component,
-                                           FamiliesInFirstCommunity = families_in_first_community))
+                                           FamiliesInFirstCommunity = families_in_first_community,
+                                           DogeCommunityRank = doge_community_rank))
 
 }
 
