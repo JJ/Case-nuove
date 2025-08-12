@@ -1,6 +1,8 @@
 library(dplyr)
 library(igraph)
 
+options(show.error.locations = TRUE)
+
 load("data/venice-marriages-filtered.rda")
 load("data/ducali_dogi_data.rda")
 
@@ -14,14 +16,15 @@ communities_results_df <- data.frame( Year = integer(),
                           FamiliesInFirstCommunity = numeric(),
                           DogeCommunityRank = numeric());
 
-for (i in 1:nrow(ducali_dogi_data)) {
-  election_year <- ducali_dogi_data$Year[i]
-  casata <- ducali_dogi_data$Casata[i]
-  type <- ducali_dogi_data$Type[i]
+for (index in seq(nrow(ducali_dogi_data)))  {
+  election_year <- ducali_dogi_data$Year[index]
+  casata <- ducali_dogi_data$Casata[index]
+  type <- ducali_dogi_data$Type[index]
 
   marriages_before_ducale <- venice_marriages %>%
     filter(year <= election_year & year >= election_year - DEPTH_IN_YEARS)
 
+  cat("index1", index, "of", nrow(ducali_dogi_data), "\n")
   marriage_graph_before_first_ducale <- graph_from_data_frame(
     marriages_before_ducale,
     directed = FALSE,
@@ -29,12 +32,16 @@ for (i in 1:nrow(ducali_dogi_data)) {
   )
   families_in_graph <- length(V(marriage_graph_before_first_ducale)$name)
 
+  cat("index2", index, "of", nrow(ducali_dogi_data), "\n")
+
   main_component <- components(marriage_graph_before_first_ducale)$membership
   main_component_graph <- subgraph(marriage_graph_before_first_ducale, V(marriage_graph_before_first_ducale)$name[main_component == 1])
 
   families_in_main_component <- length(V(main_component_graph)$name)/ families_in_graph
 
   main_component_graph <- simplify(main_component_graph, remove.multiple = TRUE, edge.attr.comb = "sum")
+
+  cat("index3", index, "of", nrow(ducali_dogi_data), "\n")
 
   communities <- cluster_edge_betweenness(main_component_graph, weights = E(main_component_graph)$weight)
 
@@ -49,9 +56,9 @@ for (i in 1:nrow(ducali_dogi_data)) {
   if (!is.na(doge_community)) {
     cat(sorted_communities, "\n")
     doge_community_rank <- which(names(sorted_communities) == doge_community)
+  } else {
+    cat("Doge family", casata, "not found in communities for year", election_year, "\n")
   }
-  cat( "Casata ", casata, "i", i, "Doge Community Rank:", doge_community_rank, "\n")
-
   communities_results_df <- rbind(communities_results_df,
                                 data.frame(Year = election_year,
                                            Casata_doge = casata,
@@ -62,6 +69,8 @@ for (i in 1:nrow(ducali_dogi_data)) {
                                            DogeCommunityRank = doge_community_rank))
 
 }
+
+save(communities_results_df, file = "data/communities_results_df.rda")
 
 library(ggplot2)
 communities_results_df$DogeCommunityRank <- as.factor(communities_results_df$DogeCommunityRank)
