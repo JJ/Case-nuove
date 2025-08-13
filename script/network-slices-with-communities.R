@@ -17,7 +17,6 @@ communities_results_df <- data.frame( Year = integer(),
                           DogeCommunityRank = numeric());
 
 for (index in 1:nrow(ducali_dogi_data))  {
-  cat("Processing index:", index, "\n")
   election_year <- ducali_dogi_data$Year[index]
   casata <- ducali_dogi_data$Casata[index]
   type <- ducali_dogi_data$Type[index]
@@ -25,7 +24,6 @@ for (index in 1:nrow(ducali_dogi_data))  {
   marriages_before_ducale <- venice_marriages %>%
     filter(year <= election_year & year >= election_year - DEPTH_IN_YEARS)
 
-  cat("index1", index, "of", nrow(ducali_dogi_data), "\n")
   marriage_graph_before_first_ducale <- graph_from_data_frame(
     marriages_before_ducale,
     directed = FALSE,
@@ -33,16 +31,12 @@ for (index in 1:nrow(ducali_dogi_data))  {
   )
   families_in_graph <- length(V(marriage_graph_before_first_ducale)$name)
 
-  cat("index2", index, "of", nrow(ducali_dogi_data), "\n")
-
   main_component <- components(marriage_graph_before_first_ducale)$membership
   main_component_graph <- subgraph(marriage_graph_before_first_ducale, V(marriage_graph_before_first_ducale)$name[main_component == 1])
 
   families_in_main_component <- length(V(main_component_graph)$name)/ families_in_graph
 
   main_component_graph <- simplify(main_component_graph, remove.multiple = TRUE, edge.attr.comb = "sum")
-
-  cat("index3", index, "of", nrow(ducali_dogi_data), "\n")
 
   communities <- cluster_edge_betweenness(main_component_graph, weights = E(main_component_graph)$weight)
 
