@@ -31,48 +31,15 @@ for (i in 1:nrow(ducali_dogi_data)) {
   
   # Extract and simplify the main component of the graph
   main_component_graph <- extract_main_component(marriage_graph_slice)
-
-  V(main_component_graph)$betweenness <- betweenness(main_component_graph)
-  V(main_component_graph)$closeness <- closeness(main_component_graph)
-  V(main_component_graph)$eigen_centrality <- unlist(unname(eigen_centrality(main_component_graph)[[1]]))
-
-  centrality_df <- data.frame(
-    Family = V(main_component_graph)$name,
-    Betweenness = V(main_component_graph)$betweenness,
-    Closeness = V(main_component_graph)$closeness,
-    EigenCentrality = V(main_component_graph)$eigen_centrality
+  
+  # Analyze community structure
+  community_analysis <- analyze_communities(
+    graph = main_component_graph,
+    total_families = families_in_graph
   )
+  
+  # Extract the proportion of families in the largest community
+  families_in_first_community <- community_analysis$proportion_in_largest
 
-  centrality_by_betweenness <- centrality_df %>%
-    arrange(desc(Betweenness))
-  centrality_by_closeness <- centrality_df %>%
-    arrange(desc(Closeness))
-  centrality_by_eigen <- centrality_df %>%
-    arrange(desc(EigenCentrality))
-
-  doge_family_betweenness_position <- which(centrality_by_betweenness$Family == casata)
-  doge_family_closeness_position <- which(centrality_by_closeness$Family == casata)
-  doge_family_eigen_centrality_position <- which(centrality_by_eigen$Family == casata)
-
-  if (length(doge_family_betweenness_position) == 0) {
-    doge_family_betweenness_position <- NA
-  }
-  if (length(doge_family_closeness_position) == 0) {
-    doge_family_closeness_position <- NA
-  }
-  if (length(doge_family_eigen_centrality_position) == 0) {
-    doge_family_eigen_centrality_position <- NA
-  }
-
-  results_df <- results_df %>%
-    add_row(Year = election_year,
-            Casata_doge = casata,
-            Type = type,
-            DogeFamilyBetweennessPosition = doge_family_betweenness_position,
-            DogeFamilyClosenessPosition = doge_family_closeness_position,
-            DogeFamilyEigenCentralityPosition = doge_family_eigen_centrality_position,
-            TopFamilyBetweenness = centrality_by_betweenness$Family[1],
-            TopFamilyCloseness = centrality_by_closeness$Family[1],
-            TopFamilyEigenCentrality = centrality_by_eigen$Family[1])
 }
 
