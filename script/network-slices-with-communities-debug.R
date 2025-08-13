@@ -71,3 +71,16 @@ for (index in 1:nrow(ducali_dogi_data))  {
 
 }
 save(communities_results_df, file = "data/communities_results_df.rda")
+library(ggplot2)
+communities_results_df$DogeCommunityRank <- as.factor(communities_results_df$DogeCommunityRank)
+ggplot(communities_results_df, aes(x = Year, y = FamiliesInFirstCommunity)) +
+  geom_line(color = "blue") +
+  geom_point(aes(color = Type,shape=DogeCommunityRank), size = 3) +
+  labs(title = "Families in Network Over Time",
+       x = "Year",
+       y = "Families in Network") +
+  theme_minimal() +
+  scale_color_manual(values = c("Ducali"="gold", "Nuovissime" = "blue", "Nuove" = "green", "Apostoliche" = "red", "Evangeliche" = "black")) +
+  theme(legend.title = element_blank())
+
+ggsave("figures/communities_over_time.png", width = 10, height = 6)
