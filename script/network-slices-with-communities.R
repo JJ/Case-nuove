@@ -16,7 +16,7 @@ communities_results_df <- data.frame( Year = integer(),
                           FamiliesInFirstCommunity = numeric(),
                           DogeCommunityRank = numeric());
 
-for (index in seq(nrow(ducali_dogi_data)))  {
+for (index in 1:nrow(ducali_dogi_data))  {
   cat("Processing index:", index, "\n")
   election_year <- ducali_dogi_data$Year[index]
   casata <- ducali_dogi_data$Casata[index]
@@ -70,9 +70,7 @@ for (index in seq(nrow(ducali_dogi_data)))  {
                                            DogeCommunityRank = doge_community_rank))
 
 }
-
 save(communities_results_df, file = "data/communities_results_df.rda")
-
 library(ggplot2)
 communities_results_df$DogeCommunityRank <- as.factor(communities_results_df$DogeCommunityRank)
 ggplot(communities_results_df, aes(x = Year, y = FamiliesInFirstCommunity)) +
