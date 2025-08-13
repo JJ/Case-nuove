@@ -28,12 +28,9 @@ for (i in 1:nrow(ducali_dogi_data)) {
     election_year = election_year,
     years_before = DEPTH_IN_YEARS
   )
- 
-
-  main_component <- components(marriage_graph_slice)$membership
-  main_component_graph <- subgraph(marriage_graph_slice, V(marriage_graph_slice)$name[main_component == 1])
-
-  main_component_graph <- simplify(main_component_graph, remove.multiple = TRUE, edge.attr.comb = "sum")
+  
+  # Extract and simplify the main component of the graph
+  main_component_graph <- extract_main_component(marriage_graph_slice)
 
   V(main_component_graph)$betweenness <- betweenness(main_component_graph)
   V(main_component_graph)$closeness <- closeness(main_component_graph)
