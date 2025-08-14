@@ -18,13 +18,14 @@ ggsave("figures/proportions_first_community.png", width = 10, height = 6, dpi = 
 
 ggplot(proportions_results_df, aes(x = Year)) +
   geom_line(aes(y = ProportionLunghiOutOfFirstCommunity, color = "Lunghi")) +
-  geom_line(aes(y = ProportionDucaliOutOfFirstCommunity, color = "Ducali")) +
+  geom_line(aes(y = ProportionNuoveOutOfFirstCommunity, color = "Nuove")) +
   geom_point(aes(y = ProportionLunghiOutOfFirstCommunity, color = Type), size = ifelse(proportions_results_df$Type=="Ducali",0,3)) +
-  geom_point(aes(y = ProportionDucaliOutOfFirstCommunity, color = Type), size = ifelse(proportions_results_df$Type!="Ducali",0,3)) +
+  geom_point(aes(y = ProportionNuoveOutOfFirstCommunity, color = Type), size = ifelse(proportions_results_df$Type!="Ducali",0,3)) +
   labs(title = "Proportions of Families in the First Community Over Time",
        x = "Year",
        y = "Proportion",
        color = "Family Type") +
   theme_minimal() +
-  scale_color_manual(values = c("Lunghi" = "blue", "Ducali" = "red"))
+  scale_color_manual(values = c("Lunghi" = "blue", "Nuove" = "red"))
+
 ggsave("figures/composition_first_community.png", width = 10, height = 6, dpi = 300)

@@ -12,15 +12,18 @@ proportions_results_df <- data.frame( Year = integer(),
                           ProportionLunghiInFirstCommunity = numeric(),
                           ProportionDucaliInFirstCommunity = numeric(),
                           ProportionLunghiOutOfFirstCommunity = numeric(),
-                          ProportionDucaliOutOfFirstCommunity = numeric())
+                          ProportionDucaliOutOfFirstCommunity = numeric(),
+                          ProportionNuoveOutOfFirstCommunity = numeric())
 
 # extract from the family.types list those whose value is "Ducali"
 
 ducali_families <- names(family.types)[family.types == "Ducali"]
 lunghi_families <- names(family.types)[family.types == "Apostoliche" | family.types == "Vecchie" | family.types == "Evangeliche"]
+nuove_families <- names(family.types)[family.types == "Ducali" | family.types == "Nuove"]
 
 ducali_families_number <- length(ducali_families)
 lunghi_families_number <- length(lunghi_families)
+nuove_families_number <- length(nuove_families)
 
 for (i in 1:nrow(ducali_dogi_data)) {
   election_year <- ducali_dogi_data$Year[i]
@@ -49,6 +52,7 @@ for (i in 1:nrow(ducali_dogi_data)) {
   # Intersection between ducali_families and families in the first community
   ducali_families_in_first_community <- intersect(ducali_families, families_in_first_community)
   lunghi_families_in_first_community <- intersect(lunghi_families, families_in_first_community)
+  nuove_families_in_first_community <- intersect(nuove_families, families_in_first_community)
 
   first_community_size <- length(families_in_first_community)
 
@@ -59,7 +63,9 @@ for (i in 1:nrow(ducali_dogi_data)) {
                                       ProportionLunghiInFirstCommunity = length(lunghi_families_in_first_community) / lunghi_families_number,
                                       ProportionDucaliInFirstCommunity = length(ducali_families_in_first_community) / ducali_families_number,
                       ProportionLunghiOutOfFirstCommunity = length(lunghi_families_in_first_community) / first_community_size,
-                      ProportionDucaliOutOfFirstCommunity = length(ducali_families_in_first_community) / first_community_size)
+                      ProportionDucaliOutOfFirstCommunity = length(ducali_families_in_first_community) / first_community_size,
+                      ProportionNuoveOutOfFirstCommunity = length(nuove_families_in_first_community) / first_community_size
+  )
   )
 
 }
