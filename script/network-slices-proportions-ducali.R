@@ -10,7 +10,9 @@ proportions_results_df <- data.frame( Year = integer(),
                           Casata_doge = character(),
                           Type = character(),
                           ProportionLunghiInFirstCommunity = numeric(),
-                          ProportionDucaliInFirstCommunity = numeric())
+                          ProportionDucaliInFirstCommunity = numeric(),
+                          ProportionLunghiOutOfFirstCommunity = numeric(),
+                          ProportionDucaliOutOfFirstCommunity = numeric())
 
 # extract from the family.types list those whose value is "Ducali"
 
@@ -44,17 +46,22 @@ for (i in 1:nrow(ducali_dogi_data)) {
   first_community <- names(community_analysis$sorted_communities)[1]
   families_in_first_community <- unname(community_analysis$communities[first_community])[[1]]
 
-
   # Intersection between ducali_families and families in the first community
   ducali_families_in_first_community <- intersect(ducali_families, families_in_first_community)
   lunghi_families_in_first_community <- intersect(lunghi_families, families_in_first_community)
 
-  results_df <- rbind(results_df,
-                           data.frame(Year = election_year,
+  first_community_size <- length(families_in_first_community)
+
+  proportions_results_df <- rbind(proportions_results_df,
+                            data.frame(Year = election_year,
                                       Casata_doge = casata,
                                       Type = type,
                                       ProportionLunghiInFirstCommunity = length(lunghi_families_in_first_community) / lunghi_families_number,
-                                      ProportionDucaliInFirstCommunity = length(ducali_families_in_first_community) / ducali_families_number))
-  }
+                                      ProportionDucaliInFirstCommunity = length(ducali_families_in_first_community) / ducali_families_number,
+                      ProportionLunghiOutOfFirstCommunity = length(lunghi_families_in_first_community) / first_community_size,
+                      ProportionDucaliOutOfFirstCommunity = length(ducali_families_in_first_community) / first_community_size)
+  )
+
+}
 
 save(proportions_results_df, file = "data/proportions_results_df.rda")
