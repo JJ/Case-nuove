@@ -139,6 +139,35 @@ We also eliminated from the Venetian matrimonies dataset those that include a no
 
 This data needed to be processed as a social network in order to be able to answer the research questions, but the actors in every election would only be aware of a limited slice of the whole dataset, going back a certain number of years.
 
+<<casenuove.graphs, echo=F, message=F>>=
+devtools::load_all()
+library(igraph)
+
+graph_slices <- list()
+graph_data <- data.frame( Year = integer(),
+                          Elected_doge = character(),
+                          number_of_marriages = integer(),
+                          number_of_families = integer())
+
+for (i in 1:nrow(ducali_dogi_data)) {
+  election_year <- ducali_dogi_data$Year[[i]]
+  this_graph <- create_marriage_network( venice_marriages,
+                                         election_year = election_year,
+                                         years_before = DEPTH_IN_YEARS
+                                        )
+  graph_slices[[i]] <-  this_graph
+  graph_data <- rbind( graph_data,
+                       data.frame( Year = election_year,
+                                   Elected_doge = ducali_dogi_data$Casata[[i]],
+                                   number_of_marriages = length(E(this_graph)),
+                                   number_of_families = length(V(this_graph)$name)
+                                 )
+                     )
+
+}
+
+@
+
 \section{Results}
 
 In order to answer the research questions, we will first analyze slices of the social network as indicated in the methodology above.
