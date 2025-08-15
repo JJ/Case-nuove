@@ -116,7 +116,7 @@ We can formulate the following research questions:\begin{itemize}
 \item {\bf Research Question 3} Is there any way to characterize the {\em ducali} families other than "case {\em nuove} one of whose member became a doge"? Is there any specific social status associated to these families?
 \end{itemize}
 
-Ultimately, we would like to find a predictor for the family that is the most likely to access dogeship by looking at the social network, but {\em a priori} we do not know if that is even possible with the limited amount of data we have; the main piece of data we are missing is which families would have members that a) would be in the top jobs in the Venetian {\em cursus honorum} and b) would be of a certain age that would make them eligible as a doge.
+
 
 We will try to draw the implications on the results above on our current understanding of the historic dynamics behind the Republica Serenissima in its heyday.
 
@@ -227,6 +227,10 @@ kable(results_df, col.names=c("Year","Casata","Type","Betw. Pos", "Eigen. Pos", 
 @
 
 We show the results of the social network analysis in Table \ref{tab:casenuove.elections}. We find that the Contarini family is the one with the highest centrality almost in every slice of the social network. This is one of the Apostoliche families, with many different branches and the highest social social capital in this social network. Until the "reign" of the {\em ducali} family was over, however, they did not manage to get a single one of their {\em casata} elected. The lot system used in the elections would certainly guarantee that their election was not a sure thing. The sheer size of their family might go against them, however: The second {\em ducale} doge, according to Marino Sanuto \cite{sanuto1733vitae}, managed to discourage voting for a competing doge candidate, Antonio Contarini, because "he had too many sons, daughters and sons in law"\footnote{Foscari went on to be the doge that stayed the longest in power, so much so, and with such catastrophic result, that he is the only possessor of the title "deposed doge".}; this proves that, in general, social capital might work {\em against} the possibilities of the member of a certain family becoming doge.
+
+\section{Conclusions and future work}
+
+Ultimately, we would like to find a predictor for the family that is the most likely to access dogeship by looking at the social network, but {\em a priori} we do not know if that is even possible with the limited amount of data we have; the main piece of data we are missing is which families would have members that a) would be in the top jobs in the Venetian {\em cursus honorum} and b) would be of a certain age that would make them eligible as a doge. However, the data needed for this kind of research is fragmentary, so it would need and additional data-gathering effort.
 
 \section*{Acknowledgements}
 
