@@ -134,7 +134,9 @@ DEPTH_IN_YEARS <- 90
 ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
 @
 
-We are using data coming from two different sources: our {\sf dogesr} package \cite{merelo2022good} and the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra}. One of the initial adaptations to the data that was made is to re-normalize Venetian family names so that they had the same spelling in the two datasets and could thus be used accordingly.
+We are using data coming from two different sources: our {\sf dogesr} package \cite{merelo2022good} and the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra}. In order to merge these different data sources, we had to re-normalize Venetian family names so that they had the same spelling in the two datasets and could thus be used accordingly.
+
+This data needed to be processed as a social network in order to be able to answer the research questions, but the actors in every election would only be aware of a limited slice of the whole dataset, going back a certain number of years.
 
 \section{Results}
 
