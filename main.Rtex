@@ -132,9 +132,9 @@ ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
 We are using data coming from two different sources: our {\sf dogesr} package \cite{merelo2022good} and the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra,histories4020012}. In order to merge these different data sources, we had to re-normalize Venetian family names so that they had the same spelling in the two datasets and could thus be used accordingly.
 We also eliminated from the Venetian marriages dataset those that include a non-noble member. Since we are not interested so much  in the number of marriages as in the links among noble families, since those were the ones that elected the doge, eliminating it does not imply the loss of any valuable information in this context.
 
-This data needed to be processed to a social network in order to be able to answer the research questions, but the actors in every election would only be aware of a limited slice of the whole dataset, going back a certain number of years.
+This data needed to be processed to a social network in order to be able to answer the research questions, but the actors in every election would only be aware of a limited slice of the whole dataset, going back a certain number of years. We have settled, after \cite{social:memory}, in 90 years corresponding to three generations, since apparently families keep a {\em social} memory about what happened as many as that number of generations before. Thus, at every point there has been an election from the one before the first {\em ducale} doge, when a Steno was elected, to the middle of the 17th century, when the streak of {\em ducale} doges finally ended, we have created a graph from the noble marriages going from that year to 90 years before.
 
-<<casenuove.graphs, echo=F, message=F, warning=F, fig.height=4, fig.cap="Families that participate in marriages in every slice of the graph, taken at the moment of the election of oa new doge">>=
+<<casenuove.graphs.number, echo=F, message=F, warning=F, fig.height=4, fig.cap="Families that participate in marriages in every slice of the graph, taken at the moment of the election of a new doge">>=
 devtools::load_all()
 library(igraph)
 
@@ -164,6 +164,102 @@ for (i in 1:nrow(ducali_dogi_data)) {
 library(ggplot2)
 ggplot(graph_data, aes(x=Year,y=number_of_families)) + geom_point()+geom_line() + theme_minimal() + labs(y="Number of families")
 @
+
+The number of different families participating in every graph is shown in Figure \ref{fig:casenuove.graphs.number}. As it can be seen, after an increase at the beginning of the time series, mainly due to the fact that it starts a few years before the first election included and thus the number of years covered is not complete, but also to a smaller number of marriages as well as more non-noble marriages in the period \cite{histories4020012}, it is remarkable how the number of families that participate remains relatively stable, although there seems to be cycles of increase and decrease in the number of families. Two of those minima also correspond each to pivotal points in the history of Venice as shown in \cite{histories4020012}: The first to the 1525 changepoint, the third to the 1595 one. According to \cite{raines2013rameau} this second changepoint corresponds to the highest number of nobles with voting rights in the Maggior Consiglio; however, as we show in \cite{histories4020012}, the entropy of the period is low and the number of non-noble marriages is high, explaining the minimum in the number of different noble families involved in the social graph.
+
+We see anyway that the maximum number of families involved in the graph in a given period is \Sexpr{max(graph_data$number_of_families)}; this means that new families will be introduced, as well as dropped from the marriage graph, which is more or less equivalent to actually dropping from the noble family roster.
+
+<<casenuove.permanent.families, echo=F>>=
+load("data/venice-marriages-filtered.rda")
+load("data/ducali_dogi_data.rda")
+load("data/families.rda")
+
+DEPTH_IN_YEARS <- 90
+
+# extract from the family.types list those whose value is "Ducali"
+
+ducali_families <- names(family.types)[family.types == "Ducali"]
+lunghi_families <- names(family.types)[family.types == "Apostoliche" | family.types == "Vecchie" | family.types == "Evangeliche"]
+nuove_families <- names(family.types)[family.types == "Ducali" | family.types == "Nuove"]
+
+
+first_network <- create_marriage_network(
+  venice_marriages,
+  election_year = ducali_dogi_data$Year[1],
+  years_before = DEPTH_IN_YEARS
+)
+
+permanent_families <- V(first_network)$name
+
+for (i in 2:nrow(ducali_dogi_data)) {
+  election_year <- ducali_dogi_data$Year[i]
+  casata <- ducali_dogi_data$Casata[i]
+
+  marriage_graph_slice <- create_marriage_network(
+    venice_marriages,
+    election_year = election_year,
+    years_before = DEPTH_IN_YEARS
+  )
+
+  permanent_families <- intersect(permanent_families, V(marriage_graph_slice)$name)
+}
+
+# for every family in permanent_families, map it to its type
+#
+
+permanent_families_types <- sapply(permanent_families, function(family) {
+  if (family %in% names(family.types)) {
+    return(family.types[[family]])
+  } else {
+    return(NA)
+  }
+})
+permanent_families_df <- data.frame(
+  Casata = permanent_families,
+  Type = permanent_families_types,
+  stringsAsFactors = FALSE
+)
+
+
+# Try after the first ducali election
+first_network <- create_marriage_network(
+  venice_marriages,
+  election_year = ducali_dogi_data$Year[2],
+  years_before = DEPTH_IN_YEARS
+)
+
+permanent_families_2 <- V(first_network)$name
+
+for (i in 3:nrow(ducali_dogi_data)) {
+  election_year <- ducali_dogi_data$Year[i]
+  casata <- ducali_dogi_data$Casata[i]
+
+  marriage_graph_slice <- create_marriage_network(
+    venice_marriages,
+    election_year = election_year,
+    years_before = DEPTH_IN_YEARS
+  )
+
+  permanent_families_2 <- intersect(permanent_families_2, V(marriage_graph_slice)$name)
+}
+
+permanent_families_types <- sapply(permanent_families_2, function(family) {
+  if (family %in% names(family.types)) {
+    return(family.types[[family]])
+  } else {
+    return(NA)
+  }
+})
+permanent_families_2_df <- data.frame(
+  Casata = permanent_families_2,
+  Type = permanent_families_types,
+  stringsAsFactors = FALSE
+)
+
+
+@
+
+
 
 \section{Results}
 
