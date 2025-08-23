@@ -70,10 +70,6 @@
 Abstract text.
 \end{abstract}
 
-%%Graphical abstract
-\begin{graphicalabstract}
-%\includegraphics{grabs}
-\end{graphicalabstract}
 
 %%Research highlights
 \begin{highlights}
@@ -83,8 +79,7 @@ Abstract text.
 
 %% Keywords
 \begin{keyword}
-%% keywords here, in the form: keyword \sep keyword
-
+Venice \sep History of Venice \sep Electoral systems \sep Social Networks \sep Social Network Analysis
 %% PACS codes here, in the form: \PACS code \sep code
 
 %% MSC codes here, in the form: \MSC code \sep code
