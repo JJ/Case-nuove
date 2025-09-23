@@ -99,7 +99,41 @@ Venice \sep History of Venice \sep Electoral systems \sep Social Networks \sep S
 %% Use \section commands to start a section
 \section{Introduction}
 \label{sec1}
-%% Labels are used to cross-reference an item using \ref command.
+<<casenuove.functions,echo=F>>=
+#' Create a Marriage Network Graph
+#' 
+#' This function creates an undirected graph from marriage data within a specified time window
+#' before a given election year.
+#'
+#' @param marriage_data A data frame containing marriage records with columns:
+#'   - year: The year of the marriage
+#'   - husband_familyname_std: Standardized husband's family name
+#'   - wife_familyname_std: Standardized wife's family name
+#' @param election_year The target election year
+#' @param years_before Number of years before the election to include (default: 20)
+#' 
+#' @return An igraph graph object representing the marriage network
+#' @importFrom igraph graph_from_data_frame
+#' @importFrom dplyr filter
+#' @export
+create_marriage_network <- function(marriage_data, election_year, years_before = 20) {
+  # Filter marriages within the specified time window
+  marriages_window <- marriage_data %>%
+    filter(year <= election_year & year >= election_year - years_before)
+  
+  # Create the graph
+  marriage_network <- graph_from_data_frame(
+    marriages_window,
+    directed = FALSE,
+    vertices = unique(c(marriages_window$husband_familyname_std, 
+                       marriages_window$wife_familyname_std))
+  )
+  
+  return(marriage_network)
+}
+@
+
+
 
 What is known is that between the 15th and the 17th century, right up to the nomination of doge Memmo in 1633, none of the {\em old} families managed to access dogeship, being that post dominated by {\em ducali} and, in some very limited cases, {\em nuove} families. \cite{romanin1856storia,chojnacki1973search}. Many authors attribute that to the existence of, first, factions \cite{chojnacki1973search}, one composed of the old {\em lunghi} and the other constituted by the new or {\em curti} families, and then, the actual enforcement of factional policies that allowed {\em lunghi} to hoard most chosen positions, despite constituting less than one third of the nobility, and the {\em curti} to be the only ones with the possibility of being elected as a doge.
 
