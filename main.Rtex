@@ -117,11 +117,9 @@ Venice \sep History of Venice \sep Electoral systems \sep Social Networks \sep S
 #' @importFrom dplyr filter
 #' @export
 create_marriage_network <- function(marriage_data, election_year, years_before = 20) {
-  # Filter marriages within the specified time window
   marriages_window <- marriage_data %>%
     filter(year <= election_year & year >= election_year - years_before)
   
-  # Create the graph
   marriage_network <- graph_from_data_frame(
     marriages_window,
     directed = FALSE,
