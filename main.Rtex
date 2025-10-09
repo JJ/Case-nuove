@@ -289,8 +289,11 @@ permanent_families_2_df <- data.frame(
   stringsAsFactors = FALSE
 )
 
-
 @
+
+Since we are using matrimonial data as a proxy for social capital as well as long-standing political alliances, we would need to validate this claim via independent sources. In many cases, social connection have been proved to be used in a {\em tactical} way for economic and political advancement \cite{western2024social}. In the specific case of Venice, most official jobs, apart from elected ones, were occupied by nobles; in this context \cite{telek2018three} has found that when you marry into a family with a higher social status, as measured in the matrimonial network, members of that family will get better appointments, as well as increase their social capital in the network. In general, matrimonies in the Serenissima were an economic affair, indistinguishable from commerce since it also involved economic transactions in the shape of dowries \cite{gratsea2025chapter}; it is not a long stretch to use the matrimonial network as a good representative of the network of political alliances.
+
+The dataset we use, on the other hand, is a good and, as far as we have been able to ascertain, unbiased representation of the actual network of marriages in the Republic of Venice during the period covered. It has been used repeatedly since its initial introduction by Puga and Treffler \cite{PugaTrefler}, with post-hoc validation showing a very good match with historical covered facts.
 
 
 
@@ -395,7 +398,7 @@ Ultimately, we would like to find a predictor for the family that is the most li
 This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
 
 \bibliographystyle{elsarticle-num-names}
-\bibliography{ours,case-nuove}
+\bibliography{ours,case-nuove,patrician}
 
 \end{document}
 
