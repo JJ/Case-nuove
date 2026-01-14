@@ -165,7 +165,7 @@ We also eliminated from the Venetian marriages dataset those that include a non-
 
 This data needed to be processed to a social network in order to be able to answer the research questions, but the actors in every election would only be aware of a limited slice of the whole dataset, going back a certain number of years. We have settled, after \cite{social:memory}, in 90 years corresponding to three generations, since apparently families keep a {\em social} memory about what happened for as many as that number of generations before. Thus, at every point there has been an election from the one before the first {\em ducale} doge, when a Steno was elected, to the middle of the 17th century, when the streak of {\em ducali} doges finally ended, we have created a series of graphs from the noble marriages going from that year to 90 years before.
 
-<<casenuove.graphs.number, echo=F, message=F, warning=F, fig.height=4, fig.cap="Families that participate in marriages in every slice of the graph, taken at the moment of the election of a new doge">>=
+<<casenuove.graphs.number, echo=F, message=F, warning=F, fig.height=4, fig.cap="Families that participate in marriages in every slice of the graph, taken at the moment of the election of a new doge. Color shade indicates whether the network slice spans the full 90 years; it does not in first 3 elections.">>=
 library(igraph)
 first_network_year <- min( venice_marriages$year)
 
