@@ -167,12 +167,14 @@ This data needed to be processed to a social network in order to be able to answ
 
 <<casenuove.graphs.number, echo=F, message=F, warning=F, fig.height=4, fig.cap="Families that participate in marriages in every slice of the graph, taken at the moment of the election of a new doge">>=
 library(igraph)
+first_network_year <- min( venice_marriages$year)
 
 graph_slices <- list()
 graph_data <- data.frame( Year = integer(),
                           Elected_doge = character(),
                           number_of_marriages = integer(),
-                          number_of_families = integer())
+                          number_of_families = integer(),
+                          proportion_to_full_network = numeric())
 
 for (i in 1:nrow(ducali_dogi_data)) {
   election_year <- ducali_dogi_data$Year[[i]]
@@ -181,18 +183,20 @@ for (i in 1:nrow(ducali_dogi_data)) {
                                          years_before = DEPTH_IN_YEARS
                                         )
   graph_slices[[i]] <-  this_graph
+  proportion_to_full_network <- (election_year - first_network_year)/DEPTH_IN_YEARS
   graph_data <- rbind( graph_data,
                        data.frame( Year = election_year,
                                    Elected_doge = ducali_dogi_data$Casata[[i]],
                                    number_of_marriages = length(E(this_graph)),
-                                   number_of_families = length(V(this_graph)$name)
+                                   number_of_families = length(V(this_graph)$name),
+                                   proportion_to_full_network = ifelse( proportion_to_full_network > 1,1, proportion_to_full_network)
                                  )
                      )
 
 }
 
 library(ggplot2)
-ggplot(graph_data, aes(x=Year,y=number_of_families)) + geom_point()+geom_line() + theme_minimal() + labs(y="Number of families")
+ggplot(graph_data, aes(x=Year,y=number_of_families,color=proportion_to_full_network)) + geom_point()+geom_line() + theme_minimal() + labs(y="Number of families")
 @
 
 % We need to validate this dataset for the purpose we are using it. To what extent is it representative of the noble social network? - JJ
@@ -208,14 +212,11 @@ load("data/venice-marriages-filtered.rda")
 load("data/ducali_dogi_data.rda")
 load("data/families.rda")
 
-DEPTH_IN_YEARS <- 90
-
 # extract from the family.types list those whose value is "Ducali"
 
 ducali_families <- names(family.types)[family.types == "Ducali"]
 lunghi_families <- names(family.types)[family.types == "Apostoliche" | family.types == "Vecchie" | family.types == "Evangeliche"]
 nuove_families <- names(family.types)[family.types == "Ducali" | family.types == "Nuove"]
-
 
 first_network <- create_marriage_network(
   venice_marriages,
@@ -310,7 +311,8 @@ results_df <- data.frame( Year = integer(),
                           DogeFamilyBetweennessPosition = integer(),
                           DogeFamilyEigenCentralityPosition = integer(),
                           TopFamilyBetweenness = character(),
-                          TopFamilyEigenCentrality = character())
+                          TopFamilyEigenCentrality = character(),
+                          ActualYears = numeric())
 
 for (i in 1:nrow(ducali_dogi_data)) {
   election_year <- ducali_dogi_data$Year[i]
@@ -372,7 +374,8 @@ for (i in 1:nrow(ducali_dogi_data)) {
             DogeFamilyBetweennessPosition = doge_family_betweenness_position,
             DogeFamilyEigenCentralityPosition = doge_family_eigen_centrality_position,
             TopFamilyBetweenness = centrality_by_betweenness$Family[1],
-            TopFamilyEigenCentrality = centrality_by_eigen$Family[1])
+            TopFamilyEigenCentrality = centrality_by_eigen$Family[1],
+            ActualYears = (election_year - first_network_year)/DEPTH_IN_YEARS
 }
 
 library(kableExtra)
