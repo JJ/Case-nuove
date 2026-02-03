@@ -27,7 +27,8 @@ close $fh3;
 while (my $row = <$fh2>) {
   chomp($row);
   my ($family,$date) = split(/,\s*/, $row);
-  my $std_family = ucfirst( lc($family) );
+  my $std_family = join( " ", map { ucfirst($_) } split(/\s+/,  lc($family) ) );
+  say $std_family;
   my $ducale = $ducali_families{$std_family}?1:0;
   if ( $labels{$std_family} ) {
     say $out "$std_family,$labels{$std_family},$date,$ducale";

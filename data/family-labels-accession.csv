@@ -62,8 +62,8 @@ Benedetti,Curti,1297,0
 Beneto,Curti,?,0
 Benfizi,Curti,1298,0
 Bentivoglio,Curti,1488,0
-Benzon (s. agostin),Curti,1407,0
-Benzon (s. vidal),Curti,1685,0
+Benzon (s. Agostin),Curti,1407,0
+Benzon (s. Vidal),Curti,1685,0
 Beregan,Curti,1649,0
 Berengo,Curti,?,0
 Berlendis,Curti,1662,0
@@ -73,7 +73,7 @@ Bettoni,Curti,1684,0
 Bianco,Curti,?,0
 Biaqua,Curti,?,0
 Boccazo,Curti,1297,0
-Dalle boccole,Curti,1300,0
+Dalle Boccole,Curti,1300,0
 Boldo,Curti,?,0
 Boldu,Curti,1297,0
 Bollani,Curti,1297,0
@@ -156,14 +156,14 @@ Croce,Curti,?,0
 Crotta,Curti,1649,0
 Curti,Curti,1688,0
 D'equilo,Curti,1297,0
-Da comino,Curti,1297,0
-Da fano,Curti,1297,0
-Da mar,Curti,1309,0
-Da porto,Curti,1381,0
-Dal sol,Curti,1310,0
+Da Comino,Curti,1297,0
+Da Fano,Curti,1297,0
+Da Mar,Curti,1309,0
+Da Porto,Curti,1381,0
+Dal Sol,Curti,1310,0
 Dalbore,Curti,?,0
-Dalla scala,Curti,1297,0
-Dalle sevole,Curti,1297,0
+Dalla Scala,Curti,1297,0
+Dalle Sevole,Curti,1297,0
 Dandolo,Lunghi,1297,0
 Danselmo,Curti,?,0
 Armer,Curti,1297,0
@@ -171,24 +171,24 @@ Darpin,Curti,1297,0
 Darpo,Curti,?,0
 Davidor,Curti,1297,0
 Davillo,Curti,?,0
-De lia,Curti,?,0
-De malis,Curti,1300,0
-De verardo,Curti,1312,0
+De Lia,Curti,?,0
+De Malis,Curti,1300,0
+De Verardo,Curti,1312,0
 Deddo,Curti,?,0
-Della frascada,Curti,1297,0
-Delli aspinal,Curti,?,0
+Della Frascada,Curti,1297,0
+Delli Aspinal,Curti,?,0
 Dente,Curti,1310,0
 Deretti,Curti,1355,0
-Di lorzo,Curti,?,0
-Di pigli,Curti,1334,0
-Di rossi,Curti,1423,0
+Di Lorzo,Curti,?,0
+Di Pigli,Curti,1334,0
+Di Rossi,Curti,1423,0
 Diedo,Curti,1297,0
 Diesello,Curti,1310,0
 Diesenove,Curti,?,0
 Dolce,Curti,1658,0
 Dolfin,Lunghi,1297,0
 Dolfinigo,Curti,?,0
-Don zorzi,Curti,1297,0
+Don Zorzi,Curti,1297,0
 Donadi,Curti,1311,0
 Dondiorologio,Curti,1653,0
 Donisdio,Curti,?,0
@@ -224,7 +224,7 @@ Foscarini,Curti,1297,0
 Foscolo,Curti,1297,0
 Fracassetti,Curti,1704,0
 Fradello,Curti,1297,0
-Fradello (di candia),Curti,1493,0
+Fradello (di Candia),Curti,1493,0
 Franceschi,Curti,1716,0
 Franco,Curti,?,0
 Franzapani,Curti,?,0
@@ -272,10 +272,10 @@ Lando,Curti,1297,1
 Lanzuoli,Curti,1297,0
 Lazzari,Curti,1660,0
 Leucari,Curti,1297,0
-Da lezze,Curti,1297,0
+Da Lezze,Curti,1297,0
 Lin,Curti,1685,0
 Lion,Curti,1303,0
-Lion cavazza,Curti,1652,0
+Lion Cavazza,Curti,1652,0
 Lippomano,Curti,1381,0
 Lisiado,Curti,?,0
 Lolin,Curti,1436,0
@@ -333,15 +333,15 @@ Minio,Curti,1297,0
 Minotto,Curti,1297,0
 Mocenigo,Curti,1297,1
 Molin,Curti,1297,0
-Mora (s. felice),Curti,1694,0
-Mora (s. marcuola),Curti,1653,0
+Mora (s. Felice),Curti,1694,0
+Mora (s. Marcuola),Curti,1653,0
 Morelli,Curti,1686,0
 Moro,Curti,1297,1
 Morosini,Lunghi,1297,0
 Mortadello,Curti,?,0
-Da mosto,Curti,1297,0
+Da Mosto,Curti,1297,0
 Muazzo,Curti,1297,0
-Da mula,Curti,1297,0
+Da Mula,Curti,1297,0
 Mussatti,Curti,1776,0
 Mussolino,Curti,1297,0
 Nadal,Curti,1297,0
@@ -386,7 +386,7 @@ Polani,Lunghi,1297,0
 Polini,Curti,1300,0
 Polo,Curti,1297,0
 Polvaro,Curti,1662,0
-Da ponte,Curti,1493,0
+Da Ponte,Curti,1493,1
 Premarin,Curti,1297,0
 Premuda,Curti,1297,0
 Priuli,Curti,1297,1
@@ -406,7 +406,7 @@ Regin,Curti,?,0
 Renier,Curti,1381,0
 Rezzonico,Curti,1687,0
 Riario,Curti,1481,0
-Da riva,Curti,1297,0
+Da Riva,Curti,1297,0
 Rizzi,Curti,1687,0
 Romani,Curti,1297,0
 Romieri,Curti,1689,0
@@ -474,9 +474,9 @@ Valaresso,Curti,1297,0
 Valier,Curti,1297,0
 Valmarana,Curti,1658,0
 Valpetro,Curti,?,0
-Van axel,Curti,1665,0
+Van Axel,Curti,1665,0
 Vaneri,Curti,?,0
-Varda da dio,Curti,?,0
+Varda Da Dio,Curti,?,0
 Veglia,Curti,1297,0
 Vendelin,Curti,1297,0
 Vendramin,Curti,1381,1
@@ -501,8 +501,8 @@ Widmann,Curti,1646,0
 Zaccaria,Curti,1381,0
 Zacco,Curti,1653,0
 Zaguri,Curti,1646,0
-Zambelli (s. giac. dell'orio),Curti,1648,0
-Zambelli (s. stin),Curti,1685,0
+Zambelli (s. Giac. Dell'orio),Curti,1648,0
+Zambelli (s. Stin),Curti,1685,0
 Zanardi,Curti,1653,0
 Zanasi,Curti,?,0
 Zancani,Curti,1297,0
