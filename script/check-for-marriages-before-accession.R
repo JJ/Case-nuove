@@ -26,7 +26,7 @@ marriages.excluding.accession.issues <- marriages.check.accession %>%
 
 write.csv(marriages.excluding.accession.issues, "data/noble-marriages-year.csv", row.names = FALSE)
 
-marriage.with.missing.accession <- marriages.check.accession %>%
+marriages.with.missing.accession <- marriages.check.accession %>%
   filter(is.na(husband_accession_after_marriage) | is.na(wife_accession_after_marriage)) %>% filter( !is.na(year) & wife_familyname_std!="") 
 
-missing_families <- unique( marriage.with.missing.accession$wife_familyname_std)
+missing_families <- unique( marriages.with.missing.accession$wife_familyname_std)
