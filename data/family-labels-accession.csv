@@ -19,7 +19,7 @@ Angusuola,Curti,1499
 Anselmi,Curti,1412
 Antelmi,Curti,1646
 Ardizon,Curti,1297
-Darduin,Curti,1297
+Arduini,Curti,1297
 Ariani,Curti,1300
 Ariberti,Curti,1655
 Arimondo,Curti,1297
@@ -32,7 +32,7 @@ Babilonio,Curti,1298
 Badoer,Lunghi,1297
 Baffo,Curti,1297
 Baglioni,Curti,1716
-Balastri (balestro),Curti,1311
+Barastro,Curti,1311
 Balbi,Curti,1297
 Balestrieri,Curti,1301
 Baluchin,Curti,?
@@ -54,6 +54,7 @@ Basodello,Curti,?
 Battagia,Curti,1439
 Battaglioni,Curti,1516
 Belegno,Curti,1297
+Bell'Ossello,1297
 Belloni,Curti,1646
 Bellotto,Curti,1685
 Bembo,Lunghi,1297
@@ -72,14 +73,14 @@ Bettoni,Curti,1684
 Bianco,Curti,?
 Biaqua,Curti,?
 Boccazo,Curti,1297
-Dalle boccole,Curti,1300
+Dalle Boccole,Curti,1300
 Boldo,Curti,?
 Boldu,Curti,1297
 Bollani,Curti,1297
 Bolpe,Curti,1297
 Bon,Curti,1297
 Bonaldi,Curti,?
-Bonci (bonzi),Curti,1297
+Bonzi,Curti,1297
 Bondumier,Curti,1297
 Bonfadini,Curti,1648
 Buoninsegna,Curti,1310
@@ -91,7 +92,7 @@ Bordolo,Curti,?
 Borini,Curti,?
 Borselli,Curti,?
 Bosebo,Curti,?
-Bosso,Curti,1297
+Bossio,Curti,1297
 Bragadin,Lunghi,1297
 Brandolin,Curti,1686
 Brazolan,Curti,1297
@@ -105,7 +106,7 @@ Bristolani,Curti,?
 Buora,Curti,1297
 Buricaldo,Curti,1297
 Businago,Curti,1297
-Buzzaccarini,Curti,1782
+Buzzaccarini,Curti,1365
 Caiselli,Curti,1779
 Calbo,Curti,1297
 Calergi,Curti,1381
@@ -117,7 +118,7 @@ Capello,Curti,1297
 Caravello,Curti,1297
 Carazacanevo,Curti,1297
 Carbonizzi,Curti,?
-Caresini,Curti,1381
+Caresin,Curti,1381
 Carminati,Curti,1687
 Caroso,Curti,1297
 Cassetti,Curti,1662
@@ -159,16 +160,16 @@ Da comino,Curti,1297
 Da fano,Curti,1297
 Da mar,Curti,1309
 Da porto,Curti,1381
-Dal sol,Curti,1310
+Dal Sol,Curti,1310
 Dalbore,Curti,?
-Dalla scala,Curti,1297
+Dalla Scala,Curti,1297
 Dalle sevole,Curti,1297
 Dandolo,Lunghi,1297
 Danselmo,Curti,?
 Darmer,Curti,1297
 Darpin,Curti,1297
 Darpo,Curti,?
-Davidor,Curti,1297
+David,Curti,1297
 Davillo,Curti,?
 De lia,Curti,?
 De malis,Curti,1300
@@ -187,14 +188,14 @@ Diesenove,Curti,?
 Dolce,Curti,1658
 Dolfin,Lunghi,1297
 Dolfinigo,Curti,?
-Don zorzi,Curti,1297
+Don Zorzi,Curti,1297
 Donadi,Curti,1311
 Dondiorologio,Curti,1653
 Donisdio,Curti,?
 Dono,Curti,1297
 Donato,Curti,1297
 Doro,Curti,1297
-Dotto (dotho),Curti,1297
+Dotho,Curti,1297
 Dozane,Curti,1297
 Drusco,Curti,?
 Duodo,Curti,1297
@@ -215,9 +216,9 @@ Fiollo,Curti,?
 Flangini,Curti,1664
 Fondanizi,Curti,?
 Fonseca,Curti,1664
-Fontana (dalla),Curti,1297
+Dalla Fontana,Curti,1297
 Fonte,Curti,1646
-Fornase (dalla),Curti,1381
+Dalla Fornase,Curti,1381
 Foscari,Curti,1297
 Foscarini,Curti,1297
 Foscolo,Curti,1297
@@ -272,9 +273,9 @@ Lanzuoli,Curti,1297
 Lazzari,Curti,1660
 Leucari,Curti,1297
 Da Lezze,Curti,1297
-Lin,Curti,1685
+Lini,Curti,1685
 Lion,Curti,1303
-Lion cavazza,Curti,1652
+Cavazza,Curti,1652
 Lippomano,Curti,1381
 Lisiado,Curti,?
 Lolin,Curti,1436
@@ -357,7 +358,7 @@ Orio,Curti,1297
 Orso,Curti,1381
 Osello,Curti,?
 Ottoboni,Curti,1646
-Ottolini,Curti,1780
+Ottolin,Curti,1780
 Pallavicino,Curti,1423
 Panciera,Curti,1777
 Papaciza,Curti,1311
@@ -408,7 +409,7 @@ Da Riva,Curti,1297
 Rizzi,Curti,1687
 Romani,Curti,1297
 Romieri,Curti,1689
-Rossi,Curti,1297
+Rosso,Curti,1297
 Rota,Curti,1685
 Rovere,Curti,1512
 Rovini,Curti,1788
