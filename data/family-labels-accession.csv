@@ -24,12 +24,12 @@ Ariani,Curti,1300
 Ariberti,Curti,1655
 Arimondo,Curti,1297
 Arnaldi,Curti,1685
-Avanzago,Curti,1297
+D'Avanzago,Curti,1297
 Aventurado,Curti,?
 Avogadro,Curti,1438
 Avonal,Curti,1300
 Babilonio,Curti,1298
-Badoero,Lunghi,1297
+Badoer,Lunghi,1297
 Baffo,Curti,1297
 Baglioni,Curti,1716
 Balastri (balestro),Curti,1311
@@ -114,7 +114,7 @@ Canabri,Curti,?
 Canal,Curti,1297
 Cancanico,Curti,?
 Caotorta,Curti,1297
-Cappello,Curti,1297
+Capello,Curti,1297
 Caravello,Curti,1297
 Carazacanevo,Curti,1297
 Carbonizzi,Curti,?
@@ -141,7 +141,7 @@ Codognola,Curti,1717
 Collalto,Curti,1297
 Comino,Curti,1464
 Concanfo,Curti,?
-Condulmiero,Curti,1381
+Condulmer,Curti,1381
 Contarini,Lunghi,1297
 Contenti,Curti,1686
 Conti,Curti,1667
@@ -204,7 +204,7 @@ Enegro,Curti,?
 Erizzo,Curti,1297
 Fabrizi,Curti,?
 Faccio,Curti,?
-Faliero,Lunghi,1297
+Falier,Lunghi,1297
 Faraon,Curti,?
 Farsetti,Curti,1664
 Favero,Curti,inizio '300
@@ -228,7 +228,7 @@ Fradello (di candia),Curti,1493
 Franceschi,Curti,1716
 Franco,Curti,?
 Franzapani,Curti,?
-Gabrielli,Curti,1297
+Gabriel,Curti,1297
 Galaenzi,Curti,?
 Galaresi,Curti,?
 Gallina,Curti,?
@@ -242,7 +242,7 @@ Gheltoff,Curti,1697
 Gherardini,Curti,1652
 Ghisi,Curti,1297
 Giovanelli,Curti,1668
-Girardi,Curti,1297
+Girardo,Curti,1297
 Giupponi,Curti,1660
 Giustinian,Lunghi,1297
 Gozzi,Curti,1646
@@ -324,7 +324,7 @@ Memmo,Lunghi,1297
 Menegato,Curti,?
 Mengolo,Curti,1297
 Mettadori,Curti,?
-Mezzo,Curti,1297
+De Mezzo,Curti,1297
 Miani,Curti,1297
 Michiel,Lunghi,1297
 Miegano,Curti,1297
@@ -332,14 +332,14 @@ Minelli,Curti,1650
 Minio,Curti,1297
 Minotto,Curti,1297
 Mocenigo,Curti,1297
-Molin,Curti,1297
+Da Molin,Curti,1297
 Mora (s. felice),Curti,1694
 Mora (s. marcuola),Curti,1653
 Morelli,Curti,1686
 Moro,Curti,1297
 Morosini,Lunghi,1297
 Mortadello,Curti,?
-Da mosto,Curti,1297
+Mosto,Curti,1297
 Muazzo,Curti,1297
 Da mula,Curti,1297
 Mussatti,Curti,1776
@@ -386,7 +386,7 @@ Polani,Lunghi,1297
 Polini,Curti,1300
 Polo,Curti,1297
 Polvaro,Curti,1662
-Da ponte,Curti,1493
+Ponte,Curti,1493
 Premarin,Curti,1297
 Premuda,Curti,1297
 Priuli,Curti,1297
@@ -406,7 +406,7 @@ Regin,Curti,?
 Renier,Curti,1381
 Rezzonico,Curti,1687
 Riario,Curti,1481
-Da riva,Curti,1297
+Da Riva,Curti,1297
 Rizzi,Curti,1687
 Romani,Curti,1297
 Romieri,Curti,1689
@@ -474,7 +474,7 @@ Valaresso,Curti,1297
 Valier,Curti,1297
 Valmarana,Curti,1658
 Valpetro,Curti,?
-Van axel,Curti,1665
+Vanaxel,Curti,1665
 Vaneri,Curti,?
 Varda da dio,Curti,?
 Veglia,Curti,1297
@@ -497,12 +497,11 @@ Vielmo,Curti,1297
 Vitturi,Curti,1297
 Vizzamano,Curti,1381
 Volpe,Curti,1297
-Widmann,Curti,1646
+Widman,Curti,1646
 Zaccaria,Curti,1381
 Zacco,Curti,1653
 Zaguri,Curti,1646
-Zambelli (s. giac. dell'orio),Curti,1648
-Zambelli (s. stin),Curti,1685
+Zambelli,Curti,1685
 Zanardi,Curti,1653
 Zanasi,Curti,?
 Zancani,Curti,1297
