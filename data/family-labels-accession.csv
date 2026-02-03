@@ -19,20 +19,20 @@ Angusuola,Curti,1499,0
 Anselmi,Curti,1412,0
 Antelmi,Curti,1646,0
 Ardizon,Curti,1297,0
-Darduin,Curti,1297,0
+Arduini,Curti,1297,0
 Ariani,Curti,1300,0
 Ariberti,Curti,1655,0
 Arimondo,Curti,1297,0
 Arnaldi,Curti,1685,0
-Avanzago,Curti,1297,0
+D'Avanzago,Curti,1297,0
 Aventurado,Curti,?,0
 Avogadro,Curti,1438,0
 Avonal,Curti,1300,0
 Babilonio,Curti,1298,0
-Badoero,Lunghi,1297,0
+Badoer,Lunghi,1297,0
 Baffo,Curti,1297,0
 Baglioni,Curti,1716,0
-Balastri (balestro),Curti,1311,0
+Barastro,Curti,1311,0
 Balbi,Curti,1297,0
 Balestrieri,Curti,1301,0
 Baluchin,Curti,?,0
@@ -54,6 +54,7 @@ Basodello,Curti,?,0
 Battagia,Curti,1439,0
 Battaglioni,Curti,1516,0
 Belegno,Curti,1297,0
+Bell'Osello,1297,0
 Belloni,Curti,1646,0
 Bellotto,Curti,1685,0
 Bembo,Lunghi,1297,0
@@ -62,8 +63,7 @@ Benedetti,Curti,1297,0
 Beneto,Curti,?,0
 Benfizi,Curti,1298,0
 Bentivoglio,Curti,1488,0
-Benzon (s. Agostin),Curti,1407,0
-Benzon (s. Vidal),Curti,1685,0
+Benzon,Curti,1407,0
 Beregan,Curti,1649,0
 Berengo,Curti,?,0
 Berlendis,Curti,1662,0
@@ -80,7 +80,7 @@ Bollani,Curti,1297,0
 Bolpe,Curti,1297,0
 Bon,Curti,1297,0
 Bonaldi,Curti,?,0
-Bonci (bonzi),Curti,1297,0
+Bonzi,Curti,1297,0
 Bondumier,Curti,1297,0
 Bonfadini,Curti,1648,0
 Buoninsegna,Curti,1310,0
@@ -92,9 +92,9 @@ Bordolo,Curti,?,0
 Borini,Curti,?,0
 Borselli,Curti,?,0
 Bosebo,Curti,?,0
-Bosso,Curti,1297,0
+Bossio,Curti,1297,0
 Bragadin,Lunghi,1297,0
-Brandolini,Curti,1686,0
+Brandolin,Curti,1686,0
 Brazolan,Curti,1297,0
 Bredani,Curti,1381,0
 Bregonzi,Curti,1665,0
@@ -106,7 +106,7 @@ Bristolani,Curti,?,0
 Buora,Curti,1297,0
 Buricaldo,Curti,1297,0
 Businago,Curti,1297,0
-Buzzaccarini,Curti,1782,0
+Buzzacarin,Curti,1365,0
 Caiselli,Curti,1779,0
 Calbo,Curti,1297,0
 Calergi,Curti,1381,0
@@ -114,11 +114,11 @@ Canabri,Curti,?,0
 Canal,Curti,1297,0
 Cancanico,Curti,?,0
 Caotorta,Curti,1297,0
-Cappello,Curti,1297,0
+Capello,Curti,1297,0
 Caravello,Curti,1297,0
 Carazacanevo,Curti,1297,0
 Carbonizzi,Curti,?,0
-Caresini,Curti,1381,0
+Caresin,Curti,1381,0
 Carminati,Curti,1687,0
 Caroso,Curti,1297,0
 Cassetti,Curti,1662,0
@@ -136,12 +136,12 @@ Cicogna,Curti,1381,1
 Civran,Curti,1297,0
 Cocco,Curti,1297,0
 Cocodrizi,Curti,?,0
-Codeglioni (colleone),Curti,1450,0
+Colleone,Curti,1450,0
 Codognola,Curti,1717,0
 Collalto,Curti,1297,0
 Comino,Curti,1464,0
 Concanfo,Curti,?,0
-Condulmiero,Curti,1381,0
+Condulmer,Curti,1381,0
 Contarini,Lunghi,1297,0
 Contenti,Curti,1686,0
 Conti,Curti,1667,0
@@ -166,10 +166,10 @@ Dalla Scala,Curti,1297,0
 Dalle Sevole,Curti,1297,0
 Dandolo,Lunghi,1297,0
 Danselmo,Curti,?,0
-Armer,Curti,1297,0
+Darmer,Curti,1297,0
 Darpin,Curti,1297,0
 Darpo,Curti,?,0
-Davidor,Curti,1297,0
+David,Curti,1297,0
 Davillo,Curti,?,0
 De Lia,Curti,?,0
 De Malis,Curti,1300,0
@@ -195,7 +195,7 @@ Donisdio,Curti,?,0
 Dono,Curti,1297,0
 Donato,Curti,1297,1
 Doro,Curti,1297,0
-Dotto (dotho),Curti,1297,0
+Dotho,Curti,1297,0
 Dozane,Curti,1297,0
 Drusco,Curti,?,0
 Duodo,Curti,1297,0
@@ -204,7 +204,7 @@ Enegro,Curti,?,0
 Erizzo,Curti,1297,0
 Fabrizi,Curti,?,0
 Faccio,Curti,?,0
-Faliero,Lunghi,1297,0
+Falier,Lunghi,1297,0
 Faraon,Curti,?,0
 Farsetti,Curti,1664,0
 Favero,Curti,inizio '300,0
@@ -216,10 +216,10 @@ Fiollo,Curti,?,0
 Flangini,Curti,1664,0
 Fondanizi,Curti,?,0
 Fonseca,Curti,1664,0
-Fontana (dalla),Curti,1297,0
+Dalla Fontana,Curti,1297,0
 Fonte,Curti,1646,0
-Fornase (dalla),Curti,1381,0
-Foscari,Curti,1297,1
+Dalla Fornase,Curti,1381,0
+Foscari,Curti,1297,0
 Foscarini,Curti,1297,0
 Foscolo,Curti,1297,0
 Fracassetti,Curti,1704,0
@@ -228,7 +228,7 @@ Fradello (di Candia),Curti,1493,0
 Franceschi,Curti,1716,0
 Franco,Curti,?,0
 Franzapani,Curti,?,0
-Gabrielli,Curti,1297,0
+Gabriel,Curti,1297,0
 Galaenzi,Curti,?,0
 Galaresi,Curti,?,0
 Gallina,Curti,?,0
@@ -238,11 +238,11 @@ Gambarin,Curti,1297,0
 Garzoni,Curti,1381,0
 Gezo,Curti,1379,0
 Ghedini,Curti,1667,0
-Gheltoff,Curti,1697,0
+Gheltof,Curti,1697,0
 Gherardini,Curti,1652,0
 Ghisi,Curti,1297,0
 Giovanelli,Curti,1668,0
-Girardi,Curti,1297,0
+Girardo,Curti,1297,0
 Giupponi,Curti,1660,0
 Giustinian,Lunghi,1297,0
 Gozzi,Curti,1646,0
@@ -250,7 +250,7 @@ Gradelon,Curti,1297,0
 Gradenigo,Lunghi,1297,0
 Grasoni,Curti,1297,0
 Grassi,Curti,1718,0
-Griego (grego),Curti,1493,0
+Grego,Curti,1493,0
 Grimani,Curti,1297,1
 Grioni,Curti,1297,0
 Grisoni,Curti,1297,0
@@ -273,9 +273,9 @@ Lanzuoli,Curti,1297,0
 Lazzari,Curti,1660,0
 Leucari,Curti,1297,0
 Da Lezze,Curti,1297,0
-Lin,Curti,1685,0
+Lini,Curti,1685,0
 Lion,Curti,1303,0
-Lion Cavazza,Curti,1652,0
+Cavazza,Curti,1652,0
 Lippomano,Curti,1381,0
 Lisiado,Curti,?,0
 Lolin,Curti,1436,0
@@ -324,7 +324,7 @@ Memmo,Lunghi,1297,0
 Menegato,Curti,?,0
 Mengolo,Curti,1297,0
 Mettadori,Curti,?,0
-Mezzo,Curti,1297,0
+De Mezzo,Curti,1297,0
 Miani,Curti,1297,0
 Michiel,Lunghi,1297,0
 Miegano,Curti,1297,0
@@ -332,14 +332,13 @@ Minelli,Curti,1650,0
 Minio,Curti,1297,0
 Minotto,Curti,1297,0
 Mocenigo,Curti,1297,1
-Molin,Curti,1297,0
-Mora (s. Felice),Curti,1694,0
-Mora (s. Marcuola),Curti,1653,0
+Da Molin,Curti,1297,0
+Mora,Curti,1653,0
 Morelli,Curti,1686,0
 Moro,Curti,1297,1
 Morosini,Lunghi,1297,0
 Mortadello,Curti,?,0
-Da Mosto,Curti,1297,0
+Mosto,Curti,1297,0
 Muazzo,Curti,1297,0
 Da Mula,Curti,1297,0
 Mussatti,Curti,1776,0
@@ -359,7 +358,7 @@ Orio,Curti,1297,0
 Orso,Curti,1381,0
 Osello,Curti,?,0
 Ottoboni,Curti,1646,0
-Ottolini,Curti,1780,0
+Ottolin,Curti,1780,0
 Pallavicino,Curti,1423,0
 Panciera,Curti,1777,0
 Papaciza,Curti,1311,0
@@ -386,7 +385,7 @@ Polani,Lunghi,1297,0
 Polini,Curti,1300,0
 Polo,Curti,1297,0
 Polvaro,Curti,1662,0
-Da Ponte,Curti,1493,1
+Ponte,Curti,1493,1
 Premarin,Curti,1297,0
 Premuda,Curti,1297,0
 Priuli,Curti,1297,1
@@ -410,7 +409,7 @@ Da Riva,Curti,1297,0
 Rizzi,Curti,1687,0
 Romani,Curti,1297,0
 Romieri,Curti,1689,0
-Rossi,Curti,1297,0
+Rosso,Curti,1297,0
 Rota,Curti,1685,0
 Rovere,Curti,1512,0
 Rovini,Curti,1788,0
@@ -466,15 +465,14 @@ Totulo,Curti,1297,0
 Trasmondi,Curti,?,0
 Travaionti,Curti,?,0
 Trento,Curti,1777,0
-Trivisan,Curti,1297,0
-Trevisan,Curti,1689,1
+Trevisan,Curti,1297,1
 Tron,Curti,1297,1
 Trunzane,Curti,?,0
 Valaresso,Curti,1297,0
 Valier,Curti,1297,0
 Valmarana,Curti,1658,0
 Valpetro,Curti,?,0
-Van Axel,Curti,1665,0
+Vanaxel,Curti,1665,0
 Vaneri,Curti,?,0
 Varda Da Dio,Curti,?,0
 Veglia,Curti,1297,0
@@ -482,7 +480,7 @@ Vendelin,Curti,1297,0
 Vendramin,Curti,1381,1
 Venier,Curti,1297,1
 Ventolo,Curti,?,0
-Verdizzotti,Curti,1667,0
+Donini,Curti,1667,0
 Veri,Curti,1297,0
 Vermo (dal),Curti,1388,0
 Veronese,Curti,1704,0
@@ -497,12 +495,11 @@ Vielmo,Curti,1297,0
 Vitturi,Curti,1297,0
 Vizzamano,Curti,1381,0
 Volpe,Curti,1297,0
-Widmann,Curti,1646,0
+Widman,Curti,1646,0
 Zaccaria,Curti,1381,0
 Zacco,Curti,1653,0
 Zaguri,Curti,1646,0
-Zambelli (s. Giac. Dell'orio),Curti,1648,0
-Zambelli (s. Stin),Curti,1685,0
+Zambelli,Curti,1685,0
 Zanardi,Curti,1653,0
 Zanasi,Curti,?,0
 Zancani,Curti,1297,0
