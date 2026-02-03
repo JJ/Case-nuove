@@ -7,6 +7,7 @@ family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors =
 DEPTH_IN_YEARS <- 75
 
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
+ducali <- family_labels[ family_labels$Ducale == 1,]$Family
 window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1600, by = 25)
 
 for (y in window_sequence ) {
