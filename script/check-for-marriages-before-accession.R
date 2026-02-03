@@ -21,8 +21,10 @@ marriages.with.accession.issues <- marriages.check.accession %>%
   filter(husband_accession_after_marriage == TRUE | wife_accession_after_marriage == TRUE)
 
 marriages.excluding.accession.issues <- marriages.check.accession %>%
-  filter(husband_accession_after_marriage != TRUE & wife_accession_after_marriage != TRUE) %>%
+  filter(husband_accession_after_marriage == FALSE & wife_accession_after_marriage == FALSE) %>%
   select(-husband_accession_after_marriage, -wife_accession_after_marriage)
+
+write.csv(marriages.excluding.accession.issues, "data/noble-marriages-year.csv", row.names = FALSE)
 
 marriage.with.missing.accession <- marriages.check.accession %>%
   filter(is.na(husband_accession_after_marriage) | is.na(wife_accession_after_marriage)) %>% filter( !is.na(year) & wife_familyname_std!="") 
