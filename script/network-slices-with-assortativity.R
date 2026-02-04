@@ -8,9 +8,15 @@ DEPTH_IN_YEARS <- 75
 
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
-window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1600, by = 25)
+quaranta_famiglie <- c(lunghi,ducali)
+
+quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Da Ponte", "Cicogna")) ]
+
+window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1660, by = 5)
 assortativity <- data.frame( curti_lunghi = numeric(),
-                             ducali = numeric() )
+                             ducali = numeric(),
+                             in_quaranta = numeric(),
+                             year = integer() )
 
 for (y in window_sequence ) {
 
@@ -36,35 +42,26 @@ for (y in window_sequence ) {
   V(marriage_graph)$types_ducali <- ifelse(V(marriage_graph)$Ducale == TRUE, 1,2)
   assortativity_ducali <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_ducali, directed = FALSE)
   
+  V(marriage_graph)$InQuaranta <- ifelse(V(marriage_graph)$name %in% quaranta_famiglie, TRUE, FALSE)
+  V(marriage_graph)$types_quaranta <- ifelse(V(marriage_graph)$InQuaranta == TRUE, 1,2)
+  assortativity_quaranta <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_quaranta, directed = FALSE)
+  
   assortativity <- rbind(assortativity,
                          data.frame( curti_lunghi = assortativity_curti_lunghi,
-                                     ducali = assortativity_ducali))
-  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi", "lightgray", 
-                                    ifelse( V(marriage_graph)$Ducale == TRUE,"pink","red"))
-  
-  V(marriage_graph)$shape <- ifelse(V(marriage_graph)$name %in% doges, "square", "circle")
-  
-  png(paste0("plots/marriage-network-factions-", y, ".png"), width = 1600, height = 1600)
-  plot(
-    marriage_graph,
-    vertex.size = 5,
-    vertex.label.cex = 2,
-    edge.width = E(marriage_graph)$weight,
-    layout = layout_with_kk,
-    main = paste("Marriage Network from", y, "to", y + DEPTH_IN_YEARS)
-  )
-  dev.off()
+                                     ducali = assortativity_ducali,
+                                     in_quaranta = assortativity_quaranta,
+                                     year = y))
 }
 
 library(ggplot2)
 
-assortativity$Year <- window_sequence
-ggplot( assortativity, aes(x = Year)) +
+ggplot( assortativity, aes(x = year)) +
   geom_line(aes(y = curti_lunghi, color = "Curti vs Lunghi")) +
   geom_line(aes(y = ducali, color = "Ducali vs Non-Ducali")) +
+  geom_line(aes(y = in_quaranta, color = "In Quaranta vs Non-In Quaranta")) +
   labs(title = "Assortativity Coefficient Over Time",
        x = "Year",
        y = "Assortativity Coefficient") +
-  scale_color_manual(values = c("Curti vs Lunghi" = "blue", "Ducali vs Non-Ducali" = "red")) +
+  scale_color_manual(values = c("Curti vs Lunghi" = "blue", "Ducali vs Non-Ducali" = "red", "In Quaranta vs Non-In Quaranta" = "green")) +
   theme_minimal() +
   ylim(-0.1, 0.3)
