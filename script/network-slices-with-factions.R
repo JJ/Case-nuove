@@ -9,6 +9,9 @@ DEPTH_IN_YEARS <- 75
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
 window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1600, by = 25)
+assortativity <- data.frame( ducali = numeric(),
+                             lunghi = numeric(),
+                             curti = numeric() )
 
 for (y in window_sequence ) {
 
@@ -26,6 +29,10 @@ for (y in window_sequence ) {
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   
   V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", "Corti")
+  V(marriage_graph)$types_curti_lunghi <- ifelse(V(marriage_graph)$Faction == "Lunghi", 1,2)
+  assortativity_curti_lunghi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_curti_lunghi, directed = FALSE)
+  
+  
   V(marriage_graph)$Ducale <- ifelse(V(marriage_graph)$name %in% ducali, TRUE, FALSE)
   V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi", "lightgray", 
                                     ifelse( V(marriage_graph)$Ducale == TRUE,"pink","red"))
