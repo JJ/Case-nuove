@@ -2,6 +2,7 @@ library(igraph)
 
 noble_marriages_filtered <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
 family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
+load("data/doges.years.rda")
 
 DEPTH_IN_YEARS <- 75
 
@@ -20,12 +21,16 @@ for (y in window_sequence ) {
     vertices = unique(c(marriages_window$husband_familyname_std, marriages_window$wife_familyname_std))
   )
   
+  doges <- doges.years[ doges.years$Start >= y & doges.years$Start <= y + DEPTH_IN_YEARS, ]$Family.doge
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
+  
   V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", "Corti")
   V(marriage_graph)$Ducale <- ifelse(V(marriage_graph)$name %in% ducali, TRUE, FALSE)
-  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi", "blue", 
+  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi", "lightgray", 
                                     ifelse( V(marriage_graph)$Ducale == TRUE,"pink","red"))
+  
+  V(marriage_graph)$shape <- ifelse(V(marriage_graph)$name %in% doges, "square", "circle")
   
   png(paste0("plots/marriage-network-factions-", y, ".png"), width = 1600, height = 1600)
   plot(
