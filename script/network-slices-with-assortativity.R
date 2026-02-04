@@ -138,8 +138,9 @@ ggplot( assortativity, aes(x = year)) +
        x = "Year",
        y = "Average Shortest Path Length") +
   scale_color_manual(values = c("Lunghi vs Corti" = "blue", "Ducali vs Corti" = "red", 
-                                "Ducali vs Lunghi" = "green","Intra Lunghi" = "darkgray","Intra Ducali" = "pink", "Intra Corti" = "gold",
-                                "Quaranta vs. Non-Quaranta" = "brown",
+                                "Ducali vs Lunghi" = "green",
+                                "Intra Lunghi" = "darkgray","Intra Ducali" = "pink", "Intra Corti" = "gold",
+                                "Quaranta vs Non-Quaranta" = "brown",
                                 "Intra Quaranta"= "cyan",
                                 "Intra Non Quaranta" = "magenta")) +
   theme_minimal()
