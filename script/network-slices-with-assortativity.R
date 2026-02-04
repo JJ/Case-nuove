@@ -16,6 +16,9 @@ window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1660, by 
 assortativity <- data.frame( curti_lunghi = numeric(),
                              ducali = numeric(),
                              in_quaranta = numeric(),
+                             distance_curti_lunghi = numeric(),
+                             distance_ducali_corti = numeric(),
+                             distance_ducali_lunghi = numeric(),
                              year = integer() )
 
 for (y in window_sequence ) {
@@ -46,10 +49,33 @@ for (y in window_sequence ) {
   V(marriage_graph)$types_quaranta <- ifelse(V(marriage_graph)$InQuaranta == TRUE, 1,2)
   assortativity_quaranta <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_quaranta, directed = FALSE)
   
+  E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
+  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
+  
+  # Extract giant component
+  component <- components(marriage_graph)$membership
+  marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
+  
+  vertices_lunghi <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Lunghi"]
+  vertices_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Ducali"]
+  vertices_corti <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Corti"]
+  
+  distance_lunghi_ducali <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_ducali, weights = E(marriage_graph_main)$distances)
+  mean_lunghi_ducali <- mean(distance_lunghi_ducali)
+  
+  distance_lunghi_corti <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_corti, weights = E(marriage_graph_main)$distances)
+  mean_lunghi_corti <- mean(distance_lunghi_corti)
+  
+  distance_ducali_corti <- distances(marriage_graph_main, v = vertices_ducali, to = vertices_corti, weights = E(marriage_graph_main)$distances)
+  mean_ducali_corti <- mean(distance_ducali_corti)
+  
   assortativity <- rbind(assortativity,
                          data.frame( curti_lunghi = assortativity_curti_lunghi,
                                      ducali = assortativity_ducali,
                                      in_quaranta = assortativity_quaranta,
+                                     distance_curti_lunghi = mean_lunghi_corti,
+                                     distance_ducali_corti = mean_ducali_corti,
+                                     distance_ducali_lunghi = mean_lunghi_ducali,
                                      year = y))
 }
 
@@ -65,3 +91,13 @@ ggplot( assortativity, aes(x = year)) +
   scale_color_manual(values = c("Curti vs Lunghi" = "blue", "Ducali vs Non-Ducali" = "red", "In Quaranta vs Non-In Quaranta" = "green")) +
   theme_minimal() +
   ylim(-0.1, 0.3)
+
+ggplot( assortativity, aes(x = year)) +
+  geom_line(aes(y = distance_curti_lunghi, color = "Lunghi vs Corti")) +
+  geom_line(aes(y = distance_ducali_corti, color = "Ducali vs Corti")) +
+  geom_line(aes(y = distance_ducali_lunghi, color = "Ducali vs Lunghi")) +
+  labs(title = "Average Shortest Path Length Over Time",
+       x = "Year",
+       y = "Average Shortest Path Length") +
+  scale_color_manual(values = c("Lunghi vs Corti" = "blue", "Ducali vs Corti" = "red", "Ducali vs Lunghi" = "green")) +
+  theme_minimal()
