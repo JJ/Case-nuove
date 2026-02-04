@@ -3,7 +3,6 @@ library(igraph)
 noble_marriages_filtered <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
 family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
 
-
 DEPTH_IN_YEARS <- 75
 
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
@@ -24,7 +23,9 @@ for (y in window_sequence ) {
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", "Corti")
-  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi", "blue", "red")
+  V(marriage_graph)$Ducale <- ifelse(V(marriage_graph)$name %in% ducali, TRUE, FALSE)
+  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi", "blue", 
+                                    ifelse( V(marriage_graph)$Ducale == TRUE,"pink","red"))
   
   png(paste0("plots/marriage-network-factions-", y, ".png"), width = 1600, height = 1600)
   plot(
