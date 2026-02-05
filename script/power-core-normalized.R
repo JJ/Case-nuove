@@ -35,9 +35,12 @@ distances_window <- data.frame( total = numeric(),
                              year = integer() )
 
 power_periphery_timeline <- data.frame( ducali = numeric(),
-                             lunghi = numeric(),
-                             in_quaranta = numeric(),
-                             year = integer() )
+                                        clique_index_ducali = numeric(),
+                                        lunghi = numeric(),
+                                        clique_index_lunghi = numeric(),
+                                        in_quaranta = numeric(),
+                                        clique_index_quaranta = numeric(),
+                                        year = integer() )
   
 for (y in window_sequence ) {
 
@@ -74,9 +77,9 @@ for (y in window_sequence ) {
   distances_non_lunghi_non_lunghi <- distances(marriage_graph_main, v = vertices_non_lunghi, to = vertices_non_lunghi, weights = E(marriage_graph_main)$distances)
   mean_non_lunghi_non_lunghi <- mean(distances_non_lunghi_non_lunghi)
   
-  power_periphery_lunghi_index <- ( mean_non_lunghi_non_lunghi - mean_lunghi_non_lunghi ) / 
-                           (mean_lunghi_non_lunghi - mean_lunghi_lunghi) 
-  
+  clique_index_lunghi <- mean_lunghi_non_lunghi - mean_lunghi_lunghi
+  power_periphery_lunghi_index <- ( mean_non_lunghi_non_lunghi - mean_lunghi_non_lunghi ) / clique_index_lunghi
+                           
   vertices_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Ducali"]
   vertices_non_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Ducali"]
   
@@ -89,7 +92,8 @@ for (y in window_sequence ) {
   distances_non_ducali_non_ducali <- distances(marriage_graph_main, v = vertices_non_ducali, to = vertices_non_ducali, weights = E(marriage_graph_main)$distances)
   mean_non_ducali_non_ducali <- mean(distances_non_ducali_non_ducali)
   
-  power_periphery_ducali_index <- ( mean_non_ducali_non_ducali - mean_ducali_non_ducali )/(mean_ducali_non_ducali - mean_ducali_ducali)
+  clique_index_ducali <- mean_ducali_non_ducali - mean_ducali_ducali
+  power_periphery_ducali_index <- ( mean_non_ducali_non_ducali - mean_ducali_non_ducali )/clique_index_ducali
   
   vertices_quaranta <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% quaranta_famiglie]
   vertices_non_quaranta <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% quaranta_famiglie)]
@@ -103,7 +107,8 @@ for (y in window_sequence ) {
   distance_non_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_non_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
   mean_non_quaranta_non_quaranta <- mean(distance_non_quaranta_non_quaranta)
   
-  power_periphery_quaranta_index <- ( mean_non_quaranta_non_quaranta - mean_quaranta_non_quaranta )/(mean_quaranta_non_quaranta - mean_quaranta_quaranta)
+  clique_index_quaranta <- mean_quaranta_non_quaranta - mean_quaranta_quaranta
+  power_periphery_quaranta_index <- ( mean_non_quaranta_non_quaranta - mean_quaranta_non_quaranta )/clique_index_quaranta
   
   distances_window <- rbind(distances_window,
                          data.frame( total = average_distance,
@@ -129,8 +134,11 @@ for (y in window_sequence ) {
   
   power_periphery_timeline <- rbind(power_periphery_timeline,
                                      data.frame( ducali = power_periphery_ducali_index,
+                                                 clique_index_ducali = clique_index_ducali,
                                                  lunghi = power_periphery_lunghi_index,
+                                                 clique_index_lunghi = clique_index_lunghi,
                                                  in_quaranta = power_periphery_quaranta_index,
+                                                 clique_index_quaranta = clique_index_quaranta,
                                                  year = y))
 }
 
