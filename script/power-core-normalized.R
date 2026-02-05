@@ -10,7 +10,11 @@ lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
 quaranta_famiglie <- c(lunghi,ducali)
 
-quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Da Ponte", "Cicogna")) ]
+quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Ponte", "Cicogna")) ]
+
+chojnacki_50 <- c( quaranta_famiglie, "Barbo", "Belegno", "Da Molin", "Lion", "Mosto", "Barbaro", "Minio", "Bondumier", "Capello", "De Mezzo", "Viaro", "Gabriel", "Foscarini","Rosso", "Pisani", "Nani")
+
+chojnacki <- chojnacki_50[ !(chojnacki_50 %in% c("Barozzi", "Salamon","Tiepolo", "Tron","Lando","Vendramin"))]
 
 window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1660, by = 5)
 distances_window <- data.frame( total = numeric(),
@@ -188,6 +192,16 @@ ggplot( power_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = ducali, color = "Ducali")) +
   geom_line(aes(y = lunghi, color = "Lunghi")) +
   geom_line(aes(y = in_quaranta, color = "In Quaranta")) +
+  labs(title = "Power-Periphery Index Over Time",
+       x = "Year",
+       y = "Power-Periphery Index") +
+  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown")) +
+  theme_minimal()
+
+ggplot( power_periphery_timeline, aes(x = year)) + 
+  geom_line(aes(y = clique_index_ducali, color = "Ducali")) +
+  geom_line(aes(y = clique_index_lunghi, color = "Lunghi")) +
+  geom_line(aes(y = clique_index_quaranta, color = "In Quaranta")) +
   labs(title = "Power-Periphery Index Over Time",
        x = "Year",
        y = "Power-Periphery Index") +
