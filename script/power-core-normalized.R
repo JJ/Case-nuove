@@ -120,20 +120,40 @@ library(ggplot2)
 
 ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = ducali, color = "Ducali")) +
-  geom_line(aes(y = non_ducali, color = "Non Ducali")) +
-  geom_line(aes(y = ducali_vs_non, color = "Ducali vs. Non")) +
-  geom_line(aes(y = lunghi, color = "Lunghi"), linetype = "dashed") +
+  geom_line(aes(y = non_ducali, color = "Non Ducali"), linetype = "dashed") +
+  geom_line(aes(y = ducali_vs_non, color = "Ducali vs. Non"),linetype = "dotdash") +
+  geom_line(aes(y = lunghi, color = "Lunghi")) +
   geom_line(aes(y = non_lunghi, color = "Non Lunghi"), linetype = "dashed") +
-  geom_line(aes(y = lunghi_vs_non, color = "Lunghi vs. Non"), linetype = "dashed") +
-  geom_line(aes(y = quaranta, color = "Quaranta"), linetype = "dotdash") +
-  geom_line(aes(y = non_quaranta, color = "Non Quaranta"), linetype = "dotdash") +
+  geom_line(aes(y = lunghi_vs_non, color = "Lunghi vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = quaranta, color = "Quaranta")) +
+  geom_line(aes(y = non_quaranta, color = "Non Quaranta"), linetype = "dashed") +
   geom_line(aes(y = quaranta_vs_non, color = "Quaranta vs. Non"), linetype = "dotdash") +
   labs(title = "Average Shortest Path Length Over Time",
        x = "Year",
        y = "Average Shortest Path Length") +
-  scale_color_manual(values = c("Ducali" = "blue", "Non Ducali" = "red", "Ducali vs. Non" = "green",
-                                "Lunghi" = "darkgray","Non Lunghi" = "pink", "Lunghi vs. Non" = "gold",
+  scale_color_manual(values = c("Ducali" = "blue", "Non Ducali" = "blue", "Ducali vs. Non" = "blue",
+                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
                                 "Quaranta" = "brown",
-                                "Non Quaranta"= "cyan",
-                                "Quaranta vs. Non" = "magenta")) +
+                                "Non Quaranta"= "brown",
+                                "Quaranta vs. Non" = "brown")) +
+  theme_minimal()
+
+ggplot( distances_window, aes(x = year)) +
+  geom_line(aes(y = ducali_norm, color = "Ducali")) +
+  geom_line(aes(y = non_ducali_norm, color = "Non Ducali"), linetype = "dashed") +
+  geom_line(aes(y = ducali_vs_non_norm, color = "Ducali vs. Non"),linetype = "dotdash") +
+  geom_line(aes(y = lunghi_norm, color = "Lunghi")) +
+  geom_line(aes(y = non_lunghi_norm, color = "Non Lunghi"), linetype = "dashed") +
+  geom_line(aes(y = lunghi_vs_non_norm, color = "Lunghi vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = quaranta_norm, color = "Quaranta")) +
+  geom_line(aes(y = non_quaranta_norm, color = "Non Quaranta"), linetype = "dashed") +
+  geom_line(aes(y = quaranta_vs_non_norm, color = "Quaranta vs. Non"), linetype = "dotdash") +
+  labs(title = "Average Shortest Path Length Over Time",
+       x = "Year",
+       y = "Average Shortest Path Length") +
+  scale_color_manual(values = c("Ducali" = "blue", "Non Ducali" = "blue", "Ducali vs. Non" = "blue",
+                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
+                                "Quaranta" = "brown",
+                                "Non Quaranta"= "brown",
+                                "Quaranta vs. Non" = "brown")) +
   theme_minimal()
