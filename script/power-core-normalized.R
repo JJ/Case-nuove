@@ -36,6 +36,12 @@ distances_window <- data.frame( total = numeric(),
                              non_quaranta_norm = numeric(),
                              quaranta_vs_non = numeric(),
                              quaranta_vs_non_norm = numeric(),
+                             chojnacki = numeric(),
+                             chojnacki_norm = numeric(),
+                             non_chojnacki = numeric(),
+                             non_chojnacki_norm = numeric(),
+                             chojnacki_vs_non = numeric(),
+                             chojnacki_vs_non_norm = numeric(),
                              year = integer() )
 
 power_periphery_timeline <- data.frame( ducali = numeric(),
@@ -44,6 +50,8 @@ power_periphery_timeline <- data.frame( ducali = numeric(),
                                         clique_index_lunghi = numeric(),
                                         in_quaranta = numeric(),
                                         clique_index_quaranta = numeric(),
+                                        chojnacki = numeric(),
+                                        clique_index_chojnacki = numeric(),
                                         year = integer() )
   
 for (y in window_sequence ) {
@@ -114,6 +122,21 @@ for (y in window_sequence ) {
   clique_index_quaranta <- mean_quaranta_non_quaranta - mean_quaranta_quaranta
   power_periphery_quaranta_index <- ( mean_non_quaranta_non_quaranta - mean_quaranta_non_quaranta )/clique_index_quaranta
   
+  vertices_chojnacki <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% chojnacki]
+  vertices_non_chojnacki <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% chojnacki)]
+  
+  distance_chojnacki_non_chojnacki <- distances(marriage_graph_main, v = vertices_chojnacki, to = vertices_non_chojnacki, weights = E(marriage_graph_main)$distances)
+  mean_chojnacki_non_chojnacki <- mean(distance_chojnacki_non_chojnacki)
+  
+  distance_chojnacki_chojnacki <- distances(marriage_graph_main, v = vertices_chojnacki, to = vertices_chojnacki, weights = E(marriage_graph_main)$distances)
+  mean_chojnacki_chojnacki <- mean(distance_chojnacki_chojnacki)
+  
+  distance_non_chojnacki_non_chojnacki <- distances(marriage_graph_main, v = vertices_non_chojnacki, to = vertices_non_chojnacki, weights = E(marriage_graph_main)$distances)
+  mean_non_chojnacki_non_chojnacki <- mean(distance_non_chojnacki_non_chojnacki)
+  
+  clique_index_chojnacki <- mean_chojnacki_non_chojnacki - mean_chojnacki_chojnacki
+  power_periphery_chojnacki_index <- ( mean_non_chojnacki_non_chojnacki - mean_chojnacki_non_chojnacki )/clique_index_chojnacki
+  
   distances_window <- rbind(distances_window,
                          data.frame( total = average_distance,
                                      ducali = mean_ducali_ducali,
@@ -134,6 +157,12 @@ for (y in window_sequence ) {
                                      non_quaranta_norm = mean_non_quaranta_non_quaranta / average_distance,
                                      quaranta_vs_non = mean_quaranta_non_quaranta,
                                      quaranta_vs_non_norm = mean_quaranta_non_quaranta / average_distance,
+                                     chojnacki = mean_chojnacki_chojnacki,
+                                     chojnacki_norm = mean_chojnacki_chojnacki / average_distance,
+                                     non_chojnacki = mean_non_chojnacki_non_chojnacki,
+                                     non_chojnacki_norm = mean_non_chojnacki_non_chojnacki / average_distance,
+                                     chojnacki_vs_non = mean_chojnacki_non_chojnacki,
+                                     chojnacki_vs_non_norm = mean_chojnacki_non_chojnacki / average_distance,
                                      year = y))
   
   power_periphery_timeline <- rbind(power_periphery_timeline,
@@ -143,6 +172,8 @@ for (y in window_sequence ) {
                                                  clique_index_lunghi = clique_index_lunghi,
                                                  in_quaranta = power_periphery_quaranta_index,
                                                  clique_index_quaranta = clique_index_quaranta,
+                                                 chojnacki = power_periphery_chojnacki_index,
+                                                 clique_index_chojnacki = clique_index_chojnacki,
                                                  year = y))
 }
 
@@ -158,6 +189,9 @@ ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = quaranta, color = "Quaranta")) +
   geom_line(aes(y = non_quaranta, color = "Non Quaranta"), linetype = "dashed") +
   geom_line(aes(y = quaranta_vs_non, color = "Quaranta vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = chojnacki, color = "Chojnacki")) +
+  geom_line(aes(y = non_chojnacki, color = "Non Chojnacki"), linetype = "dashed") +
+  geom_line(aes(y = chojnacki_vs_non, color = "Chojnacki vs. Non Chojnacki"), linetype = "dotdash") +
   labs(title = "Average Shortest Path Length Over Time",
        x = "Year",
        y = "Average Shortest Path Length") +
@@ -165,7 +199,10 @@ ggplot( distances_window, aes(x = year)) +
                                 "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
                                 "Quaranta" = "brown",
                                 "Non Quaranta"= "brown",
-                                "Quaranta vs. Non" = "brown")) +
+                                "Quaranta vs. Non" = "brown",
+                                "Chojnacki" = "green",
+                                "Non Chojnacki" = "green",
+                                "Chojnacki vs. Non Chojnacki" = "green")) +
   theme_minimal()
 
 ggplot( distances_window, aes(x = year)) +
@@ -178,6 +215,9 @@ ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = quaranta_norm, color = "Quaranta")) +
   geom_line(aes(y = non_quaranta_norm, color = "Non Quaranta"), linetype = "dashed") +
   geom_line(aes(y = quaranta_vs_non_norm, color = "Quaranta vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = chojnacki_norm, color = "Chojnacki")) +
+  geom_line(aes(y = non_chojnacki_norm, color = "Non Chojnacki"), linetype = "dashed") +
+  geom_line(aes(y = chojnacki_vs_non_norm, color = "Chojnacki vs. Non Chojnacki"), linetype = "dotdash") +
   labs(title = "Average Shortest Path Length Over Time",
        x = "Year",
        y = "Average Shortest Path Length") +
@@ -185,25 +225,30 @@ ggplot( distances_window, aes(x = year)) +
                                 "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
                                 "Quaranta" = "brown",
                                 "Non Quaranta"= "brown",
-                                "Quaranta vs. Non" = "brown")) +
+                                "Quaranta vs. Non" = "brown",
+                                "Chojnacki" = "green",
+                                "Non Chojnacki" = "green",
+                                "Chojnacki vs. Non Chojnacki" = "green")) +
   theme_minimal()
 
 ggplot( power_periphery_timeline, aes(x = year)) + 
   geom_line(aes(y = ducali, color = "Ducali")) +
   geom_line(aes(y = lunghi, color = "Lunghi")) +
   geom_line(aes(y = in_quaranta, color = "In Quaranta")) +
+  geom_line(aes(y = chojnacki, color = "Chojnacki")) +
   labs(title = "Power-Periphery Index Over Time",
        x = "Year",
        y = "Power-Periphery Index") +
-  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown")) +
+  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown", "Chojnacki" = "green")) +
   theme_minimal()
 
 ggplot( power_periphery_timeline, aes(x = year)) + 
   geom_line(aes(y = clique_index_ducali, color = "Ducali")) +
   geom_line(aes(y = clique_index_lunghi, color = "Lunghi")) +
   geom_line(aes(y = clique_index_quaranta, color = "In Quaranta")) +
+  geom_line(aes(y = clique_index_chojnacki, color = "Chojnacki"))+
   labs(title = "Power-Periphery Index Over Time",
        x = "Year",
        y = "Power-Periphery Index") +
-  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown")) +
+  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown", "Chojnacki" = "green")) +
   theme_minimal()
