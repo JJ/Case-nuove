@@ -34,6 +34,11 @@ distances_window <- data.frame( total = numeric(),
                              quaranta_vs_non_norm = numeric(),
                              year = integer() )
 
+power_periphery_timeline <- data.frame( ducali = numeric(),
+                             lunghi = numeric(),
+                             in_quaranta = numeric(),
+                             year = integer() )
+  
 for (y in window_sequence ) {
 
   marriages_window <- noble_marriages_filtered %>%
@@ -69,6 +74,9 @@ for (y in window_sequence ) {
   distances_non_lunghi_non_lunghi <- distances(marriage_graph_main, v = vertices_non_lunghi, to = vertices_non_lunghi, weights = E(marriage_graph_main)$distances)
   mean_non_lunghi_non_lunghi <- mean(distances_non_lunghi_non_lunghi)
   
+  power_periphery_lunghi_index <- ( mean_non_lunghi_non_lunghi - mean_lunghi_non_lunghi ) / 
+                           (mean_lunghi_non_lunghi - mean_lunghi_lunghi) 
+  
   vertices_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Ducali"]
   vertices_non_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Ducali"]
   
@@ -81,6 +89,8 @@ for (y in window_sequence ) {
   distances_non_ducali_non_ducali <- distances(marriage_graph_main, v = vertices_non_ducali, to = vertices_non_ducali, weights = E(marriage_graph_main)$distances)
   mean_non_ducali_non_ducali <- mean(distances_non_ducali_non_ducali)
   
+  power_periphery_ducali_index <- ( mean_non_ducali_non_ducali - mean_ducali_non_ducali )/(mean_ducali_non_ducali - mean_ducali_ducali)
+  
   vertices_quaranta <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% quaranta_famiglie]
   vertices_non_quaranta <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% quaranta_famiglie)]
   
@@ -92,6 +102,8 @@ for (y in window_sequence ) {
   
   distance_non_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_non_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
   mean_non_quaranta_non_quaranta <- mean(distance_non_quaranta_non_quaranta)
+  
+  power_periphery_quaranta_index <- ( mean_non_quaranta_non_quaranta - mean_quaranta_non_quaranta )/(mean_quaranta_non_quaranta - mean_quaranta_quaranta)
   
   distances_window <- rbind(distances_window,
                          data.frame( total = average_distance,
@@ -114,6 +126,12 @@ for (y in window_sequence ) {
                                      quaranta_vs_non = mean_quaranta_non_quaranta,
                                      quaranta_vs_non_norm = mean_quaranta_non_quaranta / average_distance,
                                      year = y))
+  
+  power_periphery_timeline <- rbind(power_periphery_timeline,
+                                     data.frame( ducali = power_periphery_ducali_index,
+                                                 lunghi = power_periphery_lunghi_index,
+                                                 in_quaranta = power_periphery_quaranta_index,
+                                                 year = y))
 }
 
 library(ggplot2)
@@ -156,4 +174,14 @@ ggplot( distances_window, aes(x = year)) +
                                 "Quaranta" = "brown",
                                 "Non Quaranta"= "brown",
                                 "Quaranta vs. Non" = "brown")) +
+  theme_minimal()
+
+ggplot( power_periphery_timeline, aes(x = year)) + 
+  geom_line(aes(y = ducali, color = "Ducali")) +
+  geom_line(aes(y = lunghi, color = "Lunghi")) +
+  geom_line(aes(y = in_quaranta, color = "In Quaranta")) +
+  labs(title = "Power-Periphery Index Over Time",
+       x = "Year",
+       y = "Power-Periphery Index") +
+  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown")) +
   theme_minimal()
