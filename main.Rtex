@@ -168,6 +168,7 @@ We are using different data sources in this paper:\begin{itemize}
 \item The main source we use for the social network is the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra,histories4020012}. This dataset includes marriages registered by the Avogaria del Comun including at least one noble family. Most marriages are dated, and include the name of the member of the family, including the {\em casata} or noble family to which they belong.
 \item We use as source for doge names and nomination year our {\sf dogesr} package \cite{merelo2022good}.
 \item The main issue of this paper is how different {\em coalitions} control the nomination for doge during two centuries; the source for the qualification of families are taken mainly from \cite{chojnacki1973search}, but also \cite{finlay1980politics,Raines2006}
+\item We need the date in which every family was effectively considered {\em noble}. This, along with the whole list of families, is taken from \cite{raines2003cooptazione}.
 \end{itemize}
 
 In order to merge these different data sources, we had to re-normalize Venetian family names so that they had the same spelling in the two datasets and could thus be used accordingly.
