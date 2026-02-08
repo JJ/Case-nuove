@@ -171,9 +171,26 @@ We are using different data sources in this paper:\begin{itemize}
 \item We need the date in which every family was effectively considered {\em noble}. This, along with the whole list of families, is taken from \cite{raines2003cooptazione}.
 \end{itemize}
 
-In order to merge these different data sources, we had to re-normalize Venetian family names so that they had the same spelling in the two datasets and could thus be used accordingly.
+These data sets from different sources had to be normalized in order to match family names appearing in them. The normalized name we have considered has been the one included in Puga and Treffler's file. The adaptations performned have been as follows\begin{itemize}
+\item In case there was no ambiguity, simply variations of the same name (Da Mosto and Mosto or Mosto, Da, for instance) we normalized to the name used in Puga and Treffler dataset, as indicated.
+\item There are cases where there is no clear correspondence between Puga names and Raines list. However, in many cases alternative versions of the names are in parentheses in Raines' list; this list notably includes Colleoni/Colleone family, which appears with that name in parentheses and the name Codeglione as "main" one.
+\item In some cases, Raines list of families includes two branches of the family; for instance, Mora (S. Marcuola) and Mora (S. Felice). The matrimonies dataset does not distinguish between the two branches of the family, so we used the family name and took as date the oldest one\footnote{We should note here that there were very few families in this case, and in all cases the accession to nobility was after the period under study, so there is no real effect on the processed data.}
+\end{itemize}
 
-We also eliminated from the Venetian marriages dataset those that include a non-noble member. Since we are not interested so much  in the number of marriages as in the links among noble families, since those were the ones that elected the doge, eliminating it does not imply the loss of any valuable information in this context.
+These data have been included in a file, additional to Puga and Treffler dataset, which includes \begin{itemize}
+\item Family name
+\item If it belongs to the {\em lunghi} or {\em curti} groups ("long" vs. "short", or old vs new, families).
+\item Date of accession
+\item Whether they are considered {\em ducali}, that is, families that managed to get one of them elected as doge.
+\end{itemize}
+
+This data is freely available from the paper repository under a free license.
+
+These two files are then matched to process the original matrimonies dataset in this way:\begin{itemize}
+\item Matrimonies without date are dropped
+\item Matrimonies where one of the families is not noble, which in the PT dataset are marked by an empty Standard Family Name column (where standard family name is the name used in the logs of the Maggior Consiglio), are also dropped.
+\item For this paper, we were also interested only in the social network at certain moments in time, so all matrimonies that included a noble family that only became noble {\em after} said matrimony were also dropped.
+\end{itemize}
 
 \subsection{Validation and biases}\label{ssec:validation}
 
