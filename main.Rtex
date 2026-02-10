@@ -171,7 +171,7 @@ first_year <- min(noble_marriages$year)
 last_year <- max(noble_marriages$year)
 @
 %
-\item Our primary source for the social network consists of the dataset of Venetian matrimonial records, originally compiled by \cite{PugaTrefler} as later normalized and adapted by \cite{merelo2024intra,histories4020012}. This dataset includes marriages documented by the Avogaria del Comun where at least one of the spouses comes from a noble family. Most marriages are dated, and include the name of the member of the family, including the {\em casata} or noble family to which they belong. This dataset spans from \Sexpr{first_year} to \Sexpr{last_year}.
+\item Our primary source for the social network consists of the dataset of Venetian matrimonial records, originally compiled by \cite{PugaTrefler} as later normalized and adapted by \cite{merelo2024intra,histories4020012}. This dataset includes marriages documented by the Avogaria del Comun where at least one of the spouses comes from a noble family. Most marriages are dated, and include the first names and {\em casate} or noble families to which the spouses belong. This dataset spans from \Sexpr{first_year} to \Sexpr{last_year}.
 <<casenuove.dogi,echo=F,message=F>>=
 load("data/ducali_dogi_data.rda")
 ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
