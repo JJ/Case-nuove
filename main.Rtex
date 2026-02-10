@@ -160,10 +160,11 @@ DEPTH_IN_YEARS <- 90
 ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
 @
 
-We will organize this section in several parts: first we will describe the different data sources and how they were adapted in Subsection \ref{ssec:sources}; we will indicate how these sources have been validated in the next Subsection \ref{ssec:validation}, including the description of possible biases. A descriptive and exploratory analysis will be introduced next in Subsection \ref{ssec:exploration}. Finally, we will present and justify the methodology we have followed to respond to our research questions in Subsection \ref{ssec:methods}.
+This section in organized as follows. In Subsection \ref{ssec:sources}, we describe the different data sources and how they were adapted. In Subsection \ref{ssec:validation}, we discuss how these sources were validated, including a description of potential biases. Subsection \ref{ssec:exploration} presents a descriptive and exploratory analysis is introduced. Finally,  in Subsection \ref{ssec:methods}, we present and justify the methodology we followed to adress our research questions.
 
 \subsection{Data sources}\label{ssec:sources}
 
+<<<<<<< HEAD
 We are using different data sources in this paper:\begin{itemize}
 <<casenuove.marriages,echo=F,message=F>>=
 noble_marriages <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
@@ -175,27 +176,36 @@ last_year <- max(noble_marriages$year)
 \item We use as source for doge names and nomination year our {\sf dogesr} package \cite{merelo2022good}.
 \item The main issue of this paper is how different {\em coalitions} control the nomination for doge during two centuries; the source for the qualification of families are taken mainly from \cite{chojnacki1973search}, but also \cite{finlay1980politics,Raines2006}
 \item We need the date in which every family was effectively considered {\em noble}. This, along with the whole list of families, is taken from \cite{raines2003cooptazione}.
+=======
+In this paper we use several dataset:\begin{itemize}
+\item Our primary source for the social network consists of Venetian matrimonial records, originally compiled by \cite{PugaTrefler} as later normalized and adapted by \cite{merelo2024intra,histories4020012}. This dataset includes marriages documented by the Avogaria del Comun where at least one of the spouses comes from a noble family. Most marriages are dated, and include the name of the member of the family, including the {\em casata} or noble family to which they belong.
+\item The source for the names of the doges and the year of appointment is the {\sf dogesr} package \cite{merelo2022good}.
+\item In the Venetian constitution, all nobles were formally equal, but in practice, many distinctions were unofficially recognized and played a role in defining the status of the family. To identify the \emph{case vecchie} or \emph {longhi} we use \cite{chojnacki1973search,finlay1980politics,raines2003cooptazione} %hojnacki, p. 78, nota 19, Raines2003, p. 31 e Finlay19080, p. 92
+who all agree on the same list of 24 families.\footnote{\ According to \cite{raines2006invention1}, the roster of Venice's founding families changed when some lineages died out before 1300 and were replaced by others.} All other families are classified as \emph{curti}. Among the \emph{curti}, special recognition was granted to the nineteen {\em ducali} families that succeeded in having one of their members elected between 1382 and 1612, i.e., during the period in which the \emph{lunghi} families were excluded from the dogeship.  %  SERVE ANCHE L'INFORMAZIONE SUGLI AMMESSI DOPO CHIOGGIA? GIUSTO CHE USIAMO I 19 DUCALI INVECE DEI 16? DEVO DIRE CHE USIAMO ANCHE LA CLASSIFICAZIONE PER RICCHEZZA DI CHOJNIACKI?
+\item To identify the list of all patrician families and the year of their admission  to the Venetian nobility, we use \cite{raines2003cooptazione}.
+>>>>>>> fc8c1f5e132a3fae1d6bd98cd193e51961abe0b1
 \end{itemize}
 
-These data sets from different sources had to be normalized in order to match family names appearing in them. The normalized name we have considered has been the one included in Puga and Treffler's file. The adaptations performned have been as follows\begin{itemize}
-\item In case there was no ambiguity, simply variations of the same name (Da Mosto and Mosto or Mosto, Da, for instance) we normalized to the name used in Puga and Treffler dataset, as indicated.
-\item There are cases where there is no clear correspondence between Puga names and Raines list. However, in many cases alternative versions of the names are in parentheses in Raines' list; this list notably includes Colleoni/Colleone family, which appears with that name in parentheses and the name Codeglione as "main" one.
-\item In some cases, Raines list of families includes two branches of the family; for instance, Mora (S. Marcuola) and Mora (S. Felice). The matrimonies dataset does not distinguish between the two branches of the family, so we used the family name and took as date the oldest one\footnote{We should note here that there were very few families in this case, and in all cases the accession to nobility was after the period under study, so there is no real effect on the processed data.}
+These datasets, drawn from different sources, required normalization to ensure consistent identification of family names across records. Throughout, we adopt the standardized surnames provided by Puga and Trefler.
+More precisely:\begin{itemize}
+\item When no ambiguity was present and the differences reflected only orthographic variations  of the same name (e.g., Da Mosto vs Mosto or Mosto, Da) we normalized surnames to the version used in Puga and Treffler dataset.
+\item In some cases there is no clear one-to-one correspondence between names in the Puga and Trefler dataset and those in Raines' list. However, Raines often reports alternative name variants in  parentheses that can be matched to the names used by Puga and Trefler; for example, the Colleoni/Colleone family appears as Codeglione as the main entry, with Colleoni/Colleone listed as variants.
+\item In other instances, Raines' list distinguishes between different branches of the same family, such as Mora (S. Marcuola) and Mora (S. Felice). Since the matrimonial dataset does not differentiate between family branches, we collapse them into a single family name and assign the earliest admission date.\footnote{It should be noted that very few families fall in this category, and in all cases their admission to the patriciate occurred after the period under study, so this choice does not affect the result.}
 \end{itemize}
 
-These data have been included in a file, additional to Puga and Treffler dataset, which includes \begin{itemize}
-\item Family name
-\item If it belongs to the {\em lunghi} or {\em curti} groups ("long" vs. "short", or old vs new, families).
-\item Date of accession
-\item Whether they are considered {\em ducali}, that is, families that managed to get one of them elected as doge.
+Based on the information described above, we construct an additional data file, complementary to the Puga and Trefler one, which records the following information for each family:
+\begin{itemize}
+\item Family name;
+\item Date of accession to the patriciate;
+\item Classification as \emph{lunghi} or \emph{curti};
+\item Indicator for \emph{ducali} families.
 \end{itemize}
-
-This data is freely available from the paper repository under a free license.
+The data are freely available from the paper’s repository under an open license.
 
 These two files are then matched to process the original matrimonies dataset in this way:\begin{itemize}
 \item Matrimonies without date are dropped
 \item Matrimonies where one of the families is not noble, which in the PT dataset are marked by an empty Standard Family Name column (where standard family name is the name used in the logs of the Maggior Consiglio), are also dropped.
-\item For this paper, we were also interested only in the social network at certain moments in time, so all matrimonies that included a noble family that only became noble {\em after} said matrimony were also dropped.
+\item For this paper, we were also interested only in the social network at certain moments in time, so all matrimonies that included a noble family that only became noble {\em after} the said matrimony were also dropped.
 \end{itemize}
 
 \subsection{Validation and biases}\label{ssec:validation}
