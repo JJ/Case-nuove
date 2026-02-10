@@ -207,7 +207,17 @@ These two files are then matched to process the original matrimonies dataset in 
 \item Matrimonies without date are dropped
 \item Matrimonies where one of the families is not noble, which in the PT dataset are marked by an empty Standard Family Name column (where standard family name is the name used in the logs of the Maggior Consiglio), are also dropped.
 \item For this paper, we were also interested only in the social network at certain moments in time, so all matrimonies that included a noble family that only became noble {\em after} the said matrimony were also dropped.
+% The file loaded above is already filtered with all these families dropped.
 \end{itemize}
+
+The resulting filtered and normalized matrimonies dataset includes \Sexpr{length(noble_marriages$year)} matrimonies.
+
+<<casenuove.number_of_matrimonies_per_year, messages=F,echo=F, fig.cap="Number of matrimonies per year", fig.height=4>>=
+library(ggplot2)
+library(dplyr)
+noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) %>% 
+  ggplot(aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()
+@
 
 \subsection{Validation and biases}\label{ssec:validation}
 
@@ -247,7 +257,7 @@ for (i in 1:nrow(ducali_dogi_data)) {
 
 }
 
-library(ggplot2)
+
 ggplot(graph_data, aes(x=Year,y=number_of_families,color=proportion_to_full_network)) + geom_point()+geom_line() + theme_minimal() + labs(y="Number of families")
 @
 
