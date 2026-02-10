@@ -191,7 +191,7 @@ These datasets, drawn from different sources, required normalization to ensure c
 More precisely:\begin{itemize}
 \item When no ambiguity was present and the differences reflected only orthographic variations  of the same name (e.g., Da Mosto vs Mosto or Mosto, Da) we normalized surnames to the version used in Puga and Treffler dataset.
 \item In some cases there is no clear one-to-one correspondence between names in the Puga and Trefler dataset and those in Raines' list. However, Raines often reports alternative name variants in  parentheses that can be matched to the names used by Puga and Trefler; for example, the Colleoni/Colleone family appears as Codeglione as the main entry, with Colleoni/Colleone listed as variants.
-\item In other instances, Raines' list distinguishes between different branches of the same family, such as Mora (S. Marcuola) and Mora (S. Felice). Since the matrimonial dataset does not differentiate between family branches, we collapse them into a single family name and assign the earliest admission date.\footnote{It should be noted that very few families fall in this category, and in all cases their admission to the patriciate occurred after the period under study, so this choice does not affect the result.}
+\item In other cases, Raines' list distinguishes between different branches of the same family, such as "Mora (S. Marcuola)" and "Mora (S. Felice)". Since the matrimonial dataset does not differentiate between family branches, we collapse them into a single family name and assign the earliest admission date.\footnote{It should be noted that very few families fall in this category, and in all cases their admission to the patriciate occurred after the period under study, so this choice does not affect the result.}
 \end{itemize}
 
 Based on the information described above, we construct an additional data file, complementary to the Puga and Trefler one, which records the following information for each family:
@@ -201,7 +201,7 @@ Based on the information described above, we construct an additional data file, 
 \item Classification as \emph{lunghi} or \emph{curti};
 \item Indicator for \emph{ducali} families.
 \end{itemize}
-The data are freely available from the paper’s repository under an open license.
+The data are freely available from the paper’s repository under a free license.
 
 These two files are then matched to process the original matrimonies dataset in this way:\begin{itemize}
 \item Matrimonies without date are dropped
