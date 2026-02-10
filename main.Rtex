@@ -165,7 +165,13 @@ We will organize this section in several parts: first we will describe the diffe
 \subsection{Data sources}\label{ssec:sources}
 
 We are using different data sources in this paper:\begin{itemize}
-\item The main source we use for the social network is the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra,histories4020012}. This dataset includes marriages registered by the Avogaria del Comun including at least one noble family. Most marriages are dated, and include the name of the member of the family, including the {\em casata} or noble family to which they belong.
+<<casenuove.marriages,echo=F,message=F>>=
+noble_marriages <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
+first_year <- min(noble_marriages$year)
+last_year <- max(noble_marriages$year)
+@
+
+\item The main source we use for the social network is the Venetian matrimonial data, originally from \cite{PugaTrefler}, but normalized and adapted by us in \cite{merelo2024intra,histories4020012}. This dataset includes marriages registered by the Avogaria del Comun including at least one noble family. Most marriages are dated, and include the name of the member of the family, including the {\em casata} or noble family to which they belong. This dataset spans from \Sexpr{first_year} to \Sexpr{last_year}.
 \item We use as source for doge names and nomination year our {\sf dogesr} package \cite{merelo2022good}.
 \item The main issue of this paper is how different {\em coalitions} control the nomination for doge during two centuries; the source for the qualification of families are taken mainly from \cite{chojnacki1973search}, but also \cite{finlay1980politics,Raines2006}
 \item We need the date in which every family was effectively considered {\em noble}. This, along with the whole list of families, is taken from \cite{raines2003cooptazione}.
