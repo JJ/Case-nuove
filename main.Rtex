@@ -219,7 +219,15 @@ noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) %>%
   ggplot(aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()
 @
 
+The number of matrimonies per year is shown in Figure \ref{fig:casenuove.number_of_matrimonies_per_year}
+
 \subsection{Validation and biases}\label{ssec:validation}
+
+We are using here the network of matrimonies as a sample of the social network in the Serenissima for the period under study. 
+
+The main post-hoc validation is the fact that this dataset has been used repeatedly not only by the authors that published it originally, but also by us in \cite{merelo2023self,merelo2024intra,histories4020012}. In general, it is a very good reflection of the social status of different families in the time of the Republic and how they interacted with each other. In particular, \cite{histories4020012} shows how different measures of the matrimonies network reflect the events in the Republic and the different change points that occurred in them.
+
+However, we need to acknowledge the biases present in this dataset, the main one of which is evident in Figure \ref{fig:casenuove.number_of_matrimonies_per_year}: a temporal bias. The number of marriages per year does not really start to be significant until approximately 1400; it also decreases dramatically after the end of the Republic, 1797; however, this period is not of interest for the purposes of this paper. What this implies is that whatever conclusion we draw for the initial period covered by the social network will need to take into account that the matrimonies present in the network might not be a sufficient sample of the whole set of matrimonies and thus the social network.
 
 \subsection{Initial exploratory analysis}\label{ssec:exploration}
 
