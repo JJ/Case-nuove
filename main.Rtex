@@ -164,17 +164,24 @@ This section in organized as follows. In Subsection \ref{ssec:sources}, we descr
 \subsection{Data sources}\label{ssec:sources}
 
 In this paper we use several datasets:\begin{itemize}
+%
 <<casenuove.marriages,echo=F,message=F>>=
 noble_marriages <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
 first_year <- min(noble_marriages$year)
 last_year <- max(noble_marriages$year)
 @
+%
 \item Our primary source for the social network consists of the dataset of Venetian matrimonial records, originally compiled by \cite{PugaTrefler} as later normalized and adapted by \cite{merelo2024intra,histories4020012}. This dataset includes marriages documented by the Avogaria del Comun where at least one of the spouses comes from a noble family. Most marriages are dated, and include the name of the member of the family, including the {\em casata} or noble family to which they belong. This dataset spans from \Sexpr{first_year} to \Sexpr{last_year}.
 <<casenuove.dogi,echo=F,message=F>>=
 load("data/ducali_dogi_data.rda")
 ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
 @
 \item The source for the names of the doges and the year of appointment is the {\sf dogesr} package \cite{merelo2022good}.
+%
+<<casenuove.casate,echo=F,message=F>>=
+family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
+@
+%
 \item In the Venetian constitution, all nobles were formally equal, but in practice, many distinctions were unofficially recognized and played a role in defining the status of the family. To identify the \emph{case vecchie} or \emph {longhi} we use \cite{chojnacki1973search,finlay1980politics,raines2003cooptazione} %Chojnacki, p. 78, nota 19, Raines2003, p. 31 e Finlay19080, p. 92
 who all agree on the same list of 24 families.\footnote{\ According to \cite{raines2006invention1}, the roster of Venice's founding families changed when some lineages died out before 1300 and were replaced by others.} All other families are classified as \emph{curti}. Among the \emph{curti}, special recognition was granted to the nineteen {\em ducali} families that succeeded in having one of their members elected between 1382 and 1612, i.e., during the period in which the \emph{lunghi} families were excluded from the dogeship.  %  SERVE ANCHE L'INFORMAZIONE SUGLI AMMESSI DOPO CHIOGGIA? GIUSTO CHE USIAMO I 19 DUCALI INVECE DEI 16? DEVO DIRE CHE USIAMO ANCHE LA CLASSIFICAZIONE PER RICCHEZZA DI CHOJNIACKI?
 \item To identify the list of all patrician families and the year of their admission  to the Venetian nobility, we use \cite{raines2003cooptazione}.
