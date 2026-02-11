@@ -232,7 +232,7 @@ Considering the number of marriages between two families as edges is justified a
 
 Once the node and edges chosen for the social network has been validated we need again show the extent in which the sample represented by the matrimonies in the dataset is representative of the whole set of matrimonies that took place in the Republic during the period under study. The dataset was published by Puga and Trefler \cite{PugaTrefler} from a 19th century source picked by Marco Barbaro. Even if we can admit that some samples in the archive may have disappeared along time, the fact is that after the so called Second Serrata \cite{second:serrata}, {\em all} matrimonies involving a noble spouse needed to be registered in the Avogaria di Comun, so in fact the universe of the dataset is supposed to be the whole set of marriages taking place, at least while the Republic of Venice had a functioning bureaucracy.
 
-<<casenuove.marriages.validation, echo=F,messages=F, warnings=F, fig.cap="Showing the main events in the Republic of Venice over the smoothed chart of marriages per year. Red: Black Plague of 1479; gold: War of the League of Cambrai; green: loss of Cyprus and battle of Lepanto; brown: war of Candia", fig.height=4>>=
+<<casenuove.marriages.validation, echo=F,message=F, warning=F, fig.cap="Showing the main events in the Republic of Venice over the smoothed chart of marriages per year. Red: Black Plague of 1479; gold: War of the League of Cambrai; green: loss of Cyprus and battle of Lepanto; brown: war of Candia", fig.height=4>>=
 ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+
   geom_smooth() +
   geom_segment(x=1479, xend=1479,y=0,yend=80,color="red")+ # Black plague
@@ -343,7 +343,7 @@ From this initial exploratory analysis we can draw several conclusions: first, t
 This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
 
 \bibliographystyle{elsarticle-num-names}
-\bibliography{ours,case-nuove,patrician}
+\bibliography{ours,case-nuove,patrician,marriage}
 
 \end{document}
 
