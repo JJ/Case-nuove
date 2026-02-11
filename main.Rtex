@@ -216,8 +216,8 @@ The resulting filtered and normalized matrimonies dataset includes \Sexpr{length
 <<casenuove.number_of_matrimonies_per_year, messages=F,echo=F, fig.cap="Number of matrimonies per year", fig.height=4>>=
 library(ggplot2)
 library(dplyr)
-noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) %>% 
-  ggplot(aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()
+noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) -> marriages_by_year
+ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()
 @
 
 The number of matrimonies per year is shown in Figure \ref{fig:casenuove.number_of_matrimonies_per_year}.
@@ -232,6 +232,18 @@ Considering the number of marriages between two families as edges is justified a
 
 Once the node and edges chosen for the social network has been validated we need again show the extent in which the sample represented by the matrimonies in the dataset is representative of the whole set of matrimonies that took place in the Republic during the period under study. The dataset was published by Puga and Trefler \cite{PugaTrefler} from a 19th century source picked by Marco Barbaro. Even if we can admit that some samples in the archive may have disappeared along time, the fact is that after the so called Second Serrata \cite{second:serrata}, {\em all} matrimonies involving a noble spouse needed to be registered in the Avogaria di Comun, so in fact the universe of the dataset is supposed to be the whole set of marriages taking place, at least while the Republic of Venice had a functioning bureaucracy.
 
+<<casenuove.marriages.validation, echo=F,messages=F, warning=F, fig.cap="Showing the main events in the Republic of Venice over the smoothed chart of marriages per year. Red: Black Plague of 1479; gold: War of the League of Cambrai; green: loss of Cyprus and battle of Lepanto; brown: war of Candia", fig.height=4>>=
+ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+
+  geom_smooth() +
+  geom_segment(x=1479, xend=1479,y=0,yend=80,color="red")+ # Black plague
+  geom_segment(x=1510, xend=1510,y=0,yend=80,color="gold")+ # League of Cambrai
+  geom_segment(x=1573, xend=1573,y=0,yend=80,color="green")+ # Loss of Cyprus and battle of Lepanto
+  geom_segment(x=1645,xend=1645,y=0,yend=80, color="brown") + # Beginning of the Candia war
+  ylim(0,80)+
+  theme_minimal()
+@
+
+In Figure \ref{fig:casenuove.marriages.validation} we show the smoothed and raw graph of matrimonies per year along with several important events in the history of the Republic\footnote{A more complete analysis of these events, its influence in the social network and corresponding changes of regime in the Republic of Venice is published in \cite{histories4020012}}. After every event with influence in the demography \cite{lane1973venice}, the number of marriages correspondingly declines: the Black Plague of 1479, for instance, shows a number of matrimonies almost always below the trend line (in blue); this occurs again right after the war of the League of Cambrai, which leads to an extended period with marriages below the trend line. The loss of Cyprus and battle of Lepanto goes even further, designating a complete change of trend, that is accentuated again by the beginning of the 17th century with the war of Candia which eventually led to the loss of Crete and the Republic entering in a terminal decline phase. This, however, falls already outside the period we are interested in.
 
 The main post-hoc validation is the fact that this dataset has been used repeatedly not only by the authors that published it originally, but also by us in \cite{merelo2023self,merelo2024intra,histories4020012}. In general, it is a very good reflection of the social status of different families in the time of the Republic and how they interacted with each other. In particular, \cite{histories4020012} shows how different measures of the matrimonies network reflect the events in the Republic and the different change points that occurred in them.
 
