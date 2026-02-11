@@ -232,7 +232,7 @@ Considering the number of marriages between two families as edges is justified a
 
 Once the node and edges chosen for the social network has been validated we need again show the extent in which the sample represented by the matrimonies in the dataset is representative of the whole set of matrimonies that took place in the Republic during the period under study. The dataset was published by Puga and Trefler \cite{PugaTrefler} from a 19th century source picked by Marco Barbaro. Even if we can admit that some samples in the archive may have disappeared along time, the fact is that after the so called Second Serrata \cite{second:serrata}, {\em all} matrimonies involving a noble spouse needed to be registered in the Avogaria di Comun, so in fact the universe of the dataset is supposed to be the whole set of marriages taking place, at least while the Republic of Venice had a functioning bureaucracy.
 
-<<casenuove.marriages.validation, echo=F,messages=F, warning=F, fig.cap="Showing the main events in the Republic of Venice over the smoothed chart of marriages per year. Red: Black Plague of 1479; gold: War of the League of Cambrai; green: loss of Cyprus and battle of Lepanto; brown: war of Candia", fig.height=4>>=
+<<casenuove.marriages.validation, echo=F,messages=F, warnings=F, fig.cap="Showing the main events in the Republic of Venice over the smoothed chart of marriages per year. Red: Black Plague of 1479; gold: War of the League of Cambrai; green: loss of Cyprus and battle of Lepanto; brown: war of Candia", fig.height=4>>=
 ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+
   geom_smooth() +
   geom_segment(x=1479, xend=1479,y=0,yend=80,color="red")+ # Black plague
@@ -253,7 +253,7 @@ However, we need to acknowledge the biases present in this dataset, the main one
 
 As initial exploratory analysis, we will show the evolution of the social network for the period under study, that is, the period of the {\em ducali} doges. We will use a moving window of 75 years, which is supposed to include "living memory" of past social ties \cite{social:memory}, repeated every 25 years.
 
-<<casenuove.graphs,echo=F,message=F,fig.cap="Sequence of marriage graphs for the period under study, from the beginning of the data set, every 25 years, spanning 75 years. We highlight here the vecchie (red), the ducali families (gold), as well as the families one of whose members was elected as doge during the period.", out.width="30%", fig.show="hold">>=
+<<casenuove.graphs,echo=F,message=F,fig.cap="Sequence of marriage graphs for the period under study, from the beginning of the data set, every 25 years, spanning 75 years. We highlight here the vecchie (gold), the ducali families (red), as well as the families one of whose members was elected as doge during the period.", out.width="30%", fig.show="hold">>=
 DEPTH_IN_YEARS <- 75
 
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
@@ -290,7 +290,7 @@ for (y in window_sequence ) {
     vertices = unique(c(marriages_window$husband_familyname_std, marriages_window$wife_familyname_std))
   )
   
-  doges <- doges.years[ doges.years$Start >= y & doges.years$Start <= y + DEPTH_IN_YEARS, ]$Family.doge
+  doges <- unique(doges.years[ doges.years$Start >= y & doges.years$Start <= y + DEPTH_IN_YEARS, ]$Family.doge)
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   
@@ -311,6 +311,9 @@ for (y in window_sequence ) {
   V(marriage_graph)$color <- ifelse(V(marriage_graph)$Group == "Lunghi",
                                     "gold", 
                                     ifelse(V(marriage_graph)$Group=="Ducali","red","white"))
+  
+  print(V(marriage_graph)[ V(marriage_graph)$name %in% doges]$name)
+  print(V(marriage_graph)[ V(marriage_graph)$name %in% doges]$Group)
   V(marriage_graph)$shape <- ifelse(V(marriage_graph)$name %in% doges, "square", "circle")
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
@@ -323,56 +326,16 @@ for (y in window_sequence ) {
         main = paste("Marriage Network from", y, "to", y + DEPTH_IN_YEARS)
   )
   
-  vertices_lunghi <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Lunghi"]
-  vertices_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Ducali"]
-  vertices_corti <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Corti"]
-  
-  distance_lunghi_ducali <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_ducali, weights = E(marriage_graph_main)$distances)
-  mean_lunghi_ducali <- mean(distance_lunghi_ducali)
-  
-  distance_lunghi_lunghi <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_lunghi, weights = E(marriage_graph_main)$distances)
-  mean_lunghi_lunghi <- mean(distance_lunghi_lunghi)
-  
-  distance_lunghi_corti <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_corti, weights = E(marriage_graph_main)$distances)
-  mean_lunghi_corti <- mean(distance_lunghi_corti)
-  
-  distance_ducali_ducali <- distances(marriage_graph_main, v = vertices_ducali, to = vertices_ducali, weights = E(marriage_graph_main)$distances)
-  mean_ducali_ducali <- mean(distance_ducali_ducali)
-                                                      
-  distance_ducali_corti <- distances(marriage_graph_main, v = vertices_ducali, to = vertices_corti, weights = E(marriage_graph_main)$distances)
-  mean_ducali_corti <- mean(distance_ducali_corti)
-  
-  distance_corti_corti <- distances(marriage_graph_main, v = vertices_corti, to = vertices_corti, weights = E(marriage_graph_main)$distances)
-  mean_corti_corti <- mean(distance_corti_corti)
-  
-  vertices_quaranta <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% quaranta_famiglie]
-  vertices_non_quaranta <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% quaranta_famiglie)]
-  
-  distance_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
-  mean_quaranta_non_quaranta <- mean(distance_quaranta_non_quaranta)
-  
-  distance_quaranta_quaranta <- distances(marriage_graph_main, v = vertices_quaranta, to = vertices_quaranta, weights = E(marriage_graph_main)$distances)
-  mean_quaranta_quaranta <- mean(distance_quaranta_quaranta)
-  
-  distance_non_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_non_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
-  mean_non_quaranta_non_quaranta <- mean(distance_non_quaranta_non_quaranta)
-  
-  assortativity <- rbind(assortativity,
-                         data.frame( curti_lunghi = assortativity_curti_lunghi,
-                                     ducali = assortativity_ducali,
-                                     in_quaranta = assortativity_quaranta,
-                                     distance_curti_lunghi = mean_lunghi_corti,
-                                     distance_ducali_corti = mean_ducali_corti,
-                                     distance_ducali_lunghi = mean_lunghi_ducali,
-                                     intra_lunghi = mean_lunghi_lunghi,
-                                     intra_ducali = mean_ducali_ducali,
-                                     intra_corti = mean_corti_corti,
-                                     intra_quaranta = mean_quaranta_quaranta,
-                                     intra_non_quaranta = mean_non_quaranta_non_quaranta,
-                                     quaranta_e_non_quaranta = mean_quaranta_non_quaranta,
-                                     year = y))
 }
 @
+
+These graphs, shown here in Figure \ref{fig:casenuove.graphs} as an overview of the evolution of the social network during the period of interest, already reveal some patterns. Although they represent the main connected component of the network slices, they gather most families and all the doges, shown here as squares. While in the first two charts (for 1348 and 1373) there are some {\em lunghi} doges (red squares), most doges from them on are "red" right until the end of the period, when some "gold" are again seen. From 1448 (after the Foscari doge was forced to resign) until the 1548-1623 period, when Bembo was elected as a doge, there are only "red" squares, that is, {\em ducali famili}.
+
+We can also observe the position of these families with doge among the network, which is, qualitatively speaking, not very central, not even within its own faction. In the 1523 to 1598, for instances, the families that got a doge elected are clearly in the periphery of the network.
+
+Another interesting thing to observe is the lack of clear factionalization. In no period is a clear pattern of connection within the {\em ducali} or {\em lunghi} family that excludes each other, and the rest of the families. Although the periphery is almost always "white", i. e., non {\em ducali} {\em curti} families, there is no clear pattern of occupation of the most central positions in the graph by any of the two "colored" factions, and certainly not by the families that manage to get a doge elected. On first sight anothe observation that can be made is that network patterns are very similar, with all families being closely connected, except in the first and last graph. In the former it must be probably due to the bias in the dataset that has less marriages in that period; however, the latter might be a reflection of the change that took place during that perior, when the {\em ducali} period ended and {\em lunghi} family back again started to monopolize the doge job. 
+
+The last graph, in fact, reflects a period of transition where there are two {\em ducali} doges of the families Donato and Priuli, three {\em corti} of the families Valier, Pesaro and Erizzo, and 4 {\em lunghi}: Bembo, Corner, Contarini and Memmo.
 
 
 \section*{Acknowledgements}
