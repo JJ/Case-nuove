@@ -312,8 +312,6 @@ for (y in window_sequence ) {
                                     "gold", 
                                     ifelse(V(marriage_graph)$Group=="Ducali","red","white"))
   
-  print(V(marriage_graph)[ V(marriage_graph)$name %in% doges]$name)
-  print(V(marriage_graph)[ V(marriage_graph)$name %in% doges]$Group)
   V(marriage_graph)$shape <- ifelse(V(marriage_graph)$name %in% doges, "square", "circle")
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
@@ -336,6 +334,8 @@ We can also observe the position of these families with doge among the network, 
 Another interesting thing to observe is the lack of clear factionalization. In no period is a clear pattern of connection within the {\em ducali} or {\em lunghi} family that excludes each other, and the rest of the families. Although the periphery is almost always "white", i. e., non {\em ducali} {\em curti} families, there is no clear pattern of occupation of the most central positions in the graph by any of the two "colored" factions, and certainly not by the families that manage to get a doge elected. On first sight anothe observation that can be made is that network patterns are very similar, with all families being closely connected, except in the first and last graph. In the former it must be probably due to the bias in the dataset that has less marriages in that period; however, the latter might be a reflection of the change that took place during that perior, when the {\em ducali} period ended and {\em lunghi} family back again started to monopolize the doge job. 
 
 The last graph, in fact, reflects a period of transition where there are two {\em ducali} doges of the families Donato and Priuli, three {\em corti} of the families Valier, Pesaro and Erizzo, and 4 {\em lunghi}: Bembo, Corner, Contarini and Memmo.
+
+From this initial exploratory analysis we can draw several conclusions: first, that the position of doge is {\em not} taken by the family with the highest social status. Second there is not a clear division between so-called {\em factions}: all families have ties with each other, and most of them are indeed connected one way or another. We need then to see whether there is another angle of analysis that can explain the monopolization of the doges by a faction, the {\em ducali}, during a 200-year period.
 
 
 \section*{Acknowledgements}
