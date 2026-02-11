@@ -224,7 +224,10 @@ The number of matrimonies per year is shown in Figure \ref{fig:casenuove.number_
 
 \subsection{Validation and biases}\label{ssec:validation}
 
-We are using here the network of matrimonies as a sample of the social network in the Serenissima for the period under study. 
+The main assumption of this study is that the matrimonial network of the Republic of Venice is a good enough representation of the social network and its dynamics for the period under study. We will need to offer some hints on the validity of this social network on its to aspects: nodes and links.
+
+As nodes we are using the {\em casata} or extended family. After the (often called first) Serrata \cite{serrata} in 1297, the number of members of the Maggior Consiglio per family were restricted, so that every family would have only two at most. This preserved, to a certain point, the unity of action by families, so that despite being divided into different {\em rami} or branches (as reflected, for instance, in the aforementioned {\em estimo}), its political and commercial action was often coordinated. Specifically from the point of view of this paper, which is the existence of factions and how this affected the outcomes of the elections, different branches of the family never veered away from the faction they were in.
+
 
 The main post-hoc validation is the fact that this dataset has been used repeatedly not only by the authors that published it originally, but also by us in \cite{merelo2023self,merelo2024intra,histories4020012}. In general, it is a very good reflection of the social status of different families in the time of the Republic and how they interacted with each other. In particular, \cite{histories4020012} shows how different measures of the matrimonies network reflect the events in the Republic and the different change points that occurred in them.
 
