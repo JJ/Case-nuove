@@ -295,7 +295,7 @@ However, we need to acknowledge the biases present in this dataset, the main one
 
 As initial exploratory analysis, we will show the evolution of the social network for the period under study, that is, the period of the {\em ducali} doges. We will use a moving window of 75 years, which is supposed to include "living memory" of past social ties \cite{social:memory}, repeated every 25 years.
 
-<<casenuove.graphs,echo=F,message=F,fig.cap="Sequence of marriage graphs for the period under study, from the beginning of the data set, every 25 years, spanning 75 years. We highlight here the vecchie (gold), the ducali families (red), as well as the families one of whose members was elected as doge during the period.", out.width="30%", fig.show="hold">>=
+<<casenuove.graphs,echo=F,message=F,fig.cap="Sequence of marriage graphs for the period under study, from 1350 every 50 years, spanning 75 years. We highlight here the vecchie (gold), the ducali families (red), as well as the families one of whose members was elected as doge during the period.", out.width="50%", fig.show="hold">>=
 DEPTH_IN_YEARS <- 75
 
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
@@ -304,7 +304,7 @@ quaranta_famiglie <- c(lunghi,ducali)
 
 quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Da Ponte", "Cicogna")) ]
 
-window_sequence <- seq(from = min(noble_marriages$year), to = 1600, by = 25)
+window_sequence <- seq(from = 1350, to = 1600, by = 50)
 assortativity <- data.frame( curti_lunghi = numeric(),
                              ducali = numeric(),
                              in_quaranta = numeric(),
@@ -373,7 +373,7 @@ These graphs, shown here in Figure \ref{fig:casenuove.graphs} as an overview of 
 
 We can also observe the position of these families with doge among the network, which is, qualitatively speaking, not very central, not even within its own faction. In the 1523 to 1598, for instances, the families that got a doge elected are clearly in the periphery of the network.
 
-Another interesting thing to observe is the lack of clear factionalization. In no period is a clear pattern of connection within the {\em ducali} or {\em lunghi} family that excludes each other, and the rest of the families. Although the periphery is almost always "white", i. e., non {\em ducali} {\em curti} families, there is no clear pattern of occupation of the most central positions in the graph by any of the two "colored" factions, and certainly not by the families that manage to get a doge elected. On first sight anothe observation that can be made is that network patterns are very similar, with all families being closely connected, except in the first and last graph. In the former it must be probably due to the bias in the dataset that has less marriages in that period; however, the latter might be a reflection of the change that took place during that perior, when the {\em ducali} period ended and {\em lunghi} family back again started to monopolize the doge job. 
+Another interesting thing to observe is the lack of clear factionalization. In no period is a clear pattern of connection within the {\em ducali} or {\em lunghi} family that excludes each other, and the rest of the families. Although the periphery is almost always "white", i. e., non {\em ducali} {\em curti} families, there is no clear pattern of occupation of the most central positions in the graph by any of the two "colored" factions, and certainly not by the families that manage to get a doge elected. On first sight another observation that can be made is that network patterns are very similar, with all families being closely connected, except in the first and last graph. In the former it must be probably due to the bias in the dataset that has less marriages in that period; however, the latter might be a reflection of the change that took place during that period, when the {\em ducali} period ended and {\em lunghi} family back again started to monopolize the doge job. 
 
 The last graph, in fact, reflects a period of transition where there are two {\em ducali} doges of the families Donato and Priuli, three {\em corti} of the families Valier, Pesaro and Erizzo, and 4 {\em lunghi}: Bembo, Corner, Contarini and Memmo.
 
