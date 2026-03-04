@@ -473,8 +473,14 @@ kable(family_lists,
   kable_styling(font_size = 7)
 @
 
-We have already mentioned part of these power groups. Here is the whole list, also shown in Table \ref{tab:casenuove.table.parties}, along with their defining feature.
+We have already mentioned part of these power groups. Here is the whole list, also shown in Table \ref{tab:casenuove.table.parties}, along with their defining feature.\begin{itemize}
+\item {\bf Lunghi}: "old" families, mostly those that became noble, or were considered noble, in the precise moment the concept of noble was being defined in Venice, that is, during the Serrata. 
+\item {\bf Ducali}: According to \cite{raines2003cooptazione}, the families that managed to have one of their members elected doge during the period we are studying.
+\item {\bf Quaranta} or the "Forty" families. According to \cite{chojnacki97} these were the families that had the most power for an extended period starting with the Serrata. They added 16 of the Raines Ducali families (excluding Steno, Ponte and Cicogna to the {\em lunghi}, resulting in effectively 40 families.
+\item {\bf Wealthy families}: during the 14 century a kind of census called {\em estimo} \citep{estimo} was made and published, listing the assets every noble family in Venice had. We have taken the most wealthy among them according to the published lists. This group, that overlaps the others, had in common their accumulation of capital, which in mercantile republics like Venice was correlated with social and political capital.
+\end{itemize}
 
+A priori, it is impossible to know in advance which group had the highest cohesion so that it could act as a single entity and push forward their candidate in a complicated electoral environment such as the election of doge in the Republic of Venice. We will do so next.
 
 \section*{Acknowledgements}
 
