@@ -347,6 +347,9 @@ assortativity <- data.frame( curti_lunghi = numeric(),
                              quaranta_e_non_quaranta = numeric(),
                              year = integer() )
 
+graph_list <- vector("list",length(window_sequence))
+list_index <- 1
+
 load("data/doges.years.rda")
 
 for (y in window_sequence ) {
@@ -393,7 +396,8 @@ for (y in window_sequence ) {
         layout = layout_with_kk,
         main = paste("Marriage Network from", y, "to", y + DEPTH_IN_YEARS)
   )
-  
+  graph_list[[list_index]] <- marriage_graph
+  list_index <- list_index+1
 }
 @
 
@@ -404,6 +408,19 @@ We can also observe the position of these families with doge among the network, 
 Another interesting thing to observe is the lack of clear factionalization. In no period is a clear pattern of connection within the {\em ducali} or {\em lunghi} family that excludes each other, and the rest of the families. Although the periphery is almost always "white", i. e., non {\em ducali} {\em curti} families, there is no clear pattern of occupation of the most central positions in the graph by any of the two "colored" factions, and certainly not by the families that manage to get a doge elected. On first sight another observation that can be made is that network patterns are very similar, with all families being closely connected, except in the first and last graph. In the former it must be probably due to the bias in the dataset that has less marriages in that period; however, the latter might be a reflection of the change that took place during that period, when the {\em ducali} period ended and {\em lunghi} family back again started to monopolize the doge job. 
 
 The last graph, in fact, reflects a period of transition where there are two {\em ducali} doges of the families Donato and Priuli, three {\em corti} of the families Valier, Pesaro and Erizzo, and 4 {\em lunghi}: Bembo, Corner, Contarini and Memmo.
+
+<<casenuove.betweenness, echo=F,fig.cap="Sequence of distribution of betweenness for the marriage social networks", out.width="50%", fig.show="hold">>=
+for (graph in graph_list) {
+  V(graph)$betweenness = betweenness(graph)
+  betweenness_df <- data.frame( family= V(graph)$name, betweenness = V(graph)$betweenness)
+  betweenness_df_sorted <- betweenness_df[order(betweenness_df$betweenness, decreasing=T),]
+  betweenness_df_sorted <- betweenness_df_sorted[ betweenness_df_sorted$betweenness > 0,]
+  betweenness_df_sorted$index <- seq_len(nrow(betweenness_df_sorted))
+  print(ggplot( betweenness_df_sorted, aes(x=index,y=betweenness))+geom_point()+scale_x_log10()+scale_y_log10(limits = c(0.1, 1900))+theme_minimal())
+}
+@
+
+The distribution of betweenness vs. rank for the six overlapped periods is shown in Figure \ref{casenuove.betweenness}; these graphs share the same $y$ axis, with the $x$ axis corresponding to the rank of the family with a betweenness above 0. Fixing the $y$ axis allows us to appreciate the fact that there is no centralization of power in a single family, with the top betweenness hovering around 1000, but decreasing in the central periods to under 1000. But the other outstanding feature shared by all graphs is the {\em broken stick} aspect of them. Instead of decreasing as a power law, there are a few families with very similar betweenness, indicating a similar intermediation power, which goes down sharply around and a bit before the 100th rank. This would again certify what has been repeatedly proved about power dynamics in Venice: the system tries to prevent accumulation of power in a single family. Besides, this {\em broken stick} shape might indicate the existence of an elite with high intermediation power, surrounded by a periphery that needs to rely on that elite; and again we know that even if theoretically all nobles in Venice shared the same rights, there were differences between them. This distribution of power would point towards a stable faction that could explain the concentration of the highest office in the {\em ducali} families for the period we are studying. However, it would need to be investigated further to check exactly who composed this elite and its stability and cohesion through the period undeer study.
 
 From this initial exploratory analysis we can draw several conclusions: first, that the position of doge is {\em not} taken by the family with the highest social status. Second there is not a clear division between so-called {\em factions}: all families have ties with each other, and most of them are indeed connected one way or another. We need then to see whether there is another angle of analysis that can explain the monopolization of the doges by a faction, the {\em ducali}, during a 200-year period.
 
