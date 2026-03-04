@@ -409,13 +409,15 @@ From this initial exploratory analysis we can draw several conclusions: first, t
 
 \subsection{Searching for factions in social networks} \label{ssec:methods}
 
+Before doing any further analysis, we should indicate which are the groups that have been known to exist within the Republic of Venice for the period under study. We should emphasize here that we are not so much talking about {\em parties} in the sense that the population is divided along party lines. They rather work as {\em power cores} or elites \citep{LARSEN201755}, defined by some common feature, with the rest of the population at a certain (social) distance. The fact that, in the 75-year period seen above, most families are linked in a single network prevents any family from being really apart from whatever power core we define. 
+
 
 \section*{Acknowledgements}
 
 This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
 
 \bibliographystyle{elsarticle-harv}
-\bibliography{ours,case-nuove,patrician,marriage}
+\bibliography{ours,case-nuove,patrician,marriage,complex-networks}
 
 \end{document}
 
