@@ -260,7 +260,7 @@ A third dataset classifies noble families as  \emph{longhi} or \emph{curti}, ide
     
 For the sorted list of wealthy families, we have used \cite{chojnacki1973search} who published a rank for the so-called {\em estimo} or census \cite{estimo} taken in 1379. This {\em estimo} was used for fiscal purposes, but for the purpose of this paper we use it as a proxy of the families' economic power at the beginning of the period under study. 
 
-This third dataset is publicly available in the paper’s repository under an open licence. For each family, it records:
+This third dataset is publicly available in the paper's repository under an open licence. For each family, it records:
 \begin{itemize}
 \item family name;
 \item year of admission to the patriciate;
@@ -268,7 +268,7 @@ This third dataset is publicly available in the paper’s repository under an op
 \item an indicator for \emph{ducali} families.
 \end{itemize}
 
-Because the three datasets described are drawn from different sources, we harmonised family names to ensure consistent identification across records. Throughout, we adopt the standardised surnames used by Puga and Trefler. When a direct match was not possible, we proceeded as follows:\begin{itemize}
+Because the three datasets described are drawn from different sources, we harmonized family names to ensure consistent identification across records. Throughout, we adopt the standardised surnames used by Puga and Trefler. When a direct match was not possible, we proceeded as follows:\begin{itemize}
 \item when differences clearly reflected only orthographic variation (e.g., Da Mosto vs Mosto or Mosto, Da), we standardised names to the form used in the Puga and Trefler dataset;
 
 \item when names in the Puga and Trefler dataset did not exactly match those in Raines, we relied on the alternative variants reported by Raines to establish correspondence; for example, the Colleoni/Colleone family appears under Codeglione, with Colleoni/Colleone listed as variants;
