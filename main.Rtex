@@ -210,7 +210,7 @@ a practice that the Republic consistently sought to curb. In Venice even \emph{b
 
 Marriage thus played a crucial role in the political and social management of the family and, for this very reason, offers valuable insight into patterns of cohesion and division within the patriciate.
 
-AGGIUNGERE UNA FRASE QUANDO ABBIAMO I RISULTATI?
+% AGGIUNGERE UNA FRASE QUANDO ABBIAMO I RISULTATI?
 
 
 \section{Methodology}
@@ -222,15 +222,13 @@ library(igraph)
 load("data/venice-marriages-filtered.rda")
 load("data/ducali_dogi_data.rda")
 
-DEPTH_IN_YEARS <- 90
-
 @
 
 This section in organized as follows. In Subsection \ref{ssec:sources}, we describe the different data sources and how they were adapted. In Subsection \ref{ssec:validation}, we discuss how these sources were validated, including a description of potential biases. Subsection \ref{ssec:exploration} presents a descriptive and exploratory analysis is introduced. Finally,  in Subsection \ref{ssec:methods}, we present and justify the methodology we followed to address our research questions.
 
 \subsection{Data sources}\label{ssec:sources}
 
-We rely on three datasets: an existing database of marriages among Venetian nobles; a database of doges elected after 1297; and a third dataset which integrates additional information on noble families drawn from secondary sources. A description of these datasets and of the steps taken to ensure consistency and normalisation follows.
+We rely on three datasets: an existing database of marriages among Venetian nobles; a database of doges elected after 1297; and a third dataset which integrates additional information on noble families drawn from secondary sources. A description of these datasets and of the steps taken to ensure consistency and normalization follows.
 
 %
 <<casenuove.marriages,echo=F,message=F>>=
@@ -256,7 +254,7 @@ family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors =
 
 A third dataset classifies noble families as  \emph{longhi} or \emph{curti}, identifies the \emph{ducali} within the latter, and records the year of their co-optation into the nobility, allowing us to exclude marriages contracted before formal admission. The factional classification follows the division consolidated in the fifteenth century, as discussed in Section~\ref{history}. The dates of co-optation are drawn from \cite{raines2003cooptazione} which reports, for each noble family, both the year of admission and the year of extinction, defined as the last year in which the family appears in the documentary records.
 	
-	QUESTO SOTTO E' NELLA LISTA DELLE INFORMAZIONI MA POI SPARISCE NEL DATABASE? DOVE LO METTO? DEVO AGGIUNGERE UN INDICATORE BINARIO DI RICCHEZZA NELLA LISTA SOTTO? 
+%	QUESTO SOTTO E' NELLA LISTA DELLE INFORMAZIONI MA POI SPARISCE NEL DATABASE? DOVE LO METTO? DEVO AGGIUNGERE UN INDICATORE BINARIO DI RICCHEZZA NELLA LISTA SOTTO? 
     
 For the sorted list of wealthy families, we have used \cite{chojnacki1973search} who published a rank for the so-called {\em estimo} or census \cite{estimo} taken in 1379. This {\em estimo} was used for fiscal purposes, but for the purpose of this paper we use it as a proxy of the families' economic power at the beginning of the period under study. 
 
@@ -294,14 +292,13 @@ ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+geom_point()+th
 
 The final dataset contains \Sexpr{length(noble_marriages$year)} marriages. Figure~\ref{fig:casenuove.number_of_matrimonies_per_year} reports the number of marriages per year.
 
-
 \subsection{Validation and biases}\label{ssec:validation}
 
 The main assumption of this study is that the matrimonial network of the Republic of Venice is a good enough representation of the social network and its dynamics for the period under study. We will need to offer some hints on the validity of this social network on its two aspects: nodes and links.
 
 As nodes we are using the {\em casata} or extended family. After the (often called first) Serrata \cite{serrata} in 1297, the number of members of the Maggior Consiglio per family were restricted, so that every family would have only two at most. This preserved, to a certain point, the unity of action by families, so that despite being divided into different {\em rami} or branches (as reflected, for instance, in the aforementioned {\em estimo}), its political and commercial action was often coordinated \cite{chojnacki:1985,romano1987patricians}. Specifically from the point of view of this paper, which is the existence of factions and how this affected the outcomes of the elections, different branches of the family never veered away from the faction they were in.
 
-Considering the number of marriages between two families as edges is justified also by the fact that matrimonies were considered more commercial and political affairs than simply affective ones. Marriage contracts in the Republic of Venice included provisions for how dowries would be paid, as well as shares in commercial enterprises \cite{telek2018three,sperling_1999}. Very often, every nuclear family could marry only one of their daughters due to the amount of dowry that needed to be paid, and that was often limited by sumptuary laws \cite{dowries:chojnacki}. Since effectively families acted together (in an institution called the {\em fraterna}) as commercial enterprises, marriages, used in this study as social links, covered many aspects of the relationship spectrum, validating its use here as a representation of the social network at large.
+Considering the number of marriages between two families as edges is justified also by the fact that matrimonies were considered more commercial and political than sentimental affairs Marriage contracts in the Republic of Venice included provisions for how dowries would be paid, as well as shares in commercial enterprises \cite{telek2018three,sperling_1999}. Very often, every nuclear family could marry only one of their daughters due to the amount of dowry that needed to be paid, and that was often limited by sumptuary laws \cite{dowries:chojnacki}. Since effectively families acted together (in an institution called the {\em fraterna}) as commercial enterprises, marriages, used in this study as social links, covered many aspects of the relationship spectrum, validating its use here as a representation of the social network at large.
 
 Once the node and edges chosen for the social network has been validated we need again show the extent in which the sample represented by the matrimonies in the dataset is representative of the whole set of matrimonies that took place in the Republic during the period under study. The dataset was published by Puga and Trefler \cite{PugaTrefler} from a 19th century source picked by Marco Barbaro. Even if we can admit that some samples in the archive may have disappeared along time, the fact is that after the so called Second Serrata \cite{second:serrata}, {\em all} matrimonies involving a noble spouse needed to be registered in the Avogaria di Comun, so in fact the universe of the dataset is supposed to be the whole set of marriages taking place, at least while the Republic of Venice had a functioning bureaucracy.
 
