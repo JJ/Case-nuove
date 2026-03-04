@@ -437,7 +437,43 @@ From this initial exploratory analysis we can draw several conclusions: first, t
 
 \subsection{Searching for factions in social networks} \label{ssec:methods}
 
-Before doing any further analysis, we should indicate which are the groups that have been known to exist within the Republic of Venice for the period under study. We should emphasize here that we are not so much talking about {\em parties} in the sense that the population is divided along party lines. They rather work as {\em power cores} or elites \citep{LARSEN201755}, defined by some common feature, with the rest of the population at a certain (social) distance. The fact that, in the 75-year period seen above, most families are linked in a single network prevents any family from being really apart from whatever power core we define. 
+Before doing any further analysis, we should indicate which are the groups that have been known to exist within the Republic of Venice for the period under study. We should emphasize here that we are not so much talking about {\em parties} in the sense that the population is divided along party lines. They rather work as {\em power cores} or elites \citep{LARSEN201755}, defined by some common feature, with the rest of the population at a certain (social) distance. The fact that, in the 75-year period seen above, most families are linked in a single network prevents any family from being really apart from whatever power core we define.
+
+<<casenuove.table.parties, message=F, echo=F>>=
+sort_with_empty_last <- function(x) {
+  x[order(x == "", x)]
+}
+quaranta_famiglie <- c(lunghi,ducali)
+quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Ponte", "Cicogna")) ]
+
+chojnacki_50 <- c( quaranta_famiglie, "Barbo", "Belegno", "Da Molin", "Lion", "Mosto", "Barbaro", "Minio", "Bondumier", "Capello", "De Mezzo", "Viaro", "Gabriel", "Foscarini","Rosso", "Pisani", "Nani")
+chojnacki_50 <- chojnacki_50[!is.na(chojnacki_50)]
+
+max_length <- length(chojnacki_50)
+
+length(quaranta_famiglie) <- max_length
+quaranta_famiglie[ is.na( quaranta_famiglie )] <- ""
+
+length( ducali ) <- max_length
+ducali[ is.na( ducali )] <- ""
+
+length( lunghi ) <- max_length
+lunghi[ is.na( lunghi ) ] <- ""
+
+family_lists <- data.frame( ducali = sort_with_empty_last(ducali), 
+                            lunghi = sort_with_empty_last(lunghi), 
+                            quaranta = sort_with_empty_last(quaranta_famiglie), 
+                            chojnacki_50 = sort_with_empty_last(chojnacki_50) )
+
+library(kableExtra)
+kable(family_lists, 
+      col.names=c("Ducali","Lunghi","Quaranta families", "Chojnacki's richest"),
+      caption="List of families used in the paper") %>%
+  row_spec(0,bold=TRUE) %>% 
+  kable_styling(font_size = 7)
+@
+
+We have already mentioned part of these power groups. Here is the whole list, also shown in Table \ref{tab:casenuove.table.parties}, along with their defining feature.
 
 
 \section*{Acknowledgements}
