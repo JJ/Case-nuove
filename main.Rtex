@@ -469,6 +469,197 @@ We have already mentioned part of these power groups. Here is the whole list, al
 
 A priori, it is impossible to know in advance which group had the highest cohesion so that it could act as a single entity and push forward their candidate in a complicated electoral environment such as the election of doge in the Republic of Venice. We will do so next.
 
+\section{Experiments and results}
+
+What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
+
+In order to measure that, and the evolution with time, we process additionally the network in two ways\begin{itemize}
+\item We will create slices in 5 year increments, in order to have a more fine-grained view of the evolution
+\item For every 75-year slice, we will extract the main connected component.
+\end{itemize}
+
+<<casenuove.cohesiveness.setup, echo=F, fig.height=5, fig.pos="h!tb", fig.cap="Evolution of the number of families in the main connected component; red line woul be the total number (total number of vertices), with black being the number of families (vertices) in the main connected component.">>=
+window_sequence <- seq(from = min(noble_marriages$year), to = 1660, by = 5)
+distances_window <- data.frame( total = numeric(),
+                             ducali = numeric(),
+                             ducali_norm = numeric(),
+                             non_ducali = numeric(),
+                             non_ducali_norm = numeric(),
+                             ducali_vs_non = numeric(),
+                             ducali_vs_non_norm = numeric(),
+                             lunghi = numeric(),
+                             lunghi_norm = numeric(),
+                             non_lunghi = numeric(),
+                             non_lunghi_norm = numeric(),
+                             lunghi_vs_non = numeric(),
+                             lunghi_vs_non_norm = numeric(),
+                             quaranta = numeric(),
+                             quaranta_norm = numeric(),
+                             non_quaranta = numeric(),
+                             non_quaranta_norm = numeric(),
+                             quaranta_vs_non = numeric(),
+                             quaranta_vs_non_norm = numeric(),
+                             chojnacki = numeric(),
+                             chojnacki_norm = numeric(),
+                             non_chojnacki = numeric(),
+                             non_chojnacki_norm = numeric(),
+                             chojnacki_vs_non = numeric(),
+                             chojnacki_vs_non_norm = numeric(),
+                             year = integer() )
+
+power_periphery_timeline <- data.frame( ducali = numeric(),
+                                        clique_index_ducali = numeric(),
+                                        lunghi = numeric(),
+                                        clique_index_lunghi = numeric(),
+                                        in_quaranta = numeric(),
+                                        clique_index_quaranta = numeric(),
+                                        chojnacki = numeric(),
+                                        clique_index_chojnacki = numeric(),
+                                        year = integer() )
+
+number_of_families_timeline <- data.frame( total_number = integer(),
+                                           families_in_MCC = integer(),
+                                           percentage_in_MCC = numeric(),
+                                           year = integer())
+for (y in window_sequence ) {
+
+  marriages_window <- noble_marriages %>%
+    filter(year <= y + DEPTH_IN_YEARS & year >= y)
+
+  marriage_graph <- graph_from_data_frame(
+    marriages_window,
+    directed = FALSE,
+    vertices = unique(c(marriages_window$husband_familyname_std, marriages_window$wife_familyname_std))
+  )
+  
+  E(marriage_graph)$weight <- 1
+  marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
+  E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
+  
+  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
+  
+  component <- components(marriage_graph)$membership
+  marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
+  
+  number_of_families <- length(V(marriage_graph)$name)
+  families_in_MCC <- length(V(marriage_graph_main)$name)
+  percentage_in_MCC <- number_of_families / families_in_MCC
+                               
+  number_of_families_timeline <- rbind( number_of_families_timeline,
+                                        data.frame( total_number = number_of_families,
+                                                    families_in_MCC = families_in_MCC,
+                                                    percentage_in_MCC = percentage_in_MCC,
+                                                    year = y))
+  
+  distance <- distances(marriage_graph_main, weights = E(marriage_graph_main)$distances)
+  average_distance <- mean(distance)
+  
+  vertices_lunghi <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Lunghi"]
+  vertices_non_lunghi <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Lunghi"]
+  
+  distance_lunghi_non_lunghi <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_non_lunghi, weights = E(marriage_graph_main)$distances)
+  mean_lunghi_non_lunghi <- mean(distance_lunghi_non_lunghi)
+  
+  distances_lunghi_lunghi <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_lunghi, weights = E(marriage_graph_main)$distances)
+  mean_lunghi_lunghi <- mean(distances_lunghi_lunghi)
+  
+  distances_non_lunghi_non_lunghi <- distances(marriage_graph_main, v = vertices_non_lunghi, to = vertices_non_lunghi, weights = E(marriage_graph_main)$distances)
+  mean_non_lunghi_non_lunghi <- mean(distances_non_lunghi_non_lunghi)
+  
+  clique_index_lunghi <- mean_lunghi_non_lunghi - mean_lunghi_lunghi
+  power_periphery_lunghi_index <- ( mean_non_lunghi_non_lunghi - mean_lunghi_non_lunghi ) / clique_index_lunghi
+                           
+  vertices_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Ducali"]
+  vertices_non_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Ducali"]
+  
+  distance_ducali_non_ducali <- distances(marriage_graph_main, v = vertices_ducali, to = vertices_non_ducali, weights = E(marriage_graph_main)$distances)
+  mean_ducali_non_ducali <- mean(distance_ducali_non_ducali)
+  
+  distances_ducali_ducali <- distances(marriage_graph_main, v = vertices_ducali, to = vertices_ducali, weights = E(marriage_graph_main)$distances)
+  mean_ducali_ducali <- mean(distances_ducali_ducali)
+  
+  distances_non_ducali_non_ducali <- distances(marriage_graph_main, v = vertices_non_ducali, to = vertices_non_ducali, weights = E(marriage_graph_main)$distances)
+  mean_non_ducali_non_ducali <- mean(distances_non_ducali_non_ducali)
+  
+  clique_index_ducali <- mean_ducali_non_ducali - mean_ducali_ducali
+  power_periphery_ducali_index <- ( mean_non_ducali_non_ducali - mean_ducali_non_ducali )/clique_index_ducali
+  
+  vertices_quaranta <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% quaranta_famiglie]
+  vertices_non_quaranta <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% quaranta_famiglie)]
+  
+  distance_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
+  mean_quaranta_non_quaranta <- mean(distance_quaranta_non_quaranta)
+  
+  distance_quaranta_quaranta <- distances(marriage_graph_main, v = vertices_quaranta, to = vertices_quaranta, weights = E(marriage_graph_main)$distances)
+  mean_quaranta_quaranta <- mean(distance_quaranta_quaranta)
+  
+  distance_non_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_non_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
+  mean_non_quaranta_non_quaranta <- mean(distance_non_quaranta_non_quaranta)
+  
+  clique_index_quaranta <- mean_quaranta_non_quaranta - mean_quaranta_quaranta
+  power_periphery_quaranta_index <- ( mean_non_quaranta_non_quaranta - mean_quaranta_non_quaranta )/clique_index_quaranta
+  
+  vertices_chojnacki <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% chojnacki_50]
+  vertices_non_chojnacki <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% chojnacki_50)]
+  
+  distance_chojnacki_non_chojnacki <- distances(marriage_graph_main, v = vertices_chojnacki, to = vertices_non_chojnacki, weights = E(marriage_graph_main)$distances)
+  mean_chojnacki_non_chojnacki <- mean(distance_chojnacki_non_chojnacki)
+  
+  distance_chojnacki_chojnacki <- distances(marriage_graph_main, v = vertices_chojnacki, to = vertices_chojnacki, weights = E(marriage_graph_main)$distances)
+  mean_chojnacki_chojnacki <- mean(distance_chojnacki_chojnacki)
+  
+  distance_non_chojnacki_non_chojnacki <- distances(marriage_graph_main, v = vertices_non_chojnacki, to = vertices_non_chojnacki, weights = E(marriage_graph_main)$distances)
+  mean_non_chojnacki_non_chojnacki <- mean(distance_non_chojnacki_non_chojnacki)
+  
+  clique_index_chojnacki <- mean_chojnacki_non_chojnacki - mean_chojnacki_chojnacki
+  power_periphery_chojnacki_index <- ( mean_non_chojnacki_non_chojnacki - mean_chojnacki_non_chojnacki )/clique_index_chojnacki
+  
+  distances_window <- rbind(distances_window,
+                         data.frame( total = average_distance,
+                                     ducali = mean_ducali_ducali,
+                                     ducali_norm = mean_ducali_ducali / average_distance,
+                                     non_ducali = mean_non_ducali_non_ducali,
+                                     non_ducali_norm = mean_non_ducali_non_ducali / average_distance,
+                                     ducali_vs_non = mean_ducali_non_ducali,
+                                     ducali_vs_non_norm = mean_ducali_non_ducali / average_distance,
+                                     lunghi = mean_lunghi_lunghi,
+                                     lunghi_norm = mean_lunghi_lunghi / average_distance,
+                                     non_lunghi = mean_non_lunghi_non_lunghi,
+                                     non_lunghi_norm = mean_non_lunghi_non_lunghi / average_distance,
+                                     lunghi_vs_non = mean_lunghi_non_lunghi,
+                                     lunghi_vs_non_norm = mean_lunghi_non_lunghi / average_distance,
+                                     quaranta = mean_quaranta_quaranta,
+                                     quaranta_norm = mean_quaranta_quaranta / average_distance,
+                                     non_quaranta = mean_non_quaranta_non_quaranta,
+                                     non_quaranta_norm = mean_non_quaranta_non_quaranta / average_distance,
+                                     quaranta_vs_non = mean_quaranta_non_quaranta,
+                                     quaranta_vs_non_norm = mean_quaranta_non_quaranta / average_distance,
+                                     chojnacki = mean_chojnacki_chojnacki,
+                                     chojnacki_norm = mean_chojnacki_chojnacki / average_distance,
+                                     non_chojnacki = mean_non_chojnacki_non_chojnacki,
+                                     non_chojnacki_norm = mean_non_chojnacki_non_chojnacki / average_distance,
+                                     chojnacki_vs_non = mean_chojnacki_non_chojnacki,
+                                     chojnacki_vs_non_norm = mean_chojnacki_non_chojnacki / average_distance,
+                                     year = y))
+  
+  power_periphery_timeline <- rbind(power_periphery_timeline,
+                                     data.frame( ducali = power_periphery_ducali_index,
+                                                 clique_index_ducali = clique_index_ducali,
+                                                 lunghi = power_periphery_lunghi_index,
+                                                 clique_index_lunghi = clique_index_lunghi,
+                                                 in_quaranta = power_periphery_quaranta_index,
+                                                 clique_index_quaranta = clique_index_quaranta,
+                                                 chojnacki = power_periphery_chojnacki_index,
+                                                 clique_index_chojnacki = clique_index_chojnacki,
+                                                 year = y))
+}
+
+ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line( color="red") +
+  geom_line(data=number_of_families_timeline, aes(y=families_in_MCC)) + theme_minimal()
+@
+
+As an initial bird's sight-view of the network, we have plotted in Figure \ref{fig:casenuove.cohesiveness.setup} the evolution of the network in terms of number of nodes (different families) as well of the number of families that are actually connected in the main connected component. It is remarkable that, most of the time, all families are connected (in the 75 year span of the network slice); there are three periods where this does not happen: the initial period, which is not so well covered by the dataset, a brief period in the last half of the 15th century, and them practically after the battle of Lepanto in the second half of the 16th century. In general we can say, however, that most noble families are actually connected directly or not and that, even as new families are incorporated into the Golden Book, they become connected almost immediately to the rest of the families and, thus, are susceptible to mutual influence by whatever power core is exerting it at any moment.
+
 \section*{Acknowledgements}
 
 This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
