@@ -244,7 +244,7 @@ load("data/ducali_dogi_data.rda")
 ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
 @
 
-The second dataset provides the names of the doges and the year of their appointment and is taken from the {\sf dogesr} package \citep{merelo2022good}.
+The second dataset provides the names of the doges and the year of their appointment and is taken from the {\sf dogesr} package \citep{merelo2022good} which used the Wikipedia timeline as a source.
 
 %
 <<casenuove.casate,echo=F,message=F>>=
@@ -277,11 +277,11 @@ The first criterion excludes marriages involving families that never belonged to
 
 
 
-<<casenuove.number_of_matrimonies_per_year, messages=F,echo=F, fig.cap="Number of matrimonies per year", fig.height=4>>=
+<<casenuove.number_of_marriages_per_year, messages=F,echo=F, fig.cap="Number of marriages per year in our dataset", fig.height=4>>=
 library(ggplot2)
 library(dplyr)
 noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) -> marriages_by_year
-ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()
+ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()+labs(y="Marriages")
 @
 
 The final dataset contains \Sexpr{length(noble_marriages$year)} marriages. Figure~\ref{fig:casenuove.number_of_matrimonies_per_year} reports the number of marriages per year.
@@ -318,7 +318,7 @@ In Figure \ref{fig:casenuove.marriages.validation} we show the smoothed and raw 
 
 The main post-hoc validation is the fact that this dataset has been used repeatedly not only by the authors that published it originally, but also by us in \cite{merelo2023self,merelo2024intra,histories4020012}. In general, it is a very good reflection of the social status of different families in the time of the Republic and how they interacted with each other. In particular, \cite{histories4020012} shows how different measures of the matrimonies network reflect the events in the Republic and the different change points that occurred in them.
 
-However, we need to acknowledge the biases present in this dataset, the main one of which is evident in Figure \ref{fig:casenuove.number_of_matrimonies_per_year}: a temporal bias. The number of marriages per year does not really start to be significant until approximately 1400; it also decreases dramatically after the end of the Republic, 1797; however, this period is not of interest for the purposes of this paper. What this implies is that whatever conclusion we draw for the initial period covered by the social network will need to take into account that the matrimonies present in the network might not be a sufficient sample of the whole set of matrimonies and thus the social network.
+However, we need to acknowledge the biases present in this dataset, the main one of which is evident in Figure \ref{fig:casenuove.number_of_matrimonies_per_year}: a temporal bias. The number of marriages per year does not really start to be significant until approximately 1400. What this implies is that whatever conclusion we draw for the initial period covered by the social network will need to take into account that the matrimonies present in the network might not be a sufficient sample of the whole set of matrimonies and thus the social network.
 
 \subsection{Initial exploratory analysis}\label{ssec:exploration}
 
@@ -402,7 +402,7 @@ for (y in window_sequence ) {
 }
 @
 
- Figure \ref{fig:casenuove.graphs} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. Nodes of \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. Very few families are excluded from the  main connected component of each network and the \emph{ducali} families are almost always part of it. BISOGNEREBBE DIRE PIU' CHIARAMENTE QUALI SONO ESCLUSE. POTREBBE ESSERE LA FAMIGLIA STENO CHE SI `E ESINTA SUBITO DOPO LA MORTE DEL DOGE? %The only apparent exception is Steno: in the 1350–1425 network, the family does not belong to the main connected component, since the Steno lineage had become extinct by the time of of doge Steno's death in 1413.
+ Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \cite{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. Nodes of \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. Very few families are excluded from the  main connected component of each network and the \emph{ducali} families are almost always part of it. BISOGNEREBBE DIRE PIU' CHIARAMENTE QUALI SONO ESCLUSE. POTREBBE ESSERE LA FAMIGLIA STENO CHE SI `E ESINTA SUBITO DOPO LA MORTE DEL DOGE? %The only apparent exception is Steno: in the 1350–1425 network, the family does not belong to the main connected component, since the Steno lineage had become extinct by the time of of doge Steno's death in 1413.
 
 The figure highlights several important features of the network. First, not every \emph{ducali} family occupies a central position in the network. 
 Second, the effects of the \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families. 
