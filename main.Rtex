@@ -349,6 +349,7 @@ assortativity <- data.frame( curti_lunghi = numeric(),
                              year = integer() )
 
 graph_list <- vector("list",length(window_sequence))
+excluded_families_list <- vector("list",length(window_sequence))
 list_index <- 1
 
 load("data/doges.years.rda")
@@ -389,6 +390,8 @@ for (y in window_sequence ) {
   V(marriage_graph)$shape <- ifelse(V(marriage_graph)$name %in% doges, "square", "circle")
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
+  excluded_families_list[[list_index]] <- V(marriage_graph)$name[component != 1]
+
   plot(marriage_graph_main,
         vertex.size = 5,
         vertex.label = NA,
@@ -402,7 +405,9 @@ for (y in window_sequence ) {
 }
 @
 
- Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \cite{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. Nodes of \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. Very few families are excluded from the  main connected component of each network and the \emph{ducali} families are almost always part of it. BISOGNEREBBE DIRE PIU' CHIARAMENTE QUALI SONO ESCLUSE. POTREBBE ESSERE LA FAMIGLIA STENO CHE SI `E ESINTA SUBITO DOPO LA MORTE DEL DOGE? %The only apparent exception is Steno: in the 1350–1425 network, the family does not belong to the main connected component, since the Steno lineage had become extinct by the time of of doge Steno's death in 1413.
+ Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \cite{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. Nodes of \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. Except for the \Sexpr{ excluded_families_list[[6]][1]} family in the last graph, no families are excluded from the  main connected component of each network and the \emph{ducali} families always part of it. 
+% BISOGNEREBBE DIRE PIU' CHIARAMENTE QUALI SONO ESCLUSE. POTREBBE ESSERE LA FAMIGLIA STENO CHE SI `E ESINTA SUBITO DOPO LA MORTE DEL DOGE? %The only apparent exception is Steno: in the 1350–1425 network, the family does not belong to the main connected component, since the Steno lineage had become extinct by the time of of doge Steno's death in 1413.
+% 
 
 The figure highlights several important features of the network. First, not every \emph{ducali} family occupies a central position in the network. 
 Second, the effects of the \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families. 
