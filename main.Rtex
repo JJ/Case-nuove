@@ -348,6 +348,10 @@ assortativity <- data.frame( curti_lunghi = numeric(),
 
 graph_list <- vector("list",length(window_sequence))
 excluded_families_list <- vector("list",length(window_sequence))
+network_measures <- data.frame( dates = character(),
+                                average_degree = numeric(),
+                                average_clustering_coefficient = numeric(),
+                                average_closeness = numeric() )
 list_index <- 1
 
 load("data/doges.years.rda")
@@ -393,24 +397,55 @@ for (y in window_sequence ) {
   plot(marriage_graph_main,
         vertex.size = 5,
         vertex.label = NA,
-       vertex.color = V(marriage_graph)$color,
+        vertex.color = V(marriage_graph)$color,
         edge.width = E(marriage_graph)$weight,
         layout = layout_with_kk,
         main = paste("Marriage Network from", y, "to", y + DEPTH_IN_YEARS)
   )
   graph_list[[list_index]] <- marriage_graph
   list_index <- list_index+1
+  
+  network_measures <- rbind( network_measures,
+                             data.frame( dates = paste(y, "-", y + DEPTH_IN_YEARS),
+                                         average_degree = mean(degree(marriage_graph_main)),
+                                         average_clustering_coefficient = mean(transitivity(marriage_graph_main)),
+                                         average_closeness = mean(closeness(marriage_graph_main))
+                                         )
+                             )
 }
 @
 
- Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \cite{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. Nodes of \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. Except for the \Sexpr{ excluded_families_list[[6]][1]} family in the last graph, no families are excluded from the  main connected component of each network and the \emph{ducali} families always part of it. 
+Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \cite{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. Nodes of \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. Except for the \Sexpr{ excluded_families_list[[6]][1]} family in the last graph, no families are excluded from the  main connected component of each network and the \emph{ducali} families always part of it. 
 % BISOGNEREBBE DIRE PIU' CHIARAMENTE QUALI SONO ESCLUSE. POTREBBE ESSERE LA FAMIGLIA STENO CHE SI `E ESINTA SUBITO DOPO LA MORTE DEL DOGE? %The only apparent exception is Steno: in the 1350–1425 network, the family does not belong to the main connected component, since the Steno lineage had become extinct by the time of of doge Steno's death in 1413.
 % 
 
 The figure highlights several important features of the network. First, not every \emph{ducali} family occupies a central position in the network. 
 Second, the effects of the \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families. 
 
-An additional pattern that emerges from the graphs is the substantial similarity of network structures across periods, with most families remaining closely interconnected, except in the first and last graphs. In the former case, this pattern is probably due to biases in the dataset, which contains fewer recorded marriages for that period. The latter case, however, may reflect the political transformations of the late period, when the \emph{ducali} phase came to an end and the \emph{longhi} families once again began to monopolize the office of doge.  IO NON LA VEDO TUTTA QUESTA DIFFERENZA SULL'ULTIMO GRAFICO. MA IO NON SONO BRAVA A LEGGERE QUESTI GRAFICI
+<<casenuove.evolution, message=F, echo=F, fig.cap="Evolution of network measures for the 6 overlapping periods examined", fig.height=5, fig.pos="h!tb">>=
+library(dplyr)
+library(tidyr)
+
+df_long <- network_measures %>%
+  pivot_longer(-dates, names_to = "metric", values_to = "value")
+ 
+df_z <- df_long %>%
+  group_by(metric) %>%
+  mutate(value_z = (value - mean(value)) / sd(value)) %>%
+  ungroup()
+ 
+ggplot(df_z, aes(x = dates, y = value_z, color = metric, group=metric)) +
+  geom_line(linewidth = 1) +
+  geom_point() +
+  labs(y = "Z-score", x=NULL,color = "Metric") + 
+  theme_minimal() +
+  scale_x_discrete(guide = guide_axis(angle = 45)) 
+
+@
+
+An additional pattern that emerges from the graphs is the substantial similarity of network structures across periods, with most families remaining closely interconnected, except in the first and last graphs; Figure \ref{fig:casenuove.evolution} shows the average degree, clustering coefficient and closeness for the 6 graphs, normalized by z-score. The change for the last graphic is quite dramatic, with closeness falling to its lowest value, and clustering coefficient and degree falling below Z=0. While initial values (1350-1425) are probably due to biases in the dataset, which contains fewer recorded marriages for that period, the latter case, however, may reflect the political transformations of the late period, when the \emph{ducali} phase came to an end and the \emph{longhi} families once again began to monopolize the office of doge. A decrease in average closeness and degree imply that families are more loosely linked, while the clustering coefficient is related to the "small world" effect in the graph. We can see that visually with the "enmeshed" aspect of the network: while in the period 1500 to 1575 there are few nodes outside the "mesh", it gets looser with time and in the last represented graphs there are 3 or more "rings" outside the main graph. However, while the visual examination can help an intuition of how the social network is evolving, it is the Z score represented in this chart that show there is a change of regime in the network under study.
+
+% IO NON LA VEDO TUTTA QUESTA DIFFERENZA SULL'ULTIMO GRAFICO. MA IO NON SONO BRAVA A LEGGERE QUESTI GRAFICI
 The last graph, in fact, reflects a period of transition where there are two {\em conspiring} doges of the families Donato and Priuli, three other {\em curti} of the families Valier, Pesaro and Erizzo, and 4 {\em lunghi}: Bembo, Corner, Contarini and Memmo.
 QUESTO COMMENTO ERA STATO FATTO SUI GRAFICI PRECEDENTI. I NOMI E NUMERI NON SONO CORRETTI (AD ESEMPIO, DONATO E PRIULI HANNO 3 DOGE PERCHE' DONATO NE HA DUE, I LONGHI NE HANNO 8, CI SONO ANCHE ALTRI NON CITATI TIPO DA MOLIN E SAGREDO. DA CAMBIARE/TAGLIARE),
 
