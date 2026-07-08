@@ -299,8 +299,10 @@ Beyond their economic and commercial functions, marriages also had clear politic
 
 These considerations justify treating the \emph{casata} as the relevant unit of political analysis and marriage ties as meaningful indicators of political alignment. A separate question concerns the representativeness of the network used in this study. The data assembled by Puga and Trefler  derive from a nineteenth-century manuscript held at the Archivio di Stato di Venezia and are  largely based on  records of the Avogaria di Comun, which registered  marriages involving noble husbands from the early fifteenth century onward. These records played a central role in regulating access to the patriciate by excluding illegitimate children and those born to socially unworthy mothers of non-noble birth, as provided by legislation enacted in 1376 and 1422 as part of the process often referred to as  the “second Serrata” \citep{second:serrata}. The systematic nature of these records suggests that the resulting network provides broad coverage of marriages among the Venetian patriciate between 1400 and 1650. Moreover, the reliability of the dataset has already been established in previous work by Puga and Trefler.
 
-IO FINIREI LA SEZIONE 3.2 QUI. NON MI SEMBRA CHE IL GRAFICO DI FIGURA 2 SERVA MOLTO A VALIDARE I DATI
+% IO FINIREI LA SEZIONE 3.2 QUI. NON MI SEMBRA CHE IL GRAFICO DI FIGURA 2 SERVA MOLTO A VALIDARE I DATI
+% JJ - OK finito e messo sulla prossima sezione
 
+\subsection{Initial exploratory analysis}\label{ssec:exploration}
 
 
 <<casenuove.marriages.validation, echo=F,message=F, warning=F, fig.cap="Showing the main events in the Republic of Venice over the smoothed chart of marriages per year. Red: Black Plague of 1479; gold: War of the League of Cambrai; green: loss of Cyprus and battle of Lepanto; brown: war of Candia", fig.height=4>>=
@@ -318,9 +320,7 @@ In Figure \ref{fig:casenuove.marriages.validation} we show the smoothed and raw 
 
 The main post-hoc validation is the fact that this dataset has been used repeatedly not only by the authors that published it originally, but also by us in \cite{merelo2023self,merelo2024intra,histories4020012}. In general, it is a very good reflection of the social status of different families in the time of the Republic and how they interacted with each other. In particular, \cite{histories4020012} shows how different measures of the matrimonies network reflect the events in the Republic and the different change points that occurred in them.
 
-However, we need to acknowledge the biases present in this dataset, the main one of which is evident in Figure \ref{fig:casenuove.number_of_matrimonies_per_year}: a temporal bias. The number of marriages per year does not really start to be significant until approximately 1400. What this implies is that whatever conclusion we draw for the initial period covered by the social network will need to take into account that the matrimonies present in the network might not be a sufficient sample of the whole set of matrimonies and thus the social network.
-
-\subsection{Initial exploratory analysis}\label{ssec:exploration}
+However, we need to acknowledge the biases present in this dataset, the main one of which is evident in Figure \ref{fig:casenuove.number_of_marriages_per_year}: a temporal bias. The number of marriages per year does not really start to be significant until approximately 1400. What this implies is that whatever conclusion we draw for the initial period covered by the social network will need to take into account that the matrimonies present in the network might not be a sufficient sample of the whole set of matrimonies and thus the social network.
 
 This section provides a first examination of the marriage network and its evolution over the period under study. This analysis rests on the assumption that, unlike patrilineal ties, marriage alliances created strong but comparatively transient connections. In particular, both \citet[p. 82]{finlay1980politicsrenaissance} and \citet[p. 143]{raines2013rameau} note that these ties typically lasted for about three generations, roughly spanning the period of co-residence across successive cohorts within the same household. On this basis, and assuming a generational length of approximately 25 years \citep{social:memory}, we analyse the network using a 75-year moving window: at any given time, we include only marital ties formed in the preceding 75 years, in order to capture the “living memory” of past social connections. 
 
@@ -492,7 +492,7 @@ We have already mentioned part of these power groups. Here is the whole list, al
 \item {\bf Wealthy families}: during the 14 century a kind of census called {\em estimo} \citep{estimo} was made and published, listing the assets every noble family in Venice had. We have taken the most wealthy among them according to the published lists. This group, that overlaps the others, had in common their accumulation of capital, which in mercantile republics like Venice was correlated with social and political capital.
 \end{itemize}
 
-A priori, it is impossible to know in advance which group had the highest cohesion so that it could act as a single entity and push forward their candidate in a complicated electoral environment such as the election of doge in the Republic of Venice. We will do so next.
+A priori, it is impossible to know in advance which group had the highest cohesion so that it could act as a single entity and push forward a candidate of their own in a complicated electoral environment such as the election of doge in the Republic of Venice. We will do so next.
 
 \section{Experiments and results}
 
