@@ -30,9 +30,11 @@ distances_window <- data.frame( total = numeric(),
 core_periphery_timeline <- data.frame(  congiurati_exclusi = numeric(),
                                         congiurati = numeric(),
                                         clique_index_congiurati = numeric(),
+                                        assortativity_congiurati = numeric(),
                                         lunghi_exclusi = numeric(),
                                         lunghi = numeric(),
                                         clique_index_lunghi = numeric(),
+                                        assortativity_lunghi = numeric(),
                                         year = integer() )
   
 for (y in window_sequence ) {
@@ -107,13 +109,20 @@ for (y in window_sequence ) {
                                      lunghi_vs_non_norm = mean_lunghi_non_lunghi / average_distance,
                                      year = y))
   
+  V(marriage_graph)$types_congiurati <- ifelse(V(marriage_graph)$Group == "Curti Congiurati", 1,2)
+  assortativity_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_congiurati, directed = FALSE)
+  V(marriage_graph)$types_lunghi <- ifelse(V(marriage_graph)$Group == "Lunghi", 1,2)
+  assortativity_lunghi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_lunghi, directed = FALSE)
+  
   core_periphery_timeline <- rbind(core_periphery_timeline,
                                      data.frame( congiurati_exclusi = length(curti_excluded),
                                                  congiurati = core_periphery_congiurati_index,
                                                  clique_index_congiurati = clique_index_congiurati,
+                                                 assortativity_congiurati = assortativity_congiurati,
                                                  lunghi_esclusi = length(lunghi_excluded),
                                                  lunghi = core_periphery_lunghi_index,
                                                  clique_index_lunghi = clique_index_lunghi,
+                                                 assortativity_lunghi = assortativity_lunghi,
                                                  year = y))
 }
 
@@ -148,6 +157,16 @@ ggplot( distances_window, aes(x = year)) +
                                 "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold"
                                 )
                      ) +
+  theme_minimal()
+
+ggplot( core_periphery_timeline, aes(x = year)) + 
+  geom_line(aes(y = assortativity_congiurati, color = "congiurati")) +
+  geom_line(aes(y = assortativity_lunghi, color = "Lunghi")) +
+  labs(title = "Assortativity Over Time",
+       subtitle="Higher is better",
+       x = "Year",
+       y = "Assortativity") +
+  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold")) +
   theme_minimal()
 
 ggplot( core_periphery_timeline, aes(x = year)) + 
