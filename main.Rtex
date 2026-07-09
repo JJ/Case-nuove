@@ -79,7 +79,7 @@ Abstract text.
 
 %% Keywords
 \begin{keyword}
-Republic of Venice  \sep Political coalitions  \sep Social Network Analysis
+Republic of Venice  \sep Political coalitions  \sep Social Network Analysis \sep Quantitative history
 %% PACS codes here, in the form: \PACS code \sep code
 
 %% MSC codes here, in the form: \MSC code \sep code
@@ -537,45 +537,7 @@ In order to measure that, and the evolution with time, we process additionally t
 
 <<casenuove.cohesiveness.setup, echo=F, fig.height=5, fig.pos="h!tb", fig.cap="Evolution of the number of families in the main connected component; red line woul be the total number (total number of vertices), with black being the number of families (vertices) in the main connected component.">>=
 
-
-
 window_sequence <- seq(from = min(noble_marriages$year), to = 1660, by = 5)
-distances_window <- data.frame( total = numeric(),
-                             ducali = numeric(),
-                             ducali_norm = numeric(),
-                             non_ducali = numeric(),
-                             non_ducali_norm = numeric(),
-                             ducali_vs_non = numeric(),
-                             ducali_vs_non_norm = numeric(),
-                             lunghi = numeric(),
-                             lunghi_norm = numeric(),
-                             non_lunghi = numeric(),
-                             non_lunghi_norm = numeric(),
-                             lunghi_vs_non = numeric(),
-                             lunghi_vs_non_norm = numeric(),
-                             quaranta = numeric(),
-                             quaranta_norm = numeric(),
-                             non_quaranta = numeric(),
-                             non_quaranta_norm = numeric(),
-                             quaranta_vs_non = numeric(),
-                             quaranta_vs_non_norm = numeric(),
-                             chojnacki = numeric(),
-                             chojnacki_norm = numeric(),
-                             non_chojnacki = numeric(),
-                             non_chojnacki_norm = numeric(),
-                             chojnacki_vs_non = numeric(),
-                             chojnacki_vs_non_norm = numeric(),
-                             year = integer() )
-
-power_periphery_timeline <- data.frame( ducali = numeric(),
-                                        clique_index_ducali = numeric(),
-                                        lunghi = numeric(),
-                                        clique_index_lunghi = numeric(),
-                                        in_quaranta = numeric(),
-                                        clique_index_quaranta = numeric(),
-                                        chojnacki = numeric(),
-                                        clique_index_chojnacki = numeric(),
-                                        year = integer() )
 
 number_of_families_timeline <- data.frame( total_number = integer(),
                                            families_in_MCC = integer(),
@@ -620,8 +582,6 @@ ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line(
 As an initial bird's sight-view of the network, we have plotted in Figure \ref{fig:casenuove.cohesiveness.setup} the evolution of the network in terms of number of nodes (different families) as well of the number of families that are actually connected in the main connected component. It is remarkable that, most of the time, all families are connected (in the 75 year span of the network slice); there are three periods where this does not happen: the initial period, which is not so well covered by the dataset, a brief period in the last half of the 15th century, and them practically after the battle of Lepanto in the second half of the 16th century. In general we can say, however, that most noble families are actually connected directly or not and that, even as new families are incorporated into the Golden Book, they become connected almost immediately to the rest of the families and, thus, are susceptible to mutual influence by whatever power core is exerting it at any moment.
 
 <<casenuove.analysis, echo=F, message=F, fig.cap="Analysis of distances for the two factions", fig.height=6, fig.pos="h!tb">>=
-library(igraph)
-library(dplyr)
 
 noble_marriages_filtered <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
 family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
@@ -732,8 +692,6 @@ for (y in window_sequence ) {
                                                  year = y))
 }
 
-library(ggplot2)
-
 ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = congiurati, color = "congiurati")) +
   geom_line(aes(y = non_congiurati, color = "Non congiurati"), linetype = "dashed") +
@@ -751,6 +709,7 @@ ggplot( distances_window, aes(x = year)) +
 
 @
 
+However, what we need to look at is the capability of creating and sustaining coalitions of the two known factions: the {\em lunghi} and the {\em grandi curti}. This capability can be measured in different ways. If we think of the faction as a core, it will have to be tightly connected to each other in this marriage network, as well as relatively well connected to the rest of the network. For the social network in every 75-year window, separated 5 years, the distances within the group, from the group to the rest, and among those not belonging to the group is plotted in Figure \ref{fig:casenuove.analysis}, that used solid lines for intra-group shortest path lenghs, dot-dashed lines for shortest paths from the group to outside, and dashed lines for those {\em not} belonging to the group, which can be thought as the capability for forming coalitions {\em against} the core. All three of them are important for group cohesion, but also for perception of a particular faction as separated or apart from the rest of the social network, and what we see is that intra-group average distances is smaller for the {\em lunghi} than for the {\em grandi curti}, while the other two distances are not only similar, but also follow the same trend.
 
 <<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions", fig.height=6, fig.pos="h!tb">>=
 ggplot( distances_window, aes(x = year)) +
@@ -770,6 +729,7 @@ ggplot( distances_window, aes(x = year)) +
   theme_minimal()
 @
 
+However, this evolution can be better observed if we normalize distances against the average distance for the specific graph we're examining; this is shown in Figure \ref{fig:casenuove.analysis.normalized}. The way it is organized is more or less the same, but differences are accentuated showing, for instance, how the {\em grandi curti} start being closer to the rest of the nodes up until approximately year 1500, when it crosses the line for the {\em lunghi}. The dips happening towards the third quarter of the XVI century are accentuated: both groups start to be less tightly connected by that time.
 
 <<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions", fig.height=6, fig.pos="h!tb">>=
 
@@ -784,6 +744,8 @@ ggplot( core_periphery_timeline, aes(x = year)) +
   theme_minimal()
 @
 
+Still, in order to form a coalition you need both the members of your faction as those not belonging to it; the wide coalitions required by the Venetian electoral conventions ensure that is a must to crown someone of your faction as a doge; and as measured above, it needs not only a tight intra-group connection and a close integration with those not belonging to your group, but also a low perception of a separate group in the social network. This is measured by the clique index, which is defined as the difference between the average distance between the faction and those not in the faction and the intra-faction average distance. The evolution through time of this index is shown in Figure \ref{fig:casenuove.analysis.clique}. The {\em grandi curti} have a lower index: they are better integrated with those not in the group than the {\em lunghi}, giving them a better coalition-forming ability. Still, this is not an absolute, and there is a sudden shift in the indices happening again the same dates, around the 4th quarter of the XVI century.
+
 <<casenuove.analysis.core.periphery, echo=F, message=F, fig.cap="Chart of core-periphery index ( outer distances - inner-outer distances / clique index) for the two factions", fig.height=6, fig.pos="h!tb">>=
 
 ggplot( core_periphery_timeline, aes(x = year)) + 
@@ -797,6 +759,9 @@ ggplot( core_periphery_timeline, aes(x = year)) +
   theme_minimal()
 @
 
+We can also look at the division between core and periphery; the core-periphery index divides the difference between extra-group distances (average distances between those not in the faction) and intra-extra faction distances by the clique index; again, a higher value shows a real perceived cleavage between the core (the factions we are examining) and the periphery (those that do not have such privilege). The core-periphery of the {\em grandi curti} is lowerfor most of the period under study; although again it experiments an increment by the end of the period under study.
+
+These charts are a step towards explaining why the {\em grandi curti} were able to form these wide coalition: well connected to their periphery, and not perceived as a separate power group, unlike the {\em lunghi}, However, the perception and the cohesion seems to unravel towards the end of the period, which might explain the return to the {\em lunghi} as preferred families for dogeship.
 
 
 \section*{Acknowledgements}
