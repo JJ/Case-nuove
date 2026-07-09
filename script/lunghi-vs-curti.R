@@ -8,50 +8,29 @@ DEPTH_IN_YEARS <- 75
 
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
-quaranta_famiglie <- c(lunghi,ducali)
 
-quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Ponte", "Cicogna")) ]
-
-chojnacki_50 <- c( quaranta_famiglie, "Barbo", "Belegno", "Da Molin", "Lion", "Mosto", "Barbaro", "Minio", "Bondumier", "Capello", "De Mezzo", "Viaro", "Gabriel", "Foscarini","Rosso", "Pisani", "Nani")
-
-chojnacki <- chojnacki_50[ !(chojnacki_50 %in% c("Barozzi", "Salamon","Tiepolo", "Tron","Lando","Vendramin"))]
+curti_congiurati <- ducali[ !(ducali %in% c("Steno", "Ponte", "Cicogna")) ]
 
 window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1660, by = 5)
 distances_window <- data.frame( total = numeric(),
-                             ducali = numeric(),
-                             ducali_norm = numeric(),
-                             non_ducali = numeric(),
-                             non_ducali_norm = numeric(),
-                             ducali_vs_non = numeric(),
-                             ducali_vs_non_norm = numeric(),
-                             lunghi = numeric(),
-                             lunghi_norm = numeric(),
-                             non_lunghi = numeric(),
-                             non_lunghi_norm = numeric(),
-                             lunghi_vs_non = numeric(),
-                             lunghi_vs_non_norm = numeric(),
-                             quaranta = numeric(),
-                             quaranta_norm = numeric(),
-                             non_quaranta = numeric(),
-                             non_quaranta_norm = numeric(),
-                             quaranta_vs_non = numeric(),
-                             quaranta_vs_non_norm = numeric(),
-                             chojnacki = numeric(),
-                             chojnacki_norm = numeric(),
-                             non_chojnacki = numeric(),
-                             non_chojnacki_norm = numeric(),
-                             chojnacki_vs_non = numeric(),
-                             chojnacki_vs_non_norm = numeric(),
-                             year = integer() )
+                                congiurati = numeric(),
+                                congiurati_norm = numeric(),
+                                non_congiurati = numeric(),
+                                non_congiurati_norm = numeric(),
+                                congiurati_vs_non = numeric(),
+                                congiurati_vs_non_norm = numeric(),
+                                lunghi = numeric(),
+                                lunghi_norm = numeric(),
+                                non_lunghi = numeric(),
+                                non_lunghi_norm = numeric(),
+                                lunghi_vs_non = numeric(),
+                                lunghi_vs_non_norm = numeric(),
+                                year = integer() )
 
-power_periphery_timeline <- data.frame( ducali = numeric(),
-                                        clique_index_ducali = numeric(),
+core_periphery_timeline <- data.frame( ducali = numeric(),
+                                        clique_index_congiurati = numeric(),
                                         lunghi = numeric(),
                                         clique_index_lunghi = numeric(),
-                                        in_quaranta = numeric(),
-                                        clique_index_quaranta = numeric(),
-                                        chojnacki = numeric(),
-                                        clique_index_chojnacki = numeric(),
                                         year = integer() )
   
 for (y in window_sequence ) {
@@ -69,7 +48,7 @@ for (y in window_sequence ) {
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
   
-  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
+  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Curti Congiurati", "Curti"))
   
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
@@ -90,165 +69,98 @@ for (y in window_sequence ) {
   mean_non_lunghi_non_lunghi <- mean(distances_non_lunghi_non_lunghi)
   
   clique_index_lunghi <- mean_lunghi_non_lunghi - mean_lunghi_lunghi
-  power_periphery_lunghi_index <- ( mean_non_lunghi_non_lunghi - mean_lunghi_non_lunghi ) / clique_index_lunghi
+  core_periphery_lunghi_index <- ( mean_non_lunghi_non_lunghi - mean_lunghi_non_lunghi ) / clique_index_lunghi
                            
-  vertices_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Ducali"]
-  vertices_non_ducali <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Ducali"]
+  vertices_congiurati <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Curti Congiurati"]
+  vertices_non_congiurati <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Curti Congiurati"]
   
-  distance_ducali_non_ducali <- distances(marriage_graph_main, v = vertices_ducali, to = vertices_non_ducali, weights = E(marriage_graph_main)$distances)
-  mean_ducali_non_ducali <- mean(distance_ducali_non_ducali)
+  distance_congiurati_non_congiurati <- distances(marriage_graph_main, v = vertices_congiurati, to = vertices_non_congiurati, weights = E(marriage_graph_main)$distances)
+  mean_congiurati_non_congiurati <- mean(distance_congiurati_non_congiurati)
   
-  distances_ducali_ducali <- distances(marriage_graph_main, v = vertices_ducali, to = vertices_ducali, weights = E(marriage_graph_main)$distances)
-  mean_ducali_ducali <- mean(distances_ducali_ducali)
+  distances_congiurati_congiurati <- distances(marriage_graph_main, v = vertices_congiurati, to = vertices_congiurati, weights = E(marriage_graph_main)$distances)
+  mean_congiurati_congiurati <- mean(distances_congiurati_congiurati)
   
-  distances_non_ducali_non_ducali <- distances(marriage_graph_main, v = vertices_non_ducali, to = vertices_non_ducali, weights = E(marriage_graph_main)$distances)
-  mean_non_ducali_non_ducali <- mean(distances_non_ducali_non_ducali)
+  distances_non_congiurati_non_congiurati <- distances(marriage_graph_main, v = vertices_non_congiurati, to = vertices_non_congiurati, weights = E(marriage_graph_main)$distances)
+  mean_non_congiurati_non_congiurati <- mean(distances_non_congiurati_non_congiurati)
   
-  clique_index_ducali <- mean_ducali_non_ducali - mean_ducali_ducali
-  power_periphery_ducali_index <- ( mean_non_ducali_non_ducali - mean_ducali_non_ducali )/clique_index_ducali
-  
-  vertices_quaranta <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% quaranta_famiglie]
-  vertices_non_quaranta <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% quaranta_famiglie)]
-  
-  distance_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
-  mean_quaranta_non_quaranta <- mean(distance_quaranta_non_quaranta)
-  
-  distance_quaranta_quaranta <- distances(marriage_graph_main, v = vertices_quaranta, to = vertices_quaranta, weights = E(marriage_graph_main)$distances)
-  mean_quaranta_quaranta <- mean(distance_quaranta_quaranta)
-  
-  distance_non_quaranta_non_quaranta <- distances(marriage_graph_main, v = vertices_non_quaranta, to = vertices_non_quaranta, weights = E(marriage_graph_main)$distances)
-  mean_non_quaranta_non_quaranta <- mean(distance_non_quaranta_non_quaranta)
-  
-  clique_index_quaranta <- mean_quaranta_non_quaranta - mean_quaranta_quaranta
-  power_periphery_quaranta_index <- ( mean_non_quaranta_non_quaranta - mean_quaranta_non_quaranta )/clique_index_quaranta
-  
-  vertices_chojnacki <- V(marriage_graph_main)[V(marriage_graph_main)$name %in% chojnacki]
-  vertices_non_chojnacki <- V(marriage_graph_main)[!(V(marriage_graph_main)$name %in% chojnacki)]
-  
-  distance_chojnacki_non_chojnacki <- distances(marriage_graph_main, v = vertices_chojnacki, to = vertices_non_chojnacki, weights = E(marriage_graph_main)$distances)
-  mean_chojnacki_non_chojnacki <- mean(distance_chojnacki_non_chojnacki)
-  
-  distance_chojnacki_chojnacki <- distances(marriage_graph_main, v = vertices_chojnacki, to = vertices_chojnacki, weights = E(marriage_graph_main)$distances)
-  mean_chojnacki_chojnacki <- mean(distance_chojnacki_chojnacki)
-  
-  distance_non_chojnacki_non_chojnacki <- distances(marriage_graph_main, v = vertices_non_chojnacki, to = vertices_non_chojnacki, weights = E(marriage_graph_main)$distances)
-  mean_non_chojnacki_non_chojnacki <- mean(distance_non_chojnacki_non_chojnacki)
-  
-  clique_index_chojnacki <- mean_chojnacki_non_chojnacki - mean_chojnacki_chojnacki
-  power_periphery_chojnacki_index <- ( mean_non_chojnacki_non_chojnacki - mean_chojnacki_non_chojnacki )/clique_index_chojnacki
+  clique_index_congiurati <- mean_congiurati_non_congiurati - mean_congiurati_congiurati
+  core_periphery_congiurati_index <- ( mean_non_congiurati_non_congiurati - mean_congiurati_non_congiurati )/clique_index_congiurati
   
   distances_window <- rbind(distances_window,
                          data.frame( total = average_distance,
-                                     ducali = mean_ducali_ducali,
-                                     ducali_norm = mean_ducali_ducali / average_distance,
-                                     non_ducali = mean_non_ducali_non_ducali,
-                                     non_ducali_norm = mean_non_ducali_non_ducali / average_distance,
-                                     ducali_vs_non = mean_ducali_non_ducali,
-                                     ducali_vs_non_norm = mean_ducali_non_ducali / average_distance,
+                                     congiurati = mean_congiurati_congiurati,
+                                     congiurati_norm = mean_congiurati_congiurati / average_distance,
+                                     non_congiurati = mean_non_congiurati_non_congiurati,
+                                     non_congiurati_norm = mean_non_congiurati_non_congiurati / average_distance,
+                                     congiurati_vs_non = mean_congiurati_non_congiurati,
+                                     congiurati_vs_non_norm = mean_congiurati_non_congiurati / average_distance,
                                      lunghi = mean_lunghi_lunghi,
                                      lunghi_norm = mean_lunghi_lunghi / average_distance,
                                      non_lunghi = mean_non_lunghi_non_lunghi,
                                      non_lunghi_norm = mean_non_lunghi_non_lunghi / average_distance,
                                      lunghi_vs_non = mean_lunghi_non_lunghi,
                                      lunghi_vs_non_norm = mean_lunghi_non_lunghi / average_distance,
-                                     quaranta = mean_quaranta_quaranta,
-                                     quaranta_norm = mean_quaranta_quaranta / average_distance,
-                                     non_quaranta = mean_non_quaranta_non_quaranta,
-                                     non_quaranta_norm = mean_non_quaranta_non_quaranta / average_distance,
-                                     quaranta_vs_non = mean_quaranta_non_quaranta,
-                                     quaranta_vs_non_norm = mean_quaranta_non_quaranta / average_distance,
-                                     chojnacki = mean_chojnacki_chojnacki,
-                                     chojnacki_norm = mean_chojnacki_chojnacki / average_distance,
-                                     non_chojnacki = mean_non_chojnacki_non_chojnacki,
-                                     non_chojnacki_norm = mean_non_chojnacki_non_chojnacki / average_distance,
-                                     chojnacki_vs_non = mean_chojnacki_non_chojnacki,
-                                     chojnacki_vs_non_norm = mean_chojnacki_non_chojnacki / average_distance,
                                      year = y))
   
-  power_periphery_timeline <- rbind(power_periphery_timeline,
-                                     data.frame( ducali = power_periphery_ducali_index,
-                                                 clique_index_ducali = clique_index_ducali,
-                                                 lunghi = power_periphery_lunghi_index,
+  core_periphery_timeline <- rbind(core_periphery_timeline,
+                                     data.frame( congiurati = core_periphery_congiurati_index,
+                                                 clique_index_congiurati = clique_index_congiurati,
+                                                 lunghi = core_periphery_lunghi_index,
                                                  clique_index_lunghi = clique_index_lunghi,
-                                                 in_quaranta = power_periphery_quaranta_index,
-                                                 clique_index_quaranta = clique_index_quaranta,
-                                                 chojnacki = power_periphery_chojnacki_index,
-                                                 clique_index_chojnacki = clique_index_chojnacki,
                                                  year = y))
 }
 
 library(ggplot2)
 
 ggplot( distances_window, aes(x = year)) +
-  geom_line(aes(y = ducali, color = "Ducali")) +
-  geom_line(aes(y = non_ducali, color = "Non Ducali"), linetype = "dashed") +
-  geom_line(aes(y = ducali_vs_non, color = "Ducali vs. Non"),linetype = "dotdash") +
+  geom_line(aes(y = congiurati, color = "congiurati")) +
+  geom_line(aes(y = non_congiurati, color = "Non congiurati"), linetype = "dashed") +
+  geom_line(aes(y = congiurati_vs_non, color = "congiurati vs. Non"),linetype = "dotdash") +
   geom_line(aes(y = lunghi, color = "Lunghi")) +
   geom_line(aes(y = non_lunghi, color = "Non Lunghi"), linetype = "dashed") +
   geom_line(aes(y = lunghi_vs_non, color = "Lunghi vs. Non"), linetype = "dotdash") +
-  geom_line(aes(y = quaranta, color = "Quaranta")) +
-  geom_line(aes(y = non_quaranta, color = "Non Quaranta"), linetype = "dashed") +
-  geom_line(aes(y = quaranta_vs_non, color = "Quaranta vs. Non"), linetype = "dotdash") +
-  geom_line(aes(y = chojnacki, color = "Chojnacki")) +
-  geom_line(aes(y = non_chojnacki, color = "Non Chojnacki"), linetype = "dashed") +
-  geom_line(aes(y = chojnacki_vs_non, color = "Chojnacki vs. Non Chojnacki"), linetype = "dotdash") +
   labs(title = "Average Shortest Path Length Over Time",
        x = "Year",
        y = "Average Shortest Path Length") +
-  scale_color_manual(values = c("Ducali" = "blue", "Non Ducali" = "blue", "Ducali vs. Non" = "blue",
-                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
-                                "Quaranta" = "brown",
-                                "Non Quaranta"= "brown",
-                                "Quaranta vs. Non" = "brown",
-                                "Chojnacki" = "green",
-                                "Non Chojnacki" = "green",
-                                "Chojnacki vs. Non Chojnacki" = "green")) +
+  scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
+                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold"
+                                )) +
   theme_minimal()
 
 ggplot( distances_window, aes(x = year)) +
-  geom_line(aes(y = ducali_norm, color = "Ducali")) +
-  geom_line(aes(y = non_ducali_norm, color = "Non Ducali"), linetype = "dashed") +
-  geom_line(aes(y = ducali_vs_non_norm, color = "Ducali vs. Non"),linetype = "dotdash") +
+  geom_line(aes(y = congiurati_norm, color = "congiurati")) +
+  geom_line(aes(y = non_congiurati_norm, color = "Non congiurati"), linetype = "dashed") +
+  geom_line(aes(y = congiurati_vs_non_norm, color = "congiurati vs. Non"),linetype = "dotdash") +
   geom_line(aes(y = lunghi_norm, color = "Lunghi")) +
   geom_line(aes(y = non_lunghi_norm, color = "Non Lunghi"), linetype = "dashed") +
   geom_line(aes(y = lunghi_vs_non_norm, color = "Lunghi vs. Non"), linetype = "dotdash") +
-  geom_line(aes(y = quaranta_norm, color = "Quaranta")) +
-  geom_line(aes(y = non_quaranta_norm, color = "Non Quaranta"), linetype = "dashed") +
-  geom_line(aes(y = quaranta_vs_non_norm, color = "Quaranta vs. Non"), linetype = "dotdash") +
-  geom_line(aes(y = chojnacki_norm, color = "Chojnacki")) +
-  geom_line(aes(y = non_chojnacki_norm, color = "Non Chojnacki"), linetype = "dashed") +
-  geom_line(aes(y = chojnacki_vs_non_norm, color = "Chojnacki vs. Non Chojnacki"), linetype = "dotdash") +
-  labs(title = "Average Shortest Path Length Over Time",
+  labs(title = "Normalized Average Shortest Path Length Over Time",
        x = "Year",
-       y = "Average Shortest Path Length") +
-  scale_color_manual(values = c("Ducali" = "blue", "Non Ducali" = "blue", "Ducali vs. Non" = "blue",
-                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
-                                "Quaranta" = "brown",
-                                "Non Quaranta"= "brown",
-                                "Quaranta vs. Non" = "brown",
-                                "Chojnacki" = "green",
-                                "Non Chojnacki" = "green",
-                                "Chojnacki vs. Non Chojnacki" = "green")) +
+       y = "Normalized Average Shortest Path Length") +
+  scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
+                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold"
+                                )
+                     ) +
   theme_minimal()
 
-ggplot( power_periphery_timeline, aes(x = year)) + 
-  geom_line(aes(y = ducali, color = "Ducali")) +
-  geom_line(aes(y = lunghi, color = "Lunghi")) +
-  geom_line(aes(y = in_quaranta, color = "In Quaranta")) +
-  geom_line(aes(y = chojnacki, color = "Chojnacki")) +
-  labs(title = "Power-Periphery Index Over Time",
-       x = "Year",
-       y = "Power-Periphery Index") +
-  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown", "Chojnacki" = "green")) +
-  theme_minimal()
-
-ggplot( power_periphery_timeline, aes(x = year)) + 
-  geom_line(aes(y = clique_index_ducali, color = "Ducali")) +
+ggplot( core_periphery_timeline, aes(x = year)) + 
+  geom_line(aes(y = clique_index_congiurati, color = "congiurati")) +
   geom_line(aes(y = clique_index_lunghi, color = "Lunghi")) +
-  geom_line(aes(y = clique_index_quaranta, color = "In Quaranta")) +
-  geom_line(aes(y = clique_index_chojnacki, color = "Chojnacki"))+
-  labs(title = "Power-Periphery Index Over Time",
+  labs(title = "Clique Index Over Time",
+       subtitle="Lower is better",
        x = "Year",
        y = "Power-Periphery Index") +
-  scale_color_manual(values = c("Ducali" = "blue", "Lunghi" = "gold", "In Quaranta" = "brown", "Chojnacki" = "green")) +
+  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold")) +
   theme_minimal()
+
+ggplot( core_periphery_timeline, aes(x = year)) + 
+  geom_line(aes(y = congiurati, color = "congiurati")) +
+  geom_line(aes(y = lunghi, color = "Lunghi")) +
+  labs(title = "Core-Periphery Index Over Time",
+       subtitle = "Relationship between differences in average distances non-core - core and non core / core and non-core - core\nLower is better"
+       x = "Year",
+       y = "Core-Periphery Index") +
+  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold")) +
+  theme_minimal()
+
+
