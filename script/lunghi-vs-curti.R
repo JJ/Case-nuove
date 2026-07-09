@@ -27,8 +27,10 @@ distances_window <- data.frame( total = numeric(),
                                 lunghi_vs_non_norm = numeric(),
                                 year = integer() )
 
-core_periphery_timeline <- data.frame( ducali = numeric(),
+core_periphery_timeline <- data.frame(  congiurati_exclusi = numeric(),
+                                        congiurati = numeric(),
                                         clique_index_congiurati = numeric(),
+                                        lunghi_exclusi = numeric(),
                                         lunghi = numeric(),
                                         clique_index_lunghi = numeric(),
                                         year = integer() )
@@ -49,6 +51,9 @@ for (y in window_sequence ) {
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
   
   V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Curti Congiurati", "Curti"))
+  
+  lunghi_excluded <- setdiff( lunghi, V(marriage_graph)[V(marriage_graph)$Group == "Lunghi"]$name )
+  curti_excluded <- setdiff( curti_congiurati, V(marriage_graph)[V(marriage_graph)$Group == "Curti Congiurati"]$name )
   
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
@@ -103,8 +108,10 @@ for (y in window_sequence ) {
                                      year = y))
   
   core_periphery_timeline <- rbind(core_periphery_timeline,
-                                     data.frame( congiurati = core_periphery_congiurati_index,
+                                     data.frame( congiurati_exclusi = length(curti_excluded),
+                                                 congiurati = core_periphery_congiurati_index,
                                                  clique_index_congiurati = clique_index_congiurati,
+                                                 lunghi_esclusi = length(lunghi_excluded),
                                                  lunghi = core_periphery_lunghi_index,
                                                  clique_index_lunghi = clique_index_lunghi,
                                                  year = y))
