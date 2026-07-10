@@ -25,6 +25,8 @@ distances_window <- data.frame( total = numeric(),
                                 non_lunghi_norm = numeric(),
                                 lunghi_vs_non = numeric(),
                                 lunghi_vs_non_norm = numeric(),
+                                lunghi_vs_congiurati = numeric(),
+                                lunghi_vs_congiurati_norm = numeric(),
                                 year = integer() )
 
 core_periphery_timeline <- data.frame(  congiurati_exclusi = numeric(),
@@ -91,6 +93,9 @@ for (y in window_sequence ) {
   distances_non_congiurati_non_congiurati <- distances(marriage_graph_main, v = vertices_non_congiurati, to = vertices_non_congiurati, weights = E(marriage_graph_main)$distances)
   mean_non_congiurati_non_congiurati <- mean(distances_non_congiurati_non_congiurati)
   
+  distances_lunghi_congiurati <- distances( marriage_graph_main, v = vertices_lunghi, to = vertices_congiurati, weights = E(marriage_graph_main)$distances )
+  mean_lunghi_congiurati <- mean( distances_lunghi_congiurati )
+  
   clique_index_congiurati <- mean_congiurati_non_congiurati - mean_congiurati_congiurati
   core_periphery_congiurati_index <- ( mean_non_congiurati_non_congiurati - mean_congiurati_non_congiurati )/clique_index_congiurati
   
@@ -108,6 +113,8 @@ for (y in window_sequence ) {
                                      non_lunghi_norm = mean_non_lunghi_non_lunghi / average_distance,
                                      lunghi_vs_non = mean_lunghi_non_lunghi,
                                      lunghi_vs_non_norm = mean_lunghi_non_lunghi / average_distance,
+                                     lunghi_vs_congiurati = mean_lunghi_congiurati,
+                                     lunghi_vs_congiurati_norm = mean_lunghi_congiurati/average_distance,
                                      year = y))
   
   V(marriage_graph)$types_congiurati <- ifelse(V(marriage_graph)$Group == "Curti Congiurati", 1,2)
@@ -139,11 +146,13 @@ ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = lunghi, color = "Lunghi")) +
   geom_line(aes(y = non_lunghi, color = "Non Lunghi"), linetype = "dashed") +
   geom_line(aes(y = lunghi_vs_non, color = "Lunghi vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = lunghi_vs_congiurati, color = "Lunghi vs. Congiurati")) +
   labs(title = "Average Shortest Path Length Over Time",
        x = "Year",
        y = "Average Shortest Path Length") +
   scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
-                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold"
+                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
+                                "Lunghi vs. Congiurati" = "green"
                                 )) +
   theme_minimal()
 
@@ -154,11 +163,14 @@ ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = lunghi_norm, color = "Lunghi")) +
   geom_line(aes(y = non_lunghi_norm, color = "Non Lunghi"), linetype = "dashed") +
   geom_line(aes(y = lunghi_vs_non_norm, color = "Lunghi vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = lunghi_vs_congiurati_norm, color = "Lunghi vs. Congiurati")) +
+  
   labs(title = "Normalized Average Shortest Path Length Over Time",
        x = "Year",
        y = "Normalized Average Shortest Path Length") +
   scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
-                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold"
+                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
+                                "Lunghi vs. Congiurati" = "green"
                                 )
                      ) +
   theme_minimal()
