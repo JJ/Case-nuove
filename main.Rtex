@@ -765,6 +765,11 @@ We can also look at the division between core and periphery; the core-periphery 
 
 These charts are a step towards explaining why the {\em grandi curti} were able to form these wide coalition: well connected to their periphery, and not perceived as a separate power group, unlike the {\em lunghi}, However, the perception and the cohesion seems to unravel towards the end of the period, which might explain the return to the {\em lunghi} as preferred families for dogeship.
 
+All these charts draw a relatively complicated scenario, with dynamic factions that are at the same time well related to each other through the common political and commercial (including matrimonial) framework of the Republic of Venice, but keeping their relatively separate identities using the same set of links. As is shown in Figure \ref{fig:casenuove.cohesiveness.setup}, there is a substantial demographic shift by mid-XVII century which is right behind the end of the {\em ducale} doge era, thus it cannot explain the shift (although it might have contributed to its permanency).
+
+We are more interested on the trend in the first quarter of the XVII century, when effectively the {\em lunghi} retrieved their access to the dogate. Figure \ref{fig:casenuove.analysis.normalized} possibly shows the clearest picture. This chart shows normalized average shortest past distances. Intra-faction distances reflect cohesiveness within a faction, and what we see is that while {\em lunghi} and {\em grandi curti} were very close together in terms of normalized distance until the end of the XVI century, the difference between them starts to increase by the beginning of the XVII. Same happens with the distance between the factions and the rest of the network: while {\em grandi curti} maintain a slight advantage over the {\em lunghi}, eventually the latter begin being being closer to the {\em periphery} by the end of that century.
+
+\section{Conclusions and discussion}
 
 \section*{Acknowledgements}
 
