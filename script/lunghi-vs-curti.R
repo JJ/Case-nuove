@@ -164,7 +164,6 @@ ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = non_lunghi_norm, color = "Non Lunghi"), linetype = "dashed") +
   geom_line(aes(y = lunghi_vs_non_norm, color = "Lunghi vs. Non"), linetype = "dotdash") +
   geom_line(aes(y = lunghi_vs_congiurati_norm, color = "Lunghi vs. Congiurati")) +
-  
   labs(title = "Normalized Average Shortest Path Length Over Time",
        x = "Year",
        y = "Normalized Average Shortest Path Length") +

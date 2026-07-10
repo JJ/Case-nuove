@@ -612,10 +612,13 @@ distances_window <- data.frame( total = numeric(),
                                 lunghi_vs_congiurati_norm = numeric(),
                                 year = integer() )
 
-core_periphery_timeline <- data.frame( ducali = numeric(),
-                                        clique_index_congiurati = numeric(),
+core_periphery_timeline <- data.frame( congiurati = numeric(),
+                                       clique_index_congiurati = numeric(),
+                                       assortativity_congiurati = numeric(),
                                         lunghi = numeric(),
                                         clique_index_lunghi = numeric(),
+                                       assortativity_lunghi = numeric(),
+                                        assortativity_lunghi_congiurati = numeric(),
                                         year = integer() )
   
 for (y in window_sequence ) {
@@ -693,11 +696,21 @@ for (y in window_sequence ) {
                                      lunghi_vs_congiurati_norm = mean_lunghi_congiurati/average_distance,
                                      year = last_year))
   
+  V(marriage_graph)$types_congiurati <- ifelse(V(marriage_graph)$Group == "Curti Congiurati", 1,2)
+  assortativity_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_congiurati, directed = FALSE)
+  V(marriage_graph)$types_lunghi <- ifelse(V(marriage_graph)$Group == "Lunghi", 1,2)
+  assortativity_lunghi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_lunghi, directed = FALSE)
+  V(marriage_graph)$types_both <- ifelse(V(marriage_graph)$Group == "Lunghi", 1, ifelse(V(marriage_graph)$Group == "Curti Congiurati",2,3))
+  assortativity_lunghi_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_both, directed = FALSE)
+  
   core_periphery_timeline <- rbind(core_periphery_timeline,
                                      data.frame( congiurati = core_periphery_congiurati_index,
                                                  clique_index_congiurati = clique_index_congiurati,
+                                                 assortativity_congiurati = assortativity_congiurati,
                                                  lunghi = core_periphery_lunghi_index,
                                                  clique_index_lunghi = clique_index_lunghi,
+                                                 assortativity_lunghi = assortativity_lunghi,
+                                                 assortativity_lunghi_congiurati = assortativity_lunghi_congiurati,
                                                  year = last_year ))
 }
 
@@ -779,6 +792,22 @@ These charts are a step towards explaining why the {\em grandi curti} were able 
 All these charts draw a relatively complicated scenario, with dynamic factions that are at the same time well related to each other through the common political and commercial (including matrimonial) framework of the Republic of Venice, but keeping their relatively separate identities using the same set of links. As is shown in Figure \ref{fig:casenuove.cohesiveness.setup}, there is a substantial demographic shift by mid-XVII century which is right behind the end of the {\em ducale} doge era, thus it cannot explain the shift (although it might have contributed to its permanency).
 
 We are more interested on the trend in the first quarter of the XVII century, when effectively the {\em lunghi} retrieved their access to the dogate. Figure \ref{fig:casenuove.analysis.normalized} possibly shows the clearest picture. This chart shows normalized average shortest past distances. Intra-faction distances reflect cohesiveness within a faction, and what we see is that while {\em lunghi} and {\em grandi curti} were very close together in terms of normalized distance until the end of the XVI century, the difference between them starts to increase by the beginning of the XVII. Same happens with the distance between the factions and the rest of the network: while {\em grandi curti} maintain a slight advantage over the {\em lunghi}, eventually the latter begin being being closer to the {\em periphery} by the end of that century. It is interesting also, in this chart, to check the distances between the two "factions", {\em lunghi} and {\em grandi curti}. While during most of the period distances between them are longer than intra-faction distances, there come a point at the beginning of the 17th century, before the change of regime, when {\em grandi curti} are on average further away from each other (solid blue line) than from the {\em lunghi} (green line).
+
+<<casenuove.assortativity, echo=F, message=F, fig.cap="Evolution of assortativity for different type combinations: grandi curti vs. non, lunghi vs. non, and lunghi vs. curti",  fig.pos="h!tb", fig.height=5>>=
+ggplot( core_periphery_timeline, aes(x = year)) + 
+  geom_line(aes(y = assortativity_congiurati, color = "congiurati")) +
+  geom_line(aes(y = assortativity_lunghi, color = "Lunghi")) +
+  geom_line(aes(y = assortativity_lunghi_congiurati, color = "Lunghi vs. congiurati")) +
+  labs(title = "Core-Periphery Index Over Time",
+       subtitle = "Relationship between differences in average distances non-core - core and non core / core and non-core - core\nLower is better",
+       x = "Year",
+       y = "Core-Periphery Index") +
+  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold", "Lunghi vs. congiurati" ="green")) +
+  theme_minimal()
+@
+
+We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortavity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em lunghi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em lunghi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em lunghi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em lunghi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em lunghi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
+
 
 \section{Conclusions and discussion}
 
