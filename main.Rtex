@@ -620,6 +620,13 @@ core_periphery_timeline <- data.frame( congiurati = numeric(),
                                        assortativity_lunghi = numeric(),
                                         assortativity_lunghi_congiurati = numeric(),
                                         year = integer() )
+
+number_of_marriages <- data.frame( year= integer(),
+                                   intra_congiurati = numeric(),
+                                   intra_lunghi = numeric(),
+                                   inter_congiurati_lunghi = numeric(),
+                                   extra_congiurati = numeric(),
+                                   extra_lunghi = numeric())
   
 for (y in window_sequence ) {
 
@@ -677,6 +684,16 @@ for (y in window_sequence ) {
   
   clique_index_congiurati <- mean_congiurati_non_congiurati - mean_congiurati_congiurati
   core_periphery_congiurati_index <- ( mean_non_congiurati_non_congiurati - mean_congiurati_non_congiurati )/clique_index_congiurati
+  
+  number_of_marriages <- rbind( number_of_marriages,
+                                data.frame( year=last_year,
+                                            intra_congiurati = length(E(marriage_graph_main)[ vertices_congiurati %--% vertices_congiurati]),
+                                            intra_lunghi = length(E(marriage_graph_main)[ vertices_lunghi %--% vertices_lunghi]),
+                                            inter_congiurati_lunghi = length(E(marriage_graph_main)[ vertices_lunghi %--% vertices_congiurati ]),
+                                            extra_congiurati = length(E(marriage_graph_main)[ vertices_non_congiurati %--% vertices_congiurati ]),
+                                            extra_lunghi = length(E(marriage_graph_main)[ vertices_non_lunghi %--% vertices_lunghi ])
+                                            )
+  )
   
   distances_window <- rbind(distances_window,
                          data.frame( total = average_distance,
@@ -808,6 +825,24 @@ ggplot( core_periphery_timeline, aes(x = year)) +
 
 We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortavity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em lunghi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em lunghi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em lunghi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em lunghi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em lunghi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
 
+<<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriabes within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
+ggplot( number_of_marriages, aes(x = year)) + 
+  geom_line(aes(y = intra_congiurati, color = "congiurati")) +
+  geom_line(aes(y = intra_lunghi, color = "Lunghi")) +
+  geom_line(aes(y = extra_congiurati, color = "extra congiurati")) +
+  geom_line(aes(y = extra_lunghi, color = "extra Lunghi")) +
+  geom_line(aes(y = inter_congiurati_lunghi, color = "Lunghi vs. congiurati")) +
+  labs(title = "Number of marriages over time",
+       subtitle = "Intra, inter and extra groups",
+       x = "Year",
+       y = "Number of marriages") +
+  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold", "Lunghi vs. congiurati" ="green", 
+                                "extra congiurati" = "light blue", "extra Lunghi" ="darkgoldenrod2")) +
+  theme_minimal()
+
+@
+
+What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em lunghi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em lunghi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
 
 \section{Conclusions and discussion}
 
