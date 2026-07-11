@@ -627,6 +627,12 @@ number_of_marriages <- data.frame( year= integer(),
                                    inter_congiurati_lunghi = numeric(),
                                    extra_congiurati = numeric(),
                                    extra_lunghi = numeric())
+
+network_measures_year <- data.frame( year=integer(),
+                                  closeness_congiurati = numeric(),
+                                  closeness_lunghi = numeric(),
+                                  diameter = numeric(),
+                                  clustering_coefficient=  numeric())
   
 for (y in window_sequence ) {
 
@@ -729,6 +735,22 @@ for (y in window_sequence ) {
                                                  assortativity_lunghi = assortativity_lunghi,
                                                  assortativity_lunghi_congiurati = assortativity_lunghi_congiurati,
                                                  year = last_year ))
+  
+  # 1. Calculate closeness as a named vector
+  closeness_scores <- closeness(marriage_graph_main, normalized=T)
+
+  # 2. Match the scores to the names/rownames of your data frames
+  closeness_congiurati <- mean(closeness_scores[vertices_congiurati$name], na.rm = TRUE)
+  closeness_lunghi     <- mean(closeness_scores[vertices_lunghi$name], na.rm = TRUE)
+  network_measures_year <- rbind( network_measures_year,
+                             data.frame( year= last_year,
+                                         closeness_congiurati= closeness_congiurati,
+                                         closeness_lunghi = closeness_lunghi,
+                                         diameter = diameter( marriage_graph_main),
+                                         clustering_coefficient = transitivity(marriage_graph_main)
+                                         )
+                             )
+  
 }
 
 ggplot( distances_window, aes(x = year)) +
@@ -843,6 +865,31 @@ ggplot( number_of_marriages, aes(x = year)) +
 @
 
 What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em lunghi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em lunghi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
+
+<<casenuove.closeness, echo=F, message=F, fig.cap="Evolution of the closeness", fig.height=3, fig.pos="h!tb">>=
+ggplot( network_measures_year, aes(x = year)) + 
+  geom_line(aes(y = closeness_congiurati, color = "congiurati")) +
+  geom_line(aes(y = closeness_lunghi, color = "Lunghi")) +
+  labs(title = "Closeness over time",
+       x = "Year",
+       y = "Average closeness per group") +
+  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold")) +
+  theme_minimal()
+@
+
+We see in Figure \ref{fig:casenuove.closeness}, which represents the normalized average closeness for the two factions, the {\em grandi curti} and the {\em lunghi}. Its value is relatively high; being close to 0.5, it means that the average number of edges they both had to work through to get to any family in the connected component (which represents almost all families in the network at every point in time) is around 2. The {\em grandi curti} have the leas up until mid-XVI, but then the {\em lunghi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both.
+%
+<<casenuove.diameter, echo=F, message=F, fig.cap="Evolution of the closeness", fig.height=3, fig.pos="h!tb">>=
+ggplot( network_measures_year, aes(x = year, y = clustering_coefficient)) + 
+  geom_line() +
+  geom_point( aes(size=diameter))+
+  labs(title = "Clustering coefficient over time",
+       x = "Year",
+       y = "Diameter") +
+  theme_minimal()
+@
+%
+This is provoked by a drastic change in the structure of the network; Figure \ref{fig:casenuove.diameter} plots the transitivity, that is, the clustering coefficient, which loses half its value in a century, and 1/8th its value in less than 20 years. This effectively creates a shock on the network, removing nodes and edges and creating structural holes. The diameter of the network, represented by point size, also experiments changes and tends to increment, implying that the collective coalition-forming power of the {\em grandi curti} no longer can be leveraged. This provokes a change of regime: from collective closeness-based coalition formation, to individual bargaining power based on brokerage which, again, leads to the return to power of family with the highest betweenness, the Contarini.
 
 \section{Conclusions and discussion}
 
