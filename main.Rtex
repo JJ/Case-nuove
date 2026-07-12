@@ -850,10 +850,11 @@ ggplot( network_measures_year, aes(x = year)) +
 
 We see in Figure \ref{fig:casenuove.closeness}, which represents the normalized average closeness for the two factions, the {\em grandi curti} and the {\em lunghi}. Its value is relatively high; being close to 0.5, it means that the average number of edges they both had to work through to get to any family in the connected component (which represents almost all families in the network at every point in time) is around 2. The {\em grandi curti} have the leas up until mid-XVI, but then the {\em lunghi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both.
 %
-<<casenuove.diameter, echo=F, message=F, fig.cap="Evolution of the closeness", fig.height=3, fig.pos="h!tb">>=
+<<casenuove.diameter, echo=F, message=F, fig.cap="Evolution of the clustering coefficient over time. The green line marks the year when Francesco Contarini was elected.", fig.height=3, fig.pos="h!tb">>=
 ggplot( network_measures_year, aes(x = year, y = clustering_coefficient)) + 
   geom_line() +
   geom_point( aes(size=diameter))+
+  geom_segment(x=1623, xend=1623,y=0.20,yend=0.45,color="green")+ # Francesco Contarini elected doge
   labs(title = "Clustering coefficient over time",
        x = "Year",
        y = "Diameter") +
