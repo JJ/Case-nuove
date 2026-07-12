@@ -762,7 +762,7 @@ ggplot( distances_window, aes(x = year)) +
 
 However, what we need to look at is the capability of creating and sustaining coalitions of the two known factions: the {\em lunghi} and the {\em grandi curti}. This capability can be measured in different ways. If we think of the faction as a core, it will have to be tightly connected to each other in this marriage network, as well as relatively well connected to the rest of the network. For the social network in every 75-year window, separated 5 years, the distances within the group, from the group to the rest, and among those not belonging to the group is plotted in Figure \ref{fig:casenuove.analysis}, that uses solid lines for intra-group shortest path lengths, dot-dashed lines for shortest paths from the group to outside, and dashed lines for those {\em not} belonging to the group, which can be thought as the capability for forming coalitions {\em against} the core. The $x$ axis runs over the {\em last} year of the graph. All three of them are important for group cohesion, but also for perception of a particular faction as separated or apart from the rest of the social network, and what we see is that intra-group average distances is smaller for the {\em lunghi} than for the {\em grandi curti}, while the other two distances are not only similar, but also follow the same trend.
 
-<<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions", fig.height=6, fig.pos="h!tb">>=
+<<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions.", fig.height=6, fig.pos="h!tb">>=
 ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = congiurati_norm, color = "congiurati")) +
   geom_line(aes(y = non_congiurati_norm, color = "Non congiurati"), linetype = "dashed") +
@@ -784,7 +784,7 @@ ggplot( distances_window, aes(x = year)) +
 
 However, this evolution can be better observed if we normalize distances against the average distance for the specific graph we're examining; this is shown in Figure \ref{fig:casenuove.analysis.normalized}. The way it is organized is more or less the same, but differences are accentuated showing, for instance, how the {\em grandi curti} start being closer to the rest of the nodes up until approximately year 1500, when it crosses the line for the {\em lunghi}. The dips happening towards the second half of the XVII century are accentuated: both groups start to be less tightly connected by that time.
 
-<<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions", fig.height=6, fig.pos="h!tb">>=
+<<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions.", fig.height=6, fig.pos="h!tb">>=
 
 ggplot( core_periphery_timeline, aes(x = year)) + 
   geom_line(aes(y = clique_index_congiurati, color = "congiurati")) +
@@ -808,17 +808,15 @@ ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = assortativity_congiurati, color = "congiurati")) +
   geom_line(aes(y = assortativity_lunghi, color = "Lunghi")) +
   geom_line(aes(y = assortativity_lunghi_congiurati, color = "Lunghi vs. congiurati")) +
-  labs(title = "Core-Periphery Index Over Time",
-       subtitle = "Relationship between differences in average distances non-core - core and non core / core and non-core - core\nLower is better",
-       x = "Year",
-       y = "Core-Periphery Index") +
+  labs(x = "Year",
+       y = "Assortativity") +
   scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold", "Lunghi vs. congiurati" ="green")) +
   theme_minimal()
 @
 
 We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortavity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em lunghi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em lunghi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em lunghi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em lunghi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em lunghi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
 
-<<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriabes within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
+<<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriages within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
 ggplot( number_of_marriages, aes(x = year)) + 
   geom_line(aes(y = intra_congiurati, color = "congiurati")) +
   geom_line(aes(y = intra_lunghi, color = "Lunghi")) +
@@ -837,12 +835,11 @@ ggplot( number_of_marriages, aes(x = year)) +
 
 What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em lunghi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em lunghi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
 
-<<casenuove.closeness, echo=F, message=F, fig.cap="Evolution of the closeness", fig.height=3, fig.pos="h!tb">>=
+<<casenuove.closeness, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=3, fig.pos="h!tb">>=
 ggplot( network_measures_year, aes(x = year)) + 
   geom_line(aes(y = closeness_congiurati, color = "congiurati")) +
   geom_line(aes(y = closeness_lunghi, color = "Lunghi")) +
-  labs(title = "Closeness over time",
-       x = "Year",
+  labs(x = "Year",
        y = "Average closeness per group") +
   scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold")) +
   theme_minimal()
