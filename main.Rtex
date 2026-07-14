@@ -148,6 +148,7 @@ In the absence of direct evidence on political alliances within the Venetian pat
 
 
 We can formulate the following research questions:\begin{itemize}
+% We need to adapt all this
 \item {\bf Research Question 1} Is there evidence of factions in the social network in the period under consideration? If there is, are {\em longhi} and {\em curti} families in different communities or clearly separated?
 \item {\bf Research Question 2} Regardless of the factional divisions, what position did the doge’s family occupy within the social network at the time of election, and what does this reveal about the social status of families that produced a doge?
 \item {\bf Research Question 3} Is there any specific social status associated with the sixteen \emph{curti} families that allegedly conspired to exclude the {\em longhi} form the dogate from 1382 and 1612?
@@ -322,7 +323,7 @@ However, we need to acknowledge the biases present in this dataset, the main one
 
 This section provides a first examination of the marriage network and its evolution over the period under study. This analysis rests on the assumption that, unlike patrilineal ties, marriage alliances created strong but comparatively transient connections. In particular, both \citet[p. 82]{finlay1980politicsrenaissance} and \citet[p. 143]{raines2013rameau} note that these ties typically lasted for about three generations, roughly spanning the period of co-residence across successive cohorts within the same household. On this basis, and assuming a generational length of approximately 25 years \citep{social:memory}, we analyse the network using a 75-year moving window: at any given time, we include only marital ties formed in the preceding 75 years, in order to capture the “living memory” of past social connections. 
 
-<<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks from 1350 onward, reconstructed every 50 years using matrimonial ties formed in the preceding 75 years. Gold nodes indicate {case vecchie}, red nodes {case nuove} involved in the conspiracy, and white nodes all other {case nuove};  families with one member elected doge during the corresponding period are represented by squares.", out.width="50%", fig.show="hold">>=
+<<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks from 1350 onward, reconstructed every 50 years using matrimonial ties formed in the preceding 75 years. Gold nodes indicate {case vecchie}, red nodes {case nuove} involved in the conspiracy, and white nodes all other {case nuove};  families with one member elected doge during the corresponding period are represented by squares.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 DEPTH_IN_YEARS <- 75
 
 lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
