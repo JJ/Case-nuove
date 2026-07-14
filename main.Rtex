@@ -422,7 +422,7 @@ Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm 
 The figure highlights several important features of the network. First, not every \emph{ducali} family occupies a central position in the network. 
 Second, the effects of the \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families. 
 
-<<casenuove.evolution, message=F, echo=F, fig.cap="Evolution of network measures for the 6 overlapping periods examined", fig.height=5, fig.pos="h!tb">>=
+<<casenuove.evolution, message=F, echo=F, fig.cap="Evolution of network measures for the 6 overlapping periods examined", fig.height=4, fig.pos="h!tb">>=
 library(dplyr)
 library(tidyr)
 
