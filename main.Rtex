@@ -855,7 +855,10 @@ giustinian_marriage_data <-  noble_marriages %>%
   
   closeness_scores <- closeness(marriage_graph, normalized=T)
   V(marriage_graph)$closeness <- closeness_scores[V(marriage_graph)$name]
-  
+
+barbarigo_closeness <- closeness_scores["Barbarigo"]
+giustinian_closeness <- closeness_scores["Giustinian"]
+
   closeness_df <- data.frame(
     family    = V(marriage_graph)$name,
     closeness = V(marriage_graph)$closeness
@@ -871,24 +874,21 @@ giustinian_marriage_data <-  noble_marriages %>%
   
   set.seed(42)
 
+
 core_num <- coreness(marriage_graph)
 marriage_graph <- induced_subgraph(marriage_graph, which(core_num > 6))
 
 # Keep only the strongest ties
 w_thresh <- quantile(E(marriage_graph)$weight, 0.6)
-sub_fn <- if (exists("subgraph_from_edges")) subgraph_from_edges else subgraph.edges
-marriage_graph <- sub_fn(
+
+marriage_graph <- subgraph.edges(
   marriage_graph,
   which(E(marriage_graph)$weight >= w_thresh),
   delete.vertices = FALSE
 )
-marriage_graph <- sub_fn(marriage_graph, which(E(marriage_graph)$weight >= w_thresh), delete.vertices = FALSE)
 
 # Drop isolated AND degree-1 nodes (leaves) after the edge filter
 marriage_graph <- induced_subgraph(marriage_graph, which(degree(marriage_graph) > 1))
-
-# Recompute closeness on the final trimmed graph
-V(marriage_graph)$closeness <- closeness(marriage_graph, normalized = TRUE)
 
 highlight <- V(marriage_graph)$name %in% c("Giustinian", "Barbarigo")
 
@@ -939,7 +939,10 @@ kable(faction_summary, caption="Table of connections from the candidate families
 
 @
 
-We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. What is apparent from the graph is that while the Giustinian (lunghi) are closest to other of the same {\em lunghi} faction, the {\em Barbarigo} have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giutsinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{V(marriage_graph)[V(marriage_graph)$name == "Barbarigo",]$closeness}, slightly higher than \Sexpr{V(marriage_graph)[V(marriage_graph)$name == "Giustinian",]$closeness} for the Giustinian family. They were close enough to have a chance at challenging {\em grandi curti}'s domination, but not enough to actually beat them; besides, we should take into account that, although both were connected in the first degree to the two factions, the Barbarigo not only had more {\em curti} in their neighborhood, but also a good amount of families from the {\em lunghi} "faction"; as a matter of fact, they had more connections to families of the {\em other} faction than to its own; the situation is inverted for the Giustinian.
+We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. What is apparent from the graph is that while the Giustinian (lunghi) are closest to other of the same {\em lunghi} faction, the {\em Barbarigo} have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giustinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{barbarigo_closeness}
+, slightly higher than 
+\Sexpr{giustinian_closeness}
+for the Giustinian family. They were close enough to have a chance at challenging {\em grandi curti}'s domination, but not enough to actually beat them; besides, we should take into account that, although both were connected in the first degree to the two factions, the Barbarigo not only had more {\em curti} in their neighborhood, but also a good amount of families from the {\em lunghi} "faction"; as a matter of fact, they had more connections to families of the {\em other} faction than to its own; the situation is inverted for the Giustinian.
 
 This close call holds two different lessons: first, there was no strict factionalism in the sense of factions totally separated in different communities, without any kind of inter-marriage; factions are also not directly connected with each other, needing in many cases go through families of the other "faction" to reach other member. Second, in a closeness-dominated network, even a small advantage can be leveraged to obtain the (very) broad coalition needed to get one of your family elected.
 
