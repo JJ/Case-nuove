@@ -318,20 +318,20 @@ This section provides a first examination of the marriage network and its evolut
 <<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks from 1350 onward, reconstructed every 50 years using matrimonial ties formed in the preceding 75 years. Gold nodes indicate {case vecchie}, red nodes {case nuove} involved in the conspiracy, and white nodes all other {case nuove};  families with one member elected doge during the corresponding period are represented by squares.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 DEPTH_IN_YEARS <- 75
 
-lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
+longhi <- family_labels[ family_labels$Group == "Longhi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
-quaranta_famiglie <- c(lunghi,ducali)
+quaranta_famiglie <- c(longhi,ducali)
 
 quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Da Ponte", "Cicogna")) ]
 
 window_sequence <- seq(from = 1350, to = 1550, by = 50)
-assortativity <- data.frame( curti_lunghi = numeric(),
+assortativity <- data.frame( curti_longhi = numeric(),
                              ducali = numeric(),
                              in_quaranta = numeric(),
-                             distance_curti_lunghi = numeric(),
+                             distance_curti_longhi = numeric(),
                              distance_ducali_corti = numeric(),
-                             distance_ducali_lunghi = numeric(),
-                             intra_lunghi = numeric(),
+                             distance_ducali_longhi = numeric(),
+                             intra_longhi = numeric(),
                              intra_ducali = numeric(),
                              intra_corti = numeric(),
                              intra_quaranta = numeric(),
@@ -366,9 +366,9 @@ for (y in window_sequence ) {
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   
-  V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", "Corti")
-  V(marriage_graph)$types_curti_lunghi <- ifelse(V(marriage_graph)$Faction == "Lunghi", 1,2)
-  assortativity_curti_lunghi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_curti_lunghi, directed = FALSE)
+  V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", "Corti")
+  V(marriage_graph)$types_curti_longhi <- ifelse(V(marriage_graph)$Faction == "Longhi", 1,2)
+  assortativity_curti_longhi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_curti_longhi, directed = FALSE)
   
   V(marriage_graph)$Ducale <- ifelse(V(marriage_graph)$name %in% ducali, TRUE, FALSE)
   V(marriage_graph)$types_ducali <- ifelse(V(marriage_graph)$Ducale == TRUE, 1,2)
@@ -379,8 +379,8 @@ for (y in window_sequence ) {
   assortativity_quaranta <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_quaranta, directed = FALSE)
   
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
-  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
-  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Group == "Lunghi",
+  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
+  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Group == "Longhi",
                                     "gold", 
                                     ifelse(V(marriage_graph)$Group=="Ducali","red","white"))
   
@@ -418,7 +418,7 @@ A third feature emerging from the graphs is the remarkable stability of the thre
 
 Another interesting aspect is the lack of clear factionalization. In none of the periods do either the  \emph{grandi  curti} or the \emph{longhi} families form internally cohesive clusters that exclude the rest of the patriciate. Although peripheral positions are almost always occupied by “white” nodes---namely smaller \emph{curti} families---neither the \emph{longhi} nor the \emph{grandi curti} consistently dominates the most central positions in the network. There also appears to be little evidence of distinct clusters separating the \emph{longhi} from the \emph{grandi curti}.
 
- <<casenuove.betweenness, echo=F,fig.cap="Sequence of distribution of betweenness for the marriage social networks. Colors are as in the previous figure, gold indicates a lunghi family, while red corresponds to ducali; oversize points correspond to families that have had a doge during the period.", out.width="50%", fig.show="hold", fig.height=5.75>>=
+ <<casenuove.betweenness, echo=F,fig.cap="Sequence of distribution of betweenness for the marriage social networks. Colors are as in the previous figure, gold indicates a longhi family, while red corresponds to ducali; oversize points correspond to families that have had a doge during the period.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 initial_year <- 1350
 for (graph in graph_list) {
   V(graph)$betweenness = betweenness(graph)
@@ -437,14 +437,14 @@ for (graph in graph_list) {
 }
 @
 
-To better understand the structure of political intermediation within the Venetian patriciate, Figure \ref{fig:casenuove.betweenness} shows the distribution of betweenness centrality by rank across the five overlapping periods.  All graphs use the same log-log scale: the $y$-axis scale reports betweenness centrality, while the $x$ axis reports the rank of families with a betweenness value greater than zero. This common scaling makes it possible to compare the degree of concentration of intermediation power across periods. The colors follow the same classification used in the previous figure, distinguishing between \emph{lunghi}, \emph{grandi curti}, and other \emph{curti}.  Larger points represent families that elected a doge during the corresponding period.
+To better understand the structure of political intermediation within the Venetian patriciate, Figure \ref{fig:casenuove.betweenness} shows the distribution of betweenness centrality by rank across the five overlapping periods.  All graphs use the same log-log scale: the $y$-axis scale reports betweenness centrality, while the $x$ axis reports the rank of families with a betweenness value greater than zero. This common scaling makes it possible to compare the degree of concentration of intermediation power across periods. The colors follow the same classification used in the previous figure, distinguishing between \emph{longhi}, \emph{grandi curti}, and other \emph{curti}.  Larger points represent families that elected a doge during the corresponding period.
 
 As the figure shows, no single family dominates the network in terms of betweenness centrality. Maximum betweenness values remain around 1000 with a slight decline observable in the 1500--1575 and 1550--1625 graphs. A further notable feature is that, rather than displaying the steep decay typically associated with a power-law distribution, all graphs exhibit a pronounced ``broken-stick'' pattern: a relatively large group of families shares similarly high betweenness values, followed by a sharp decline around the 100th rank. This pattern suggests the existence of a broad elite endowed with comparable intermediation power, rather than the dominance of few families. In turn, this supports the well-established interpretation of Venetian political institutions as mechanisms designed to prevent excessive concentration of power. At the same time, the sharp separation between highly central and peripheral families indicates that substantial inequalities persisted within the patriciate, despite the formal political equality of nobles. Peripheral families appear structurally dependent on a more central elite that mediated access to the wider network.
 
 Such a distribution of intermediation power may help explain the pattern of doge selection observed during the period under study.  However, further investigation would be necessary to determine the exact composition, cohesion, and long-term stability of this elite. The color patterns in the graph provide some preliminary indications in this regard. The forty families, i.e., the  \emph{longhi} and  \emph{grandi curti} families, rank higher in terms of centrality, whereas lower ranks are predominantly occupied by other \emph{curti} families. Nevertheless, no single faction consistently dominates the top positions across all periods. For example, in the third graph (1450--1525), the highest-ranked family does not belong to the forty families, while in the fourth graph all three colors appear among the most central families. Overall, the graphs point less to the stable predominance of a single faction than to a rotation of influence within a restricted elite.
 
 Turning now to the \emph{ducali} families, represented in the graph by the color yellow, another important pattern emerges. The family that succeeds in electing a doge in the period represented in the graph, represented as a larger dot, is not necessarily the one occupying the most central position in the network. In most periods, \emph{ducali} families are distributed across the ranking, including relatively peripheral positions, and do not systematically coincide with the families displaying the highest betweenness values. Only in the final period (1550--1625), that is, in the years surrounding the end of the conspiracy in 1612, do the most central families also manage to secure the election of one of their members as doge.
-In the 1550-1625 period we see that already families with the highest betweenness have got one of them elected doge; two of them part of the {\em grandi curti} the Priuli (with Antonio Priuli elected doge in 1618) and the Donato or Donà (with Nicolò Donà elected right before, in 1618), and one of them part of the {\em lunghi}, marking the return of a family of this faction to the highest charge in the Republic: Giovanni Bembo was elected doge right before, in 1615.
+In the 1550-1625 period we see that already families with the highest betweenness have got one of them elected doge; two of them part of the {\em grandi curti} the Priuli (with Antonio Priuli elected doge in 1618) and the Donato or Donà (with Nicolò Donà elected right before, in 1618), and one of them part of the {\em longhi}, marking the return of a family of this faction to the highest charge in the Republic: Giovanni Bembo was elected doge right before, in 1615.
 
 Before these periods, the dogeship was not monopolized by the network's central actors, as several doges were drawn from families occupying relatively peripheral positions, with a low social capital and thus brokerage power. The fact that \emph{ducali} families are found throughout the ranking is consistent with an electoral system that required large majorities: winning the dogeship depended on building broad coalitions capable of attracting support from both central and peripheral segments of the patriciate.
 
@@ -461,7 +461,7 @@ sort_with_empty_last <- function(x) {
 
 grandi_curti <- ducali[ !(ducali %in% c("Steno", "Ponte", "Cicogna")) ]
 
-max_length <- length(lunghi)
+max_length <- length(longhi)
 
 length(grandi_curti) <- max_length
 grandi_curti[ is.na( grandi_curti )] <- ""
@@ -470,12 +470,12 @@ length( ducali ) <- max_length
 ducali[ is.na( ducali )] <- ""
 
 family_lists <- data.frame( ducali = sort_with_empty_last(ducali), 
-                            lunghi = sort_with_empty_last(lunghi), 
+                            longhi = sort_with_empty_last(longhi), 
                             grandi_curti = sort_with_empty_last(grandi_curti) )
 
 library(kableExtra)
 kable(family_lists, 
-      col.names=c("Ducali (1382-1612)","Lunghi","Grandi Curti"),
+      col.names=c("Ducali (1382-1612)","Longhi","Grandi Curti"),
       caption="Classification of Venetian patrician families") %>%
   row_spec(0,bold=TRUE) %>% 
   kable_styling(font_size = 7)
@@ -515,7 +515,7 @@ for (y in window_sequence ) {
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
   
-  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
+  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
   
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
@@ -543,7 +543,7 @@ As an initial bird's sight-view of the network, we have plotted in Figure \ref{f
 noble_marriages_filtered <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
 family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
 
-lunghi <- family_labels[ family_labels$Group == "Lunghi", ]$Family
+longhi <- family_labels[ family_labels$Group == "Longhi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
 
 curti_congiurati <- ducali[ !(ducali %in% c("Steno", "Ponte", "Cicogna")) ]
@@ -556,33 +556,33 @@ distances_window <- data.frame( total = numeric(),
                                 non_congiurati_norm = numeric(),
                                 congiurati_vs_non = numeric(),
                                 congiurati_vs_non_norm = numeric(),
-                                lunghi = numeric(),
-                                lunghi_norm = numeric(),
-                                non_lunghi = numeric(),
-                                non_lunghi_norm = numeric(),
-                                lunghi_vs_non = numeric(),
-                                lunghi_vs_non_norm = numeric(),
-                                lunghi_vs_congiurati = numeric(),
-                                lunghi_vs_congiurati_norm = numeric(),
+                                longhi = numeric(),
+                                longhi_norm = numeric(),
+                                non_longhi = numeric(),
+                                non_longhi_norm = numeric(),
+                                longhi_vs_non = numeric(),
+                                longhi_vs_non_norm = numeric(),
+                                longhi_vs_congiurati = numeric(),
+                                longhi_vs_congiurati_norm = numeric(),
                                 year = integer() )
 
 core_periphery_timeline <- data.frame( clique_index_congiurati = numeric(),
                                        assortativity_congiurati = numeric(),
-                                        clique_index_lunghi = numeric(),
-                                       assortativity_lunghi = numeric(),
-                                        assortativity_lunghi_congiurati = numeric(),
+                                        clique_index_longhi = numeric(),
+                                       assortativity_longhi = numeric(),
+                                        assortativity_longhi_congiurati = numeric(),
                                         year = integer() )
 
 number_of_marriages <- data.frame( year= integer(),
                                    intra_congiurati = numeric(),
-                                   intra_lunghi = numeric(),
-                                   inter_congiurati_lunghi = numeric(),
+                                   intra_longhi = numeric(),
+                                   inter_congiurati_longhi = numeric(),
                                    extra_congiurati = numeric(),
-                                   extra_lunghi = numeric())
+                                   extra_longhi = numeric())
 
 network_measures_year <- data.frame( year=integer(),
                                   closeness_congiurati = numeric(),
-                                  closeness_lunghi = numeric(),
+                                  closeness_longhi = numeric(),
                                   diameter = numeric(),
                                   clustering_coefficient=  numeric())
   
@@ -602,7 +602,7 @@ for (y in window_sequence ) {
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
   
-  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Curti Congiurati", "Curti"))
+  V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Curti Congiurati", "Curti"))
   
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
@@ -610,19 +610,19 @@ for (y in window_sequence ) {
   distance <- distances(marriage_graph_main, weights = E(marriage_graph_main)$distances)
   average_distance <- mean(distance)
   
-  vertices_lunghi <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Lunghi"]
-  vertices_non_lunghi <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Lunghi"]
+  vertices_longhi <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Longhi"]
+  vertices_non_longhi <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Longhi"]
   
-  distance_lunghi_non_lunghi <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_non_lunghi, weights = E(marriage_graph_main)$distances)
-  mean_lunghi_non_lunghi <- mean(distance_lunghi_non_lunghi)
+  distance_longhi_non_longhi <- distances(marriage_graph_main, v = vertices_longhi, to = vertices_non_longhi, weights = E(marriage_graph_main)$distances)
+  mean_longhi_non_longhi <- mean(distance_longhi_non_longhi)
   
-  distances_lunghi_lunghi <- distances(marriage_graph_main, v = vertices_lunghi, to = vertices_lunghi, weights = E(marriage_graph_main)$distances)
-  mean_lunghi_lunghi <- mean(distances_lunghi_lunghi)
+  distances_longhi_longhi <- distances(marriage_graph_main, v = vertices_longhi, to = vertices_longhi, weights = E(marriage_graph_main)$distances)
+  mean_longhi_longhi <- mean(distances_longhi_longhi)
   
-  distances_non_lunghi_non_lunghi <- distances(marriage_graph_main, v = vertices_non_lunghi, to = vertices_non_lunghi, weights = E(marriage_graph_main)$distances)
-  mean_non_lunghi_non_lunghi <- mean(distances_non_lunghi_non_lunghi)
+  distances_non_longhi_non_longhi <- distances(marriage_graph_main, v = vertices_non_longhi, to = vertices_non_longhi, weights = E(marriage_graph_main)$distances)
+  mean_non_longhi_non_longhi <- mean(distances_non_longhi_non_longhi)
   
-  clique_index_lunghi <- mean_lunghi_non_lunghi - mean_lunghi_lunghi
+  clique_index_longhi <- mean_longhi_non_longhi - mean_longhi_longhi
                            
   vertices_congiurati <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Curti Congiurati"]
   vertices_non_congiurati <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Curti Congiurati"]
@@ -636,18 +636,18 @@ for (y in window_sequence ) {
   distances_non_congiurati_non_congiurati <- distances(marriage_graph_main, v = vertices_non_congiurati, to = vertices_non_congiurati, weights = E(marriage_graph_main)$distances)
   mean_non_congiurati_non_congiurati <- mean(distances_non_congiurati_non_congiurati)
   
-  distances_lunghi_congiurati <- distances( marriage_graph_main, v = vertices_lunghi, to = vertices_congiurati, weights = E(marriage_graph_main)$distances )
-  mean_lunghi_congiurati <- mean( distances_lunghi_congiurati )
+  distances_longhi_congiurati <- distances( marriage_graph_main, v = vertices_longhi, to = vertices_congiurati, weights = E(marriage_graph_main)$distances )
+  mean_longhi_congiurati <- mean( distances_longhi_congiurati )
   
   clique_index_congiurati <- mean_congiurati_non_congiurati - mean_congiurati_congiurati
 
   number_of_marriages <- rbind( number_of_marriages,
                                 data.frame( year=last_year,
                                             intra_congiurati = length(E(marriage_graph_main)[ vertices_congiurati %--% vertices_congiurati]),
-                                            intra_lunghi = length(E(marriage_graph_main)[ vertices_lunghi %--% vertices_lunghi]),
-                                            inter_congiurati_lunghi = length(E(marriage_graph_main)[ vertices_lunghi %--% vertices_congiurati ]),
+                                            intra_longhi = length(E(marriage_graph_main)[ vertices_longhi %--% vertices_longhi]),
+                                            inter_congiurati_longhi = length(E(marriage_graph_main)[ vertices_longhi %--% vertices_congiurati ]),
                                             extra_congiurati = length(E(marriage_graph_main)[ vertices_non_congiurati %--% vertices_congiurati ]),
-                                            extra_lunghi = length(E(marriage_graph_main)[ vertices_non_lunghi %--% vertices_lunghi ])
+                                            extra_longhi = length(E(marriage_graph_main)[ vertices_non_longhi %--% vertices_longhi ])
                                             )
   )
   
@@ -659,29 +659,29 @@ for (y in window_sequence ) {
                                      non_congiurati_norm = mean_non_congiurati_non_congiurati / average_distance,
                                      congiurati_vs_non = mean_congiurati_non_congiurati,
                                      congiurati_vs_non_norm = mean_congiurati_non_congiurati / average_distance,
-                                     lunghi = mean_lunghi_lunghi,
-                                     lunghi_norm = mean_lunghi_lunghi / average_distance,
-                                     non_lunghi = mean_non_lunghi_non_lunghi,
-                                     non_lunghi_norm = mean_non_lunghi_non_lunghi / average_distance,
-                                     lunghi_vs_non = mean_lunghi_non_lunghi,
-                                     lunghi_vs_non_norm = mean_lunghi_non_lunghi / average_distance,
-                                     lunghi_vs_congiurati = mean_lunghi_congiurati,
-                                     lunghi_vs_congiurati_norm = mean_lunghi_congiurati/average_distance,
+                                     longhi = mean_longhi_longhi,
+                                     longhi_norm = mean_longhi_longhi / average_distance,
+                                     non_longhi = mean_non_longhi_non_longhi,
+                                     non_longhi_norm = mean_non_longhi_non_longhi / average_distance,
+                                     longhi_vs_non = mean_longhi_non_longhi,
+                                     longhi_vs_non_norm = mean_longhi_non_longhi / average_distance,
+                                     longhi_vs_congiurati = mean_longhi_congiurati,
+                                     longhi_vs_congiurati_norm = mean_longhi_congiurati/average_distance,
                                      year = last_year))
   
   V(marriage_graph)$types_congiurati <- ifelse(V(marriage_graph)$Group == "Curti Congiurati", 1,2)
   assortativity_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_congiurati, directed = FALSE)
-  V(marriage_graph)$types_lunghi <- ifelse(V(marriage_graph)$Group == "Lunghi", 1,2)
-  assortativity_lunghi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_lunghi, directed = FALSE)
-  V(marriage_graph)$types_both <- ifelse(V(marriage_graph)$Group == "Lunghi", 1, ifelse(V(marriage_graph)$Group == "Curti Congiurati",2,3))
-  assortativity_lunghi_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_both, directed = FALSE)
+  V(marriage_graph)$types_longhi <- ifelse(V(marriage_graph)$Group == "Longhi", 1,2)
+  assortativity_longhi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_longhi, directed = FALSE)
+  V(marriage_graph)$types_both <- ifelse(V(marriage_graph)$Group == "Longhi", 1, ifelse(V(marriage_graph)$Group == "Curti Congiurati",2,3))
+  assortativity_longhi_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_both, directed = FALSE)
   
   core_periphery_timeline <- rbind(core_periphery_timeline,
                                      data.frame( clique_index_congiurati = clique_index_congiurati,
                                                  assortativity_congiurati = assortativity_congiurati,
-                                                 clique_index_lunghi = clique_index_lunghi,
-                                                 assortativity_lunghi = assortativity_lunghi,
-                                                 assortativity_lunghi_congiurati = assortativity_lunghi_congiurati,
+                                                 clique_index_longhi = clique_index_longhi,
+                                                 assortativity_longhi = assortativity_longhi,
+                                                 assortativity_longhi_congiurati = assortativity_longhi_congiurati,
                                                  year = last_year ))
   
   # 1. Calculate closeness as a named vector
@@ -689,11 +689,11 @@ for (y in window_sequence ) {
 
   # 2. Match the scores to the names/rownames of your data frames
   closeness_congiurati <- mean(closeness_scores[vertices_congiurati$name], na.rm = TRUE)
-  closeness_lunghi     <- mean(closeness_scores[vertices_lunghi$name], na.rm = TRUE)
+  closeness_longhi     <- mean(closeness_scores[vertices_longhi$name], na.rm = TRUE)
   network_measures_year <- rbind( network_measures_year,
                              data.frame( year= last_year,
                                          closeness_congiurati= closeness_congiurati,
-                                         closeness_lunghi = closeness_lunghi,
+                                         closeness_longhi = closeness_longhi,
                                          diameter = diameter( marriage_graph_main),
                                          clustering_coefficient = transitivity(marriage_graph_main)
                                          )
@@ -705,107 +705,107 @@ ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = congiurati, color = "congiurati")) +
   geom_line(aes(y = non_congiurati, color = "Non congiurati"), linetype = "dashed") +
   geom_line(aes(y = congiurati_vs_non, color = "congiurati vs. Non"),linetype = "dotdash") +
-  geom_line(aes(y = lunghi, color = "Lunghi")) +
-  geom_line(aes(y = non_lunghi, color = "Non Lunghi"), linetype = "dashed") +
-  geom_line(aes(y = lunghi_vs_non, color = "Lunghi vs. Non"), linetype = "dotdash") +
-   geom_line(aes(y = lunghi_vs_congiurati, color = "Lunghi vs. Congiurati")) +
+  geom_line(aes(y = longhi, color = "Longhi")) +
+  geom_line(aes(y = non_longhi, color = "Non longhi"), linetype = "dashed") +
+  geom_line(aes(y = longhi_vs_non, color = "Longhi vs. Non"), linetype = "dotdash") +
+   geom_line(aes(y = longhi_vs_congiurati, color = "Longhi vs. Congiurati")) +
   labs(title = "Average Shortest Path Length Over Time",
        x = "Year",
        y = "Average Shortest Path Length") +
   scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
-                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
-                                "Lunghi vs. Congiurati" = "green"
+                                "Longhi" = "gold","Non longhi" = "gold", "Longhi vs. Non" = "gold",
+                                "Longhi vs. Congiurati" = "green"
                                 )) +
   theme_minimal()
 
 @
 
-However, what we need to look at is the capability of creating and sustaining coalitions of the two known factions: the {\em lunghi} and the {\em grandi curti}. This capability can be measured in different ways. If we think of the faction as a core, it will have to be tightly connected to each other in this marriage network, as well as relatively well connected to the rest of the network. For the social network in every 75-year window, separated 5 years, the distances within the group, from the group to the rest, and among those not belonging to the group is plotted in Figure \ref{fig:casenuove.analysis}, that uses solid lines for intra-group shortest path lengths, dot-dashed lines for shortest paths from the group to outside, and dashed lines for those {\em not} belonging to the group, which can be thought as the capability for forming coalitions {\em against} the core. The $x$ axis runs over the {\em last} year of the graph. All three of them are important for group cohesion, but also for perception of a particular faction as separated or apart from the rest of the social network, and what we see is that intra-group average distances is smaller for the {\em lunghi} than for the {\em grandi curti}, while the other two distances are not only similar, but also follow the same trend.
+However, what we need to look at is the capability of creating and sustaining coalitions of the two known factions: the {\em longhi} and the {\em grandi curti}. This capability can be measured in different ways. If we think of the faction as a core, it will have to be tightly connected to each other in this marriage network, as well as relatively well connected to the rest of the network. For the social network in every 75-year window, separated 5 years, the distances within the group, from the group to the rest, and among those not belonging to the group is plotted in Figure \ref{fig:casenuove.analysis}, that uses solid lines for intra-group shortest path lengths, dot-dashed lines for shortest paths from the group to outside, and dashed lines for those {\em not} belonging to the group, which can be thought as the capability for forming coalitions {\em against} the core. The $x$ axis runs over the {\em last} year of the graph. All three of them are important for group cohesion, but also for perception of a particular faction as separated or apart from the rest of the social network, and what we see is that intra-group average distances is smaller for the {\em longhi} than for the {\em grandi curti}, while the other two distances are not only similar, but also follow the same trend.
 
 <<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions.", fig.height=6, fig.pos="h!tb">>=
 ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = congiurati_norm, color = "congiurati")) +
   geom_line(aes(y = non_congiurati_norm, color = "Non congiurati"), linetype = "dashed") +
   geom_line(aes(y = congiurati_vs_non_norm, color = "congiurati vs. Non"),linetype = "dotdash") +
-  geom_line(aes(y = lunghi_norm, color = "Lunghi")) +
-  geom_line(aes(y = non_lunghi_norm, color = "Non Lunghi"), linetype = "dashed") +
-  geom_line(aes(y = lunghi_vs_non_norm, color = "Lunghi vs. Non"), linetype = "dotdash") +
-  geom_line(aes(y = lunghi_vs_congiurati_norm, color = "Lunghi vs. Congiurati")) +
+  geom_line(aes(y = longhi_norm, color = "Longhi")) +
+  geom_line(aes(y = non_longhi_norm, color = "Non longhi"), linetype = "dashed") +
+  geom_line(aes(y = longhi_vs_non_norm, color = "Longhi vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = longhi_vs_congiurati_norm, color = "Longhi vs. Congiurati")) +
   labs(title = "Normalized Average Shortest Path Length Over Time",
        x = "Year",
        y = "Normalized Average Shortest Path Length") +
   scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
-                                "Lunghi" = "gold","Non Lunghi" = "gold", "Lunghi vs. Non" = "gold",
-                                "Lunghi vs. Congiurati" = "green"
+                                "Longhi" = "gold","Non longhi" = "gold", "Longhi vs. Non" = "gold",
+                                "Longhi vs. Congiurati" = "green"
                                 )
                      ) +
   theme_minimal()
 @
 
-However, this evolution can be better observed if we normalize distances against the average distance for the specific graph we're examining; this is shown in Figure \ref{fig:casenuove.analysis.normalized}. The way it is organized is more or less the same, but differences are accentuated showing, for instance, how the {\em grandi curti} start being closer to the rest of the nodes up until approximately year 1500, when it crosses the line for the {\em lunghi}. The dips happening towards the second half of the XVII century are accentuated: both groups start to be less tightly connected by that time.
+However, this evolution can be better observed if we normalize distances against the average distance for the specific graph we're examining; this is shown in Figure \ref{fig:casenuove.analysis.normalized}. The way it is organized is more or less the same, but differences are accentuated showing, for instance, how the {\em grandi curti} start being closer to the rest of the nodes up until approximately year 1500, when it crosses the line for the {\em longhi}. The dips happening towards the second half of the XVII century are accentuated: both groups start to be less tightly connected by that time.
 
 <<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions.", fig.height=6, fig.pos="h!tb">>=
 
 ggplot( core_periphery_timeline, aes(x = year)) + 
   geom_line(aes(y = clique_index_congiurati, color = "congiurati")) +
-  geom_line(aes(y = clique_index_lunghi, color = "Lunghi")) +
+  geom_line(aes(y = clique_index_longhi, color = "Longhi")) +
   labs(title = "Clique Index Over Time",
        subtitle="Lower is better",
        x = "Year",
        y = "Power-Periphery Index") +
-  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold")) +
+  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold")) +
   theme_minimal()
 @
 
-Still, in order to form a coalition you need both the members of your faction as those not belonging to it; the wide coalitions required by the Venetian electoral conventions ensure that is a must to crown someone of your faction as a doge; and as measured above, it needs not only a tight intra-group connection and a close integration with those not belonging to your group, but also a low perception of a separate group in the social network. This is measured by the clique index, which is defined as the difference between the average distance between the faction and those not in the faction and the intra-faction average distance. The evolution through time of this index is shown in Figure \ref{fig:casenuove.analysis.clique}. The {\em grandi curti} have a lower index: they are better integrated with those not in the group than the {\em lunghi}, giving them a better coalition-forming ability. Still, this is not an absolute, and there is a sudden shift in the indices happening again the same dates, around the 2nd half of the XVII century.
+Still, in order to form a coalition you need both the members of your faction as those not belonging to it; the wide coalitions required by the Venetian electoral conventions ensure that is a must to crown someone of your faction as a doge; and as measured above, it needs not only a tight intra-group connection and a close integration with those not belonging to your group, but also a low perception of a separate group in the social network. This is measured by the clique index, which is defined as the difference between the average distance between the faction and those not in the faction and the intra-faction average distance. The evolution through time of this index is shown in Figure \ref{fig:casenuove.analysis.clique}. The {\em grandi curti} have a lower index: they are better integrated with those not in the group than the {\em longhi}, giving them a better coalition-forming ability. Still, this is not an absolute, and there is a sudden shift in the indices happening again the same dates, around the 2nd half of the XVII century.
 
-These charts are a step towards explaining why the {\em grandi curti} were able to form these wide coalition: well connected to their periphery, and not perceived as a separate power group, unlike the {\em lunghi}, However, the perception and the cohesion seems to unravel towards the end of the period, which might explain the return to the {\em lunghi} as preferred families for dogeship. And they draw a relatively complicated scenario, with dynamic factions that are at the same time well related to each other through the common political and commercial (including matrimonial) framework of the Republic of Venice, but keeping their relatively separate identities using the same set of links. As is shown in Figure \ref{fig:casenuove.cohesiveness.setup}, there is a substantial demographic shift by mid-XVII century which is right behind the end of the {\em ducale} doge era, thus it cannot explain the shift (although it might have contributed to its permanency).
+These charts are a step towards explaining why the {\em grandi curti} were able to form these wide coalition: well connected to their periphery, and not perceived as a separate power group, unlike the {\em longhi}, However, the perception and the cohesion seems to unravel towards the end of the period, which might explain the return to the {\em longhi} as preferred families for dogeship. And they draw a relatively complicated scenario, with dynamic factions that are at the same time well related to each other through the common political and commercial (including matrimonial) framework of the Republic of Venice, but keeping their relatively separate identities using the same set of links. As is shown in Figure \ref{fig:casenuove.cohesiveness.setup}, there is a substantial demographic shift by mid-XVII century which is right behind the end of the {\em ducale} doge era, thus it cannot explain the shift (although it might have contributed to its permanency).
 
-We are more interested on the trend in the first quarter of the XVII century, when effectively the {\em lunghi} retrieved their access to the dogate. Figure \ref{fig:casenuove.analysis.normalized} possibly shows the clearest picture. This chart shows normalized average shortest past distances. Intra-faction distances reflect cohesiveness within a faction, and what we see is that while {\em lunghi} and {\em grandi curti} were very close together in terms of normalized distance until the end of the XVI century, the difference between them starts to increase by the beginning of the XVII. Same happens with the distance between the factions and the rest of the network: while {\em grandi curti} maintain a slight advantage over the {\em lunghi}, eventually the latter begin being being closer to the {\em periphery} by the end of that century. It is interesting also, in this chart, to check the distances between the two "factions", {\em lunghi} and {\em grandi curti}. While during most of the period distances between them are longer than intra-faction distances, there come a point at the beginning of the 17th century, before the change of regime, when {\em grandi curti} are on average further away from each other (solid blue line) than from the {\em lunghi} (green line).
+We are more interested on the trend in the first quarter of the XVII century, when effectively the {\em longhi} retrieved their access to the dogate. Figure \ref{fig:casenuove.analysis.normalized} possibly shows the clearest picture. This chart shows normalized average shortest past distances. Intra-faction distances reflect cohesiveness within a faction, and what we see is that while {\em longhi} and {\em grandi curti} were very close together in terms of normalized distance until the end of the XVI century, the difference between them starts to increase by the beginning of the XVII. Same happens with the distance between the factions and the rest of the network: while {\em grandi curti} maintain a slight advantage over the {\em longhi}, eventually the latter begin being being closer to the {\em periphery} by the end of that century. It is interesting also, in this chart, to check the distances between the two "factions", {\em longhi} and {\em grandi curti}. While during most of the period distances between them are longer than intra-faction distances, there come a point at the beginning of the 17th century, before the change of regime, when {\em grandi curti} are on average further away from each other (solid blue line) than from the {\em longhi} (green line).
 
-<<casenuove.assortativity, echo=F, message=F, fig.cap="Evolution of assortativity for different type combinations: grandi curti vs. non, lunghi vs. non, and lunghi vs. curti",  fig.pos="h!tb", fig.height=5>>=
+<<casenuove.assortativity, echo=F, message=F, fig.cap="Evolution of assortativity for different type combinations: grandi curti vs. non, longhi vs. non, and longhi vs. curti",  fig.pos="h!tb", fig.height=5>>=
 ggplot( core_periphery_timeline, aes(x = year)) + 
   geom_line(aes(y = assortativity_congiurati, color = "congiurati")) +
-  geom_line(aes(y = assortativity_lunghi, color = "Lunghi")) +
-  geom_line(aes(y = assortativity_lunghi_congiurati, color = "Lunghi vs. congiurati")) +
+  geom_line(aes(y = assortativity_longhi, color = "Longhi")) +
+  geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. congiurati")) +
   labs(x = "Year",
        y = "Assortativity") +
-  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold", "Lunghi vs. congiurati" ="green")) +
+  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold", "Longhi vs. congiurati" ="green")) +
   theme_minimal()
 @
 
-We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortativity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em lunghi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em lunghi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em lunghi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em lunghi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em lunghi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
+We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortativity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em longhi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em longhi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em longhi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em longhi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em longhi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
 
 <<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriages within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
 ggplot( number_of_marriages, aes(x = year)) + 
   geom_line(aes(y = intra_congiurati, color = "congiurati")) +
-  geom_line(aes(y = intra_lunghi, color = "Lunghi")) +
+  geom_line(aes(y = intra_longhi, color = "Longhi")) +
   geom_line(aes(y = extra_congiurati, color = "extra congiurati")) +
-  geom_line(aes(y = extra_lunghi, color = "extra Lunghi")) +
-  geom_line(aes(y = inter_congiurati_lunghi, color = "Lunghi vs. congiurati")) +
+  geom_line(aes(y = extra_longhi, color = "extra longhi")) +
+  geom_line(aes(y = inter_congiurati_longhi, color = "Longhi vs. congiurati")) +
   labs(title = "Number of marriages over time",
        subtitle = "Intra, inter and extra groups",
        x = "Year",
        y = "Number of marriages") +
-  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold", "Lunghi vs. congiurati" ="green", 
-                                "extra congiurati" = "light blue", "extra Lunghi" ="darkgoldenrod2")) +
+  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold", "Longhi vs. congiurati" ="green", 
+                                "extra congiurati" = "light blue", "extra longhi" ="darkgoldenrod2")) +
   theme_minimal()
 
 @
 
-What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em lunghi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em lunghi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
+What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em longhi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em longhi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
 
 <<casenuove.closeness, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=3, fig.pos="h!tb">>=
 ggplot( network_measures_year, aes(x = year)) + 
   geom_line(aes(y = closeness_congiurati, color = "congiurati")) +
-  geom_line(aes(y = closeness_lunghi, color = "Lunghi")) +
+  geom_line(aes(y = closeness_longhi, color = "Longhi")) +
   labs(x = "Year",
        y = "Average closeness per group") +
-  scale_color_manual(values = c("congiurati" = "blue", "Lunghi" = "gold")) +
+  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold")) +
   theme_minimal()
 @
 
-We see in Figure \ref{fig:casenuove.closeness}, which represents the normalized average closeness for the two factions, the {\em grandi curti} and the {\em lunghi}. Its value is relatively high; being close to 0.5, it means that the average number of edges they both had to work through to get to any family in the connected component (which represents almost all families in the network at every point in time) is around 2. The {\em grandi curti} have the leas up until mid-XVI, but then the {\em lunghi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both.
+We see in Figure \ref{fig:casenuove.closeness}, which represents the normalized average closeness for the two factions, the {\em grandi curti} and the {\em longhi}. Its value is relatively high; being close to 0.5, it means that the average number of edges they both had to work through to get to any family in the connected component (which represents almost all families in the network at every point in time) is around 2. The {\em grandi curti} have the leas up until mid-XVI, but then the {\em longhi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both.
 %
 <<casenuove.diameter, echo=F, message=F, fig.cap="Evolution of the clustering coefficient over time. The green line marks the year when Francesco Contarini was elected.", fig.height=3, fig.pos="h!tb">>=
 ggplot( network_measures_year, aes(x = year, y = clustering_coefficient)) + 
@@ -830,9 +830,9 @@ This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competit
 \bibliography{ours,case-nuove,patrician,marriage,complex-networks}
 
 \appendix
-\section{Two failed {\em lunghi} attempts during the {\em grandi curti} era}
+\section{Two failed {\em longhi} attempts during the {\em grandi curti} era}
 
-During the two century period where the {\em grandi curti} monopolized the access to the office of doge, there were two close calls where {\em lunghi} families almost managed to overturn their domination.
+During the two century period where the {\em grandi curti} monopolized the access to the office of doge, there were two close calls where {\em longhi} families almost managed to overturn their domination.
 
 <<casenuove.giustinian, echo=F, fig.cap="Social graph in 1486, with node size proportional to closeness, marking the two families that competed for doge; we use the regular colors for factions", fig.pos="h!tb", warning=FALSE>>=
 giustinian_marriage_data <-  noble_marriages %>%
@@ -847,9 +847,9 @@ giustinian_marriage_data <-  noble_marriages %>%
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   
-  V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Grandi Curti", "Curti"))
+  V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Grandi Curti", "Curti"))
   
-  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi",
+  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Longhi",
                                     "gold", 
                                     ifelse(V(marriage_graph)$Faction=="Grandi Curti","red","white"))
   
@@ -924,7 +924,7 @@ plot(marriage_graph,
      main = "Marriage network at the time of the election of Agostino Barbarigo"
 )
 
-faction_levels <- c("Lunghi", "Grandi Curti", "Curti")
+faction_levels <- c("Longhi", "Grandi Curti", "Curti")
 # Get first-degree neighbors of each family
 barbarigo_neighbors <- neighbors(marriage_graph, V(marriage_graph)[name == "Barbarigo"])
 giustinian_neighbors <- neighbors(marriage_graph, V(marriage_graph)[name == "Giustinian"])
@@ -939,10 +939,9 @@ kable(faction_summary, caption="Table of connections from the candidate families
 
 @
 
-We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. What is apparent from the graph is that while the Giustinian (lunghi) are closest to other of the same {\em lunghi} faction, the {\em Barbarigo} have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giustinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{barbarigo_closeness}
-, slightly higher than 
+We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. What is apparent from the graph is that while the Giustinian (longhi) are closest to other of the same {\em longhi} faction, the {\em Barbarigo} have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giustinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{barbarigo_closeness}, slightly higher than 
 \Sexpr{giustinian_closeness}
-for the Giustinian family. They were close enough to have a chance at challenging {\em grandi curti}'s domination, but not enough to actually beat them; besides, we should take into account that, although both were connected in the first degree to the two factions, the Barbarigo not only had more {\em curti} in their neighborhood, but also a good amount of families from the {\em lunghi} "faction"; as a matter of fact, they had more connections to families of the {\em other} faction than to its own; the situation is inverted for the Giustinian.
+for the Giustinian family. They were close enough to have a chance at challenging {\em grandi curti}'s domination, but not enough to actually beat them; besides, we should take into account that, although both were connected in the first degree to the two factions, the Barbarigo not only had more {\em curti} in their neighborhood, but also a good amount of families from the {\em longhi} "faction"; as a matter of fact, they had more connections to families of the {\em other} faction than to its own; the situation is inverted for the Giustinian.
 
 This close call holds two different lessons: first, there was no strict factionalism in the sense of factions totally separated in different communities, without any kind of inter-marriage; factions are also not directly connected with each other, needing in many cases go through families of the other "faction" to reach other member. Second, in a closeness-dominated network, even a small advantage can be leveraged to obtain the (very) broad coalition needed to get one of your family elected.
 
