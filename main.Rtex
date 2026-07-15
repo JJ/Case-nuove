@@ -299,7 +299,7 @@ These considerations justify treating the \emph{casata} as the relevant unit of 
 A separate question concerns the representativeness of the network used in this study. The data assembled by Puga and Trefler  derive from a nineteenth-century manuscript held at the Archivio di Stato di Venezia and are  largely based on  records of the Avogaria di Comun, which registered  marriages involving noble husbands from the early fifteenth century onward. These records played a central role in regulating access to the patriciate by excluding illegitimate children and those born to socially unworthy mothers of non-noble birth, as provided by legislation enacted in 1376 and 1422 as part of the process often referred to as  the “second Serrata” \citep{second:serrata}. The systematic nature of these records suggests that the resulting network provides broad coverage of marriages among the Venetian patriciate between 1400 and 1650. Moreover, the reliability of the dataset has already been established in previous work by Puga and Trefler.
 
 % IO FINIREI LA SEZIONE 3.2 QUI. NON MI SEMBRA CHE IL GRAFICO DI FIGURA 2 SERVA MOLTO A VALIDARE I DATI
-% JJ - OK finito e messo sulla prossima sezione
+% JJ - OK finito e messo nella prossima sezione
 
 \subsection{Initial exploratory analysis}\label{ssec:exploration}
 
@@ -332,7 +332,7 @@ quaranta_famiglie <- c(lunghi,ducali)
 
 quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Da Ponte", "Cicogna")) ]
 
-window_sequence <- seq(from = 1350, to = 1600, by = 50)
+window_sequence <- seq(from = 1350, to = 1550, by = 50)
 assortativity <- data.frame( curti_lunghi = numeric(),
                              ducali = numeric(),
                              in_quaranta = numeric(),
@@ -418,35 +418,13 @@ for (y in window_sequence ) {
 }
 @
 
-Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \citep{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. The \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. Except for the \Sexpr{ excluded_families_list[[6]][1]} family in the last graph, no families are excluded from the  main connected component of each network. 
+Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \citep{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{curti} families part of the conspiracy and white nodes other \emph{curti} families. The \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. No families are excluded from the  main connected component of each network. 
 The figure highlights several important features of the network. First, not every \emph{ducali} family occupies a central position in the network. 
 Second, the effects of the \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families. 
 
-<<casenuove.evolution, message=F, echo=F, fig.cap="Evolution of network measures for the 6 overlapping periods examined", fig.height=4, fig.pos="h!tb">>=
-library(dplyr)
-library(tidyr)
+An third feature that emerges from the graphs is the substantial stability of the network across the (overlapping) time windows.The  graphs in the center of the sequence display very similar structural properties, whereas the first and the last stand out as clear exceptions. This change is also apparent in the visual representation of the networks of Figure~\ref{fig:casenuove.graphs}. Whereas  the network for 1500--1575 appears densely interwoven, with most families embedded in a compact core, the last networks is looser, with a growing number of families outside the densely connected core.
 
-df_long <- network_measures %>%
-  pivot_longer(-dates, names_to = "metric", values_to = "value")
- 
-df_z <- df_long %>%
-  group_by(metric) %>%
-  mutate(value_z = (value - mean(value)) / sd(value)) %>%
-  ungroup()
- 
-ggplot(df_z, aes(x = dates, y = value_z, color = metric, group=metric)) +
-  geom_line(linewidth = 1) +
-  geom_point() +
-  labs(y = "Z-score", x=NULL,color = "Metric") + 
-  theme_minimal() +
-  scale_x_discrete(guide = guide_axis(angle = 45)) 
-
-@
-
-An third feature that emerges from the graphs is the substantial stability y of network across the six time windows.The four central graphs display very similar structural properties, whereas the first and the last stand out as clear exceptions. Figure~\ref{fig:casenuove.evolution} illustrates this pattern by reporting the average degree, clustering coefficient, and closeness of the six networks shown in Figure~\ref{fig:casenuove.graphs}, normalized as z-scores. The low values observed in the first period (1350–-1425) are probably an artifact of the limited number of recorded marriages in the dataset for those years.  By contrast, the marked departure observed in the final period (1600--1675), with closeness falling to its lowest value and clustering coefficient and degree falling below zero in s-score terms, may reflect the political transformations associated with the end of the exclusion of the
-\emph{longhi} families from the dogate. Lower values of average closeness and degree indicate  that families were less tightly connected. Likewise, the decline in the clustering coefficient suggests that local neighbourhoods became less cohesive. This change is also apparent in the visual representation of the networks of Figure~\ref{fig:casenuove.graphs}. Whereas  the network for 1500--1575 appears densely interwoven, with most families embedded in a compact core, the later networks become progressively looser, with a growing number of families outside the core.
-
-Another interesting aspect is the lack of clear factionalization. In none of the periods do either the conspiring \emph{curti} or the \emph{lunghi} families form internally cohesive clusters that exclude the rest of the patriciate. Although peripheral positions are almost always occupied by “white” nodes---namely \emph{curti} families not part of the conspiracy—--neither of the two “coloured” factions consistently dominates the most central positions in the network.
+Another interesting aspect is the lack of clear factionalization. In none of the periods do either the conspiring \emph{curti} or the \emph{lunghi} families form internally cohesive clusters that exclude the rest of the patriciate. Although peripheral positions are almost always occupied by “white” nodes---namely \emph{curti} families not part of the conspiracy---neither of the two “colored” factions consistently dominates the most central positions in the network, or there seems to be a clear separation between them, with clusters of closely connected {\em lunghi} families surrounded by {\em grandi curti} and the other way round.
 
  <<casenuove.betweenness, echo=F,fig.cap="Sequence of distribution of betweenness for the marriage social networks. Colors are as in the previous figure, gold indicates a lunghi family, while red corresponds to ducali; oversize points correspond to families that have had a doge during the period.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 initial_year <- 1350
@@ -464,11 +442,10 @@ for (graph in graph_list) {
                      size=betweenness_df_sorted$size)+
           scale_x_log10()+scale_y_log10(limits = c(0.1, 1900))+theme_minimal()+xlab(paste("Years", initial_year, "-", initial_year+DEPTH_IN_YEARS)))
   initial_year <- initial_year + 50
-#  print(betweenness_df_sorted[1,])
 }
 @
 
-To better understand the structure of political intermediation within the Venetian patriciate, Figure \ref{fig:casenuove.betweenness} shows the distribution of betweenness centrality by rank across the six overlapping periods.  All graphs share the same $y$-axis scale, while the $x$ axis reports the rank of families with a betweenness value greater than zero. This common scale makes it possible to compare the degree of concentration of intermediation power across periods. The colors follow the same classification used in the previous figure, distinguishing between \emph{lunghi}, conspiracy \emph{curti}, and other \emph{curti}.  Larger points represent families that elected a doge during the corresponding period.
+To better understand the structure of political intermediation within the Venetian patriciate, Figure \ref{fig:casenuove.betweenness} shows the distribution of betweenness centrality by rank across the six overlapping periods.  All graphs share the same $y$-axis scale, while the $x$ axis reports the rank of families with a betweenness value greater than zero. This common scale makes it possible to compare the degree of concentration of intermediation power across periods. The colors follow the same classification used in the previous figure, distinguishing between \emph{lunghi}, \emph{grandi curti}, and other \emph{curti}.  Larger points represent families that elected a doge during the corresponding period.
 
 A first observation is the absence of extreme centralization around a single family. Maximum betweenness values remain around 1000 with a slight decline observable in the 1500--1575 and 1550--1625 graphs. A further notable feature is that, rather than displaying the steep decay typically associated with a power-law distribution, all graphs exhibit a pronounced ``broken-stick'' pattern: a relatively large group of families shares similarly high betweenness values, followed by a sharp decline around the 100th rank. 
 
@@ -476,7 +453,7 @@ This pattern suggests the existence of a broad elite endowed with comparable int
 
 Such a distribution of intermediation power may help explain the pattern of doge selection observed during the period under study.  However, further investigation would be necessary to determine the exact composition, cohesion, and long-term stability of this elite. The color patterns in the graph provide some preliminary indications in this regard. The forty families, i.e., the  \emph{longhi} and the conspiring \emph{curti} families, rank higher in terms of centrality, whereas lower ranks are predominantly composed of other \emph{curti} families. Nevertheless, no single faction consistently dominates the top positions across all periods. For example, in the third graph (1450--1525), the highest-ranked family does not belong to the forty families, while in the fourth graph all three colors appears among the most central families. Overall, the graphs point less to the stable predominance of a single faction than to a rotation of influence within a restricted elite.
 
- Turning now to the \emph{ducali} families, represented in the graph by the color yellow, another important pattern emerges. The family that succeeds in electing a doge (represented as a larger dot, for families elected doges within the period represented in the graph) is not necessarily the one occupying the most central position in the network. In most periods, \emph{ducali} families are distributed across the ranking, including relatively peripheral positions, and do not systematically coincide with the families displaying the highest betweenness values. Only in the final two periods (1550--1625 and 1600--1675), that is, in the years surrounding the end of the conspiracy in 1612, do the most central families also manage to secure the election of one of their members as doge.
+Turning now to the \emph{ducali} families, represented in the graph by the color yellow, another important pattern emerges. The family that succeeds in electing a doge (represented as a larger dot, for families elected doges within the period represented in the graph) is not necessarily the one occupying the most central position in the network. In most periods, \emph{ducali} families are distributed across the ranking, including relatively peripheral positions, and do not systematically coincide with the families displaying the highest betweenness values. Only in the final period (1550--1625), that is, in the years surrounding the end of the conspiracy in 1612, do the most central families also manage to secure the election of one of their members as doge.
 In the 1550-1625 period we see that already families with the highest betweenness have got one of them elected doge; two of them part of the {\em grandi curti} the Priuli (with Antonio Priuli elected doge in 1618) and the Donato or Donà (with Nicolò Donà elected right before, in 1618), and one of them part of the {\em lunghi}, marking the return of a family of this faction to the highest charge in the Republic: Giovanni Bembo was elected doge right before, in 1615.
 
 Before these periods, the dogeship was not monopolized by the network's central actors, as several doges were drawn from families occupying relatively peripheral positions, with a low social capital and thus brokerage power. The fact that \emph{ducali} families are found throughout the ranking is consistent with an electoral system that required large majorities: winning the dogeship depended on building broad coalitions capable of attracting support from both central and peripheral segments of the patriciate.
@@ -493,7 +470,6 @@ Before doing any further analysis, we should indicate which are the groups that 
 sort_with_empty_last <- function(x) {
   x[order(x == "", x)]
 }
-
 
 grandi_curti <- ducali[ !(ducali %in% c("Steno", "Ponte", "Cicogna")) ]
 
