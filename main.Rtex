@@ -837,6 +837,74 @@ This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competit
 \bibliographystyle{elsarticle-harv}
 \bibliography{ours,case-nuove,patrician,marriage,complex-networks}
 
+\appendix
+\section{Two failed {\em lunghi} attempts during the {\em grandi curti} era}
+
+During the two century period where the {\em grandi curti} monopolized the access to the office of doge, there were two close calls where {\em lunghi} families almost managed to overturn their domination.
+
+<<casenuove.giustinian, echo=F, fig.cap="Social graph in 1486, with node size proportional to closeness, marking the two families that competed for doge; we use the regular colors for factions">>=
+giustinian_marriage_data <-  noble_marriages %>%
+    filter(year <= 1486 & year >= 1486-DEPTH_IN_YEARS)
+
+ marriage_graph <- graph_from_data_frame(
+    giustinian_marriage_data,
+    directed = FALSE,
+    vertices = unique(c(giustinian_marriage_data$husband_familyname_std, giustinian_marriage_data$wife_familyname_std))
+  )
+  
+  E(marriage_graph)$weight <- 1
+  marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
+  
+  V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% lunghi, "Lunghi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Grandi Curti", "Curti"))
+  
+  V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Lunghi",
+                                    "gold", 
+                                    ifelse(V(marriage_graph)$Faction=="Grandi Curti","red","white"))
+  
+  closeness_scores <- closeness(marriage_graph, normalized=T)
+  V(marriage_graph)$closeness <- closeness_scores[V(marriage_graph)$name]
+  
+  closeness_df <- data.frame(
+    family    = V(marriage_graph)$name,
+    closeness = V(marriage_graph)$closeness
+  )
+
+  closeness_df_sorted <- closeness_df[order(closeness_df$closeness, decreasing = TRUE), ]
+  rownames(closeness_df_sorted) <- NULL  # tidy up row numbers
+
+  head(closeness_df_sorted, 10)
+  
+  V(marriage_graph)$label <- ifelse( V(marriage_graph)$name %in% c("Giustinian", "Barbarigo"),
+                                          V(marriage_graph)$name,
+                                          NA
+  )
+  
+  core_num <- coreness(marriage_graph)
+  marriage_graph <- induced_subgraph(marriage_graph, which(core_num > 6))
+
+  plot(marriage_graph,
+     vertex.size = V(marriage_graph)$closeness * 5,
+     vertex.label = V(marriage_graph)$label,
+     vertex.label.color = "black",
+     vertex.label.font = 2,
+     vertex.label.cex = 1,
+     vertex.color = V(marriage_graph)$color,
+     edge.width = E(marriage_graph)$weight,
+     main = "Marriage network at the time of the election of Agostino Barbarigo"
+  )
+  
+  closeness_df <- data.frame(
+    family    = V(marriage_graph)$name,
+    closeness = V(marriage_graph)$closeness
+  )
+
+  closeness_df_sorted <- closeness_df[order(closeness_df$closeness, decreasing = TRUE), ]
+  rownames(closeness_df_sorted) <- NULL  # tidy up row numbers
+
+  head(closeness_df_sorted, 10)
+
+@
+
 \end{document}
 
 \endinput
