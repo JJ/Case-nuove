@@ -318,6 +318,7 @@ This section provides a first examination of the marriage network and its evolut
 <<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks from 1350 onward, reconstructed every 50 years using matrimonial ties formed in the preceding 75 years. Gold nodes indicate {case vecchie}, red nodes {case nuove} involved in the conspiracy, and white nodes all other {case nuove};  families with one member elected doge during the corresponding period are represented by squares.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 DEPTH_IN_YEARS <- 75
 
+family_labels[family_labels$Group== "Lunghi",]$Group <- "Longhi"
 longhi <- family_labels[ family_labels$Group == "Longhi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
 quaranta_famiglie <- c(longhi,ducali)
@@ -452,8 +453,6 @@ From this initial exploratory analysis we can draw several conclusions: first, t
 
 
 
-
-
 <<casenuove.table.parties, message=F, echo=F>>=
 sort_with_empty_last <- function(x) {
   x[order(x == "", x)]
@@ -541,7 +540,7 @@ As an initial bird's sight-view of the network, we have plotted in Figure \ref{f
 <<casenuove.analysis, echo=F, message=F, fig.cap="Analysis of distances for the two factions", fig.height=6, fig.pos="h!tb">>=
 
 noble_marriages_filtered <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
-family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
+# family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
 
 longhi <- family_labels[ family_labels$Group == "Longhi", ]$Family
 ducali <- family_labels[ family_labels$Ducale == 1,]$Family
