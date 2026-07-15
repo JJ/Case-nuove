@@ -834,7 +834,7 @@ This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competit
 
 During the two century period where the {\em grandi curti} monopolized the access to the office of doge, there were two close calls where {\em lunghi} families almost managed to overturn their domination.
 
-<<casenuove.giustinian, echo=F, fig.cap="Social graph in 1486, with node size proportional to closeness, marking the two families that competed for doge; we use the regular colors for factions", fig.pos="h!tb">>=
+<<casenuove.giustinian, echo=F, fig.cap="Social graph in 1486, with node size proportional to closeness, marking the two families that competed for doge; we use the regular colors for factions", fig.pos="h!tb", warning=FALSE>>=
 giustinian_marriage_data <-  noble_marriages %>%
     filter(year <= 1486 & year >= 1486-DEPTH_IN_YEARS)
 
