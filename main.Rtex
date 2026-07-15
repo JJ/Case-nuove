@@ -878,7 +878,13 @@ marriage_graph <- induced_subgraph(marriage_graph, which(core_num > 6))
 
 # Keep only the strongest ties
 w_thresh <- quantile(E(marriage_graph)$weight, 0.6)
-marriage_graph <- subgraph_from_edges(marriage_graph, which(E(marriage_graph)$weight >= w_thresh), delete.vertices = FALSE)
+sub_fn <- if (exists("subgraph_from_edges")) subgraph_from_edges else subgraph.edges
+marriage_graph <- sub_fn(
+  marriage_graph,
+  which(E(marriage_graph)$weight >= w_thresh),
+  delete.vertices = FALSE
+)
+marriage_graph <- sub_fn(marriage_graph, which(E(marriage_graph)$weight >= w_thresh), delete.vertices = FALSE)
 
 # Drop isolated AND degree-1 nodes (leaves) after the edge filter
 marriage_graph <- induced_subgraph(marriage_graph, which(degree(marriage_graph) > 1))
