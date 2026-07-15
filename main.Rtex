@@ -188,7 +188,9 @@ TABLE 1 HERE WITH THE DUCALI COLUMN AS THIRD.
 
 \subsubsection{Electoral institutions and political dynamics}
 
-XXX FINIRE The Great Council, which by this time comprised the entire patriciate, was in fact responsible for electing, from among its members, the magistracies of the Republic, notably the Doge and the six Ducal Councillors, collectively known as the Minor Council, the Senate, the Council of Ten and the Council of Forty \citep[ch. 1]{maraniniv2}. The offices to be filled numbered in the hundreds,  and most were of short duration. As a result, the Great Council met regularly to fill them through elections. These procedures were characterised by three defining features: the frequent use of committees of electors, the selection of their members by lot (sortition), and successive rounds of balloting. By concentrating the final decision in the hands of a relatively small body of electors, these committees facilitated bargaining and compromise among the leading families.
+Following the Serrata, the hereditary nobility described above constituted the membership of the Great Council, the Republic's principal political assembly. Understanding its electoral role is therefore essential for interpreting the political significance of the divisions discussed in the previous section.
+
+The Great Council was responsible for electing, from among its members, the magistracies of the Republic, notably the Doge and the six Ducal Councillors, collectively known as the Minor Council, the Senate, the Council of Ten and the Council of Forty \citep[ch. 1]{maraniniv2}. The offices to be filled numbered in the hundreds,  and most were of short duration. As a result, the Great Council met regularly to fill them through elections. These procedures were characterised by three defining features: the frequent use of committees of electors, the selection of their members by lot (sortition), and successive rounds of balloting. By concentrating the final decision in the hands of a relatively small body of electors, these committees facilitated bargaining and compromise among the leading families.
 
 These mechanisms reached their most elaborate form in the election of the Doge, which consisted of ten successive rounds and the formation of five different electoral committees, each requiring large supermajorities. In the final ballot, twenty-five out of forty-one votes were required, a majority of just over sixty per cent  \citep{tucci2014,molinari2020republic}. Such a demanding procedure shaped the profile of serious contenders. Those elected were typically of advanced age\footnote{\ Given that the office was held for life, candidates considered too young were generally excluded \citep{smith2021long}. Having too many sons could also prove a disadvantage, for fear of nepotism \citep[134]{finlay1980politicsrenaissance}.}  and had a distinguished record of prior office-holding \citep[124–141]{finlay1980politicsrenaissance}. Service in high-ranking posts--—such as ambassadorships--—and a university education were also valued. Because both required substantial financial resources, wealth effectively shaped access to office (\citealp[p. 18--26]{burke1974}; \citealp[p. 28--29]{davis1962}). % per eccezioni Raines invenzioni  p.287-288 Alcune eccezioni di doge che non venivano da famiglie grandi, ricche o prestigiose: Nicolò da Ponte (1578) e Francesco Erizzo (1631). Da ponte: il suo arrivo al dogato frutto di circostanze uniche create dalla lotta per il potere fra famiglie ducali e famiglie del patriziato anziano. 
 These qualifications, however, were only prerequisites for consideration. As they were often shared by several nobles, competition rarely turned on credentials alone; what ultimately determined success was the breadth of the support a candidate could mobilise within the Great Council.
@@ -196,7 +198,7 @@ These qualifications, however, were only prerequisites for consideration. As the
 Precisely because victory depended on assembling such broad coalitions,  ducal elections became a crucial arena of political competition. Renaissance chronicles depict this rivalry as culminating in a conspiracy by sixteen \emph{curti} families which led to the exclusion of the \emph{longhi} from the dogeship between 1382 and 1612, after a prolonged period in which they held it almost continuously  (\citealp[p.~93]{finlay1980politicsrenaissance}; 
 \citealp[p.~79]{chojnacki1973search}; 
 \citealp[p.~421]{romanin1855v4}). %Chojniacki pag. 79 note 18 e 19, romanin nota 2.
- A list of the families that held the office of doge during the conspiracy---the so-called \emph{ducali} families---is provided in the first column of Table~\ref{tab:casenuove.table.parties}.
+ A list of the families that held the office of doge during the conspiracy---the so-called \emph{ducali} families---is provided in the third column of Table~\ref{tab:casenuove.table.parties}.
 
 The extent to which this \emph{longhi–curti} opposition amounted to a genuine and sustained political conflict, however, remains uncertain. As Finlay has observed,  
 although the \emph{longhi} were excluded from the dogeship during this period, their representation in other major offices was broadly proportional to their numerical strength in the Great Council \citep[92-93]{finlay1980politicsrenaissance}. %anche rainesinventiona pag 443 la mette in dubbio 
@@ -227,7 +229,7 @@ load("data/ducali_dogi_data.rda")
 
 @
 
-This section in organized as follows. In Subsection \ref{ssec:sources}, we describe the different data sources and the preprocessing steps used to harmonize them. In Subsection \ref{ssec:validation}, we discuss how these sources were validated, including a description of potential biases. In Subsection \ref{ssec:exploration}  a descriptive and exploratory analysis is introduced. Finally,  in Subsection \ref{ssec:methods}, we present and justify the methodology we followed to address our research questions.
+This section in organized as follows. In Subsection~\ref{ssec:sources}, we describe the different data sources and the preprocessing steps used to harmonize them. In Subsection~\ref{ssec:validation}, we discuss how these sources were validated, including a description of potential biases. Finally, in Subsection~\ref{ssec:exploration}  a descriptive and exploratory analysis is introduced.
 
 \subsection{Data sources}\label{ssec:sources}
 
@@ -255,21 +257,14 @@ family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors =
 @
 %
 
-A third dataset provides three types of information on noble families: their factional affiliation (\emph{longhi} or \emph{curti}, with identification of  the \emph{ducali} within the latter), the dates of their admission to the nobility, and a measure of family wealth.  The  classification by faction follows the division consolidated in the fifteenth century (see Section~\ref{history}). The dates of admission are drawn from \cite{raines2003cooptazione}, which reports for each noble family both the admission and extinction dates; the latter corresponds to the last year in which the family appears in the documentary record. Family wealth is proxied using the ranking of wealthy households reported by \cite{chojnacki1973search}, based on the {\em estimo} (census) conducted in 1379 (see also \cite{estimo}). Although the \emph{estimo} was originally compiled for fiscal purposes, we use it as a proxy for families' economic power at the beginning of the period under study.
-This third dataset is publicly available in the paper's repository under an open licence. For each family, it records:
-\begin{itemize}
-\item family name;
-\item year of admission to the patriciate;
-\item classification as \emph{longhi} or \emph{curti};
-\item an indicator for \emph{ducali} families. 
-\end{itemize}
+A third dataset records, for each noble family, its factional affiliation  and the date of its admission to the nobility.  Families are assigned to one of three groups:\emph{longhi}, \emph{grandi curti}, or other \emph{curti}, following  the fifteenth-century classification described in Section~\ref{history}. Admission dates are drawn from \cite{raines2003cooptazione}, which also reports which also reports the extinction date for each noble family, defined as the last year in which the family appears in the documentary record. This third dataset is publicly available in the paper's repository under an open licence. 
 
 Because the three datasets come from different sources, we harmonize family names to ensure consistent identification across records. When a direct match is not possible, we proceed as follows:\begin{itemize}
-\item when differences only reflect orthographic variation (e.g., Da Mosto vs Mosto or Mosto, Da), we standardise names to the form used in the Puga and Trefler dataset;
+\item When differences reflect only orthographic variation (e.g., Da Mosto vs Mosto or Mosto, Da), we standardize names to the form used in the Puga and Trefler dataset;
 
-\item when names in the Puga and Trefler dataset did not exactly match those in Raines, we rely on the alternative variants reported by Raines to establish correspondence; for example, the Colleoni/Colleone family appears under Codeglione in Raines, with Colleoni/Colleone listed as variants;
+\item When family names in the Puga and Trefler dataset do not exactly match those reported by Raines, we rely on the alternative variants provided by Raines to establish correspondence. For example, the Colleoni/Colleone family appears under Codeglione in Raines, with Colleoni/Colleone listed as variants;
 
-\item when Raines distinguishes between branches of the same family, e.g., Mora (S. Marcuola) and Mora (S. Felice), we collapse them into a single family and assign the earliest admission date, since the matrimonial dataset records only family names rather than individual branches. This applies to very few families, all admitted after the period under study, and therefore does not affect the results.
+\item When Raines distinguishes between branches of the same family, e.g., Mora (S. Marcuola) and Mora (S. Felice), we collapse them into a single family and assign the earliest admission date, since the matrimonial dataset records only family names rather than individual branches. This applies only to few families, all admitted after the period under study, and therefore does not affect the results.
 \end{itemize}
 
 We then exclude observations  that meet any of the following criteria:\begin{itemize}
@@ -277,7 +272,6 @@ We then exclude observations  that meet any of the following criteria:\begin{ite
 \item the marriage predates the admission to the nobility of one of the families involved;
 \item the marriage is undated.\end{itemize}
 The first criterion excludes marriages involving families that never belonged to the patriciate, while the second excludes marriages contracted before a family's admission to the nobility. In both cases, the union cannot represent a political alliance within the patriciate. Undated marriages are excluded because it is not possible to determine the noble status of the spouses at the time of the marriage.  % The file loaded above is already filtered with all these families dropped.
-
 
 
 <<casenuove.number_of_marriages_per_year, messages=F,echo=F, fig.cap="Number of marriages per year in our dataset", fig.height=4>>=
