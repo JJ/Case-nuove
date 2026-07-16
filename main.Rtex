@@ -274,10 +274,10 @@ We then exclude observations  that meet any of the following criteria:\begin{ite
 The first criterion excludes marriages involving families that never belonged to the patriciate, while the second excludes marriages contracted before a family's admission to the nobility. In both cases, the union cannot represent a political alliance within the patriciate. Undated marriages are excluded because it is not possible to determine the noble status of the spouses at the time of the marriage.  % The file loaded above is already filtered with all these families dropped.
 
 
-<<casenuove.number_of_marriages_per_year, messages=F,echo=F, fig.cap="Number of marriages per year in our dataset", fig.height=4>>=
+<<casenuove.number_of_marriages_per_year, messages=F,echo=F, fig.cap="Number of marriages per year in the dataset, cropped to the years under study.", fig.height=4>>=
 library(ggplot2)
 library(dplyr)
-noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) -> marriages_by_year
+noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) %>% filter( year >= 1400 & year <= 1650 ) -> marriages_by_year
 ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()+labs(y="Marriages")
 @
 
