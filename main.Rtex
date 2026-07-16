@@ -183,18 +183,6 @@ Among the \emph{case nuove}, those admitted  after the war were known as the \em
 It is important to emphasize that the distinction between \emph{longhi} and \emph{curti}, beyond the conventional narrative, was determined neither solely by lineage antiquity nor simply by wealth. Although the \emph{longhi} generally represented the oldest patrician lineages, several \emph{curti} could also trace their origins back to the early centuries of Venice and enjoyed comparable social prestige. Likewise, economic wealth did not map neatly onto this distinction: some \emph{curti} accumulated great fortunes through trade, while certain \emph{longhi} lineages—or branches within them—experienced significant economic decline.\footnote{At the end of the fifteenth century, the nobleman Priuli noted in his diaries that roughly three quarters of the patriciate were ``poor,'' meaning that they depended on paid public office for their subsistence \citep[p. 73]{finlay1980politicsrenaissance}.}. Rather, the distinction reflected the balance of power at the time the lists were compiled, shaped by a combination of genealogical seniority, economic resources, and, more broadly, social and political prestige. In particular, among the \emph{curti}, a group of sixteen families came to be widely recognized as belonging to the political elite. Throughout this paper, we refer to these families as the \emph{grandi curti} to distinguish them from the remaining \emph{curti}; they are listed in the second column of Table~\ref{tab:casenuove.table.parties}. Together with the twenty-four \emph{longhi}, they constituted the so-called "Forty Families", recognized by contemporaries as the dominant political elite of the Venetian Republic throughout the period considered in this study. 
 
  
-
-TABLE 1 HERE WITH THE DUCALI COLUMN AS THIRD.
-
-\subsubsection{Electoral institutions and political dynamics}
-
-Following the Serrata, the hereditary nobility described above constituted the membership of the Great Council, the Republic's principal political assembly. Understanding its electoral role is therefore essential for interpreting the political significance of the divisions discussed in the previous section.
-
-The Great Council was responsible for electing, from among its members, the magistracies of the Republic, notably the Doge and the six Ducal Councillors, collectively known as the Minor Council, the Senate, the Council of Ten and the Council of Forty \citep[ch. 1]{maraniniv2}. The offices to be filled numbered in the hundreds,  and most were of short duration. As a result, the Great Council met regularly to fill them through elections. These procedures were characterised by three defining features: the frequent use of committees of electors, the selection of their members by lot (sortition), and successive rounds of balloting. By concentrating the final decision in the hands of a relatively small body of electors, these committees facilitated bargaining and compromise among the leading families.
-
-These mechanisms reached their most elaborate form in the election of the Doge, which consisted of ten successive rounds and the formation of five different electoral committees, each requiring large supermajorities. In the final ballot, twenty-five out of forty-one votes were required, a majority of just over sixty per cent  \citep{tucci2014,molinari2020republic}. Such a demanding procedure shaped the profile of serious contenders. Those elected were typically of advanced age\footnote{\ Given that the office was held for life, candidates considered too young were generally excluded \citep{smith2021long}. Having too many sons could also prove a disadvantage, for fear of nepotism \citep[134]{finlay1980politicsrenaissance}.}  and had a distinguished record of prior office-holding \citep[124–141]{finlay1980politicsrenaissance}. Service in high-ranking posts--—such as ambassadorships--—and a university education were also valued. Because both required substantial financial resources, wealth effectively shaped access to office (\citealp[p. 18--26]{burke1974}; \citealp[p. 28--29]{davis1962}). % per eccezioni Raines invenzioni  p.287-288 Alcune eccezioni di doge che non venivano da famiglie grandi, ricche o prestigiose: Nicolò da Ponte (1578) e Francesco Erizzo (1631). Da ponte: il suo arrivo al dogato frutto di circostanze uniche create dalla lotta per il potere fra famiglie ducali e famiglie del patriziato anziano. 
-These qualifications, however, were only prerequisites for consideration. As they were often shared by several nobles, competition rarely turned on credentials alone; what ultimately determined success was the breadth of the support a candidate could mobilise within the Great Council.
-
 <<casenuove.table.parties, message=F, echo=F>>=
 sort_with_empty_last <- function(x) {
   x[order(x == "", x)]
@@ -219,17 +207,27 @@ grandi_curti[ is.na( grandi_curti )] <- ""
 length( ducali ) <- max_length
 ducali[ is.na( ducali )] <- ""
 
-family_lists <- data.frame( ducali = sort_with_empty_last(ducali), 
-                            longhi = sort_with_empty_last(longhi), 
-                            grandi_curti = sort_with_empty_last(grandi_curti) )
+family_lists <- data.frame( longhi = sort_with_empty_last(longhi), 
+                            grandi_curti = sort_with_empty_last(grandi_curti),
+                            ducali = sort_with_empty_last(ducali) )
 
 library(kableExtra)
 kable(family_lists, 
-      col.names=c("Ducali (1382-1612)","Longhi","Grandi Curti"),
+      col.names=c("Longhi","Grandi Curti","Ducali (1382-1612)"),
       caption="Classification of Venetian patrician families") %>%
   row_spec(0,bold=TRUE) %>% 
   kable_styling(font_size = 7)
 @
+
+
+\subsubsection{Electoral institutions and political dynamics}
+
+Following the Serrata, the hereditary nobility described above constituted the membership of the Great Council, the Republic's principal political assembly. Understanding its electoral role is therefore essential for interpreting the political significance of the divisions discussed in the previous section.
+
+The Great Council was responsible for electing, from among its members, the magistracies of the Republic, notably the Doge and the six Ducal Councillors, collectively known as the Minor Council, the Senate, the Council of Ten and the Council of Forty \citep[ch. 1]{maraniniv2}. The offices to be filled numbered in the hundreds,  and most were of short duration. As a result, the Great Council met regularly to fill them through elections. These procedures were characterised by three defining features: the frequent use of committees of electors, the selection of their members by lot (sortition), and successive rounds of balloting. By concentrating the final decision in the hands of a relatively small body of electors, these committees facilitated bargaining and compromise among the leading families.
+
+These mechanisms reached their most elaborate form in the election of the Doge, which consisted of ten successive rounds and the formation of five different electoral committees, each requiring large supermajorities. In the final ballot, twenty-five out of forty-one votes were required, a majority of just over sixty per cent  \citep{tucci2014,molinari2020republic}. Such a demanding procedure shaped the profile of serious contenders. Those elected were typically of advanced age\footnote{\ Given that the office was held for life, candidates considered too young were generally excluded \citep{smith2021long}. Having too many sons could also prove a disadvantage, for fear of nepotism \citep[134]{finlay1980politicsrenaissance}.}  and had a distinguished record of prior office-holding \citep[124–141]{finlay1980politicsrenaissance}. Service in high-ranking posts--—such as ambassadorships--—and a university education were also valued. Because both required substantial financial resources, wealth effectively shaped access to office (\citealp[p. 18--26]{burke1974}; \citealp[p. 28--29]{davis1962}). % per eccezioni Raines invenzioni  p.287-288 Alcune eccezioni di doge che non venivano da famiglie grandi, ricche o prestigiose: Nicolò da Ponte (1578) e Francesco Erizzo (1631). Da ponte: il suo arrivo al dogato frutto di circostanze uniche create dalla lotta per il potere fra famiglie ducali e famiglie del patriziato anziano. 
+These qualifications, however, were only prerequisites for consideration. As they were often shared by several nobles, competition rarely turned on credentials alone; what ultimately determined success was the breadth of the support a candidate could mobilise within the Great Council.
 
 Precisely because victory depended on assembling such broad coalitions,  ducal elections became a crucial arena of political competition. Renaissance chronicles depict this rivalry as culminating in a conspiracy by sixteen \emph{curti} families which led to the exclusion of the \emph{longhi} from the dogeship between 1382 and 1612, after a prolonged period in which they held it almost continuously  (\citealp[p.~93]{finlay1980politicsrenaissance}; 
 \citealp[p.~79]{chojnacki1973search}; 
@@ -847,7 +845,7 @@ two_family_analysis <- function( year, casata_1, casata_2) {
   
   V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Longhi",
                                     "gold", 
-                                    ifelse(V(marriage_graph)$Faction=="Grandi Curti","red","white"))
+                                    ifelse(V(marriage_graph)$Faction=="Grandi Curti","red","darkgray"))
   
   closeness_scores <- closeness(marriage_graph, normalized=T)
   V(marriage_graph)$closeness <- closeness_scores[V(marriage_graph)$name]
@@ -864,8 +862,8 @@ two_family_analysis <- function( year, casata_1, casata_2) {
   rownames(closeness_df_sorted) <- NULL  # tidy up row numbers
   
   V(marriage_graph)$label <- ifelse( V(marriage_graph)$name %in% c(casata_1, casata_2),
-                                    V(marriage_graph)$name,
-                                          NA
+                                     V(marriage_graph)$name,
+                                     NA
   )
 
   core_num <- coreness(marriage_graph)
