@@ -195,6 +195,42 @@ The Great Council was responsible for electing, from among its members, the magi
 These mechanisms reached their most elaborate form in the election of the Doge, which consisted of ten successive rounds and the formation of five different electoral committees, each requiring large supermajorities. In the final ballot, twenty-five out of forty-one votes were required, a majority of just over sixty per cent  \citep{tucci2014,molinari2020republic}. Such a demanding procedure shaped the profile of serious contenders. Those elected were typically of advanced age\footnote{\ Given that the office was held for life, candidates considered too young were generally excluded \citep{smith2021long}. Having too many sons could also prove a disadvantage, for fear of nepotism \citep[134]{finlay1980politicsrenaissance}.}  and had a distinguished record of prior office-holding \citep[124–141]{finlay1980politicsrenaissance}. Service in high-ranking posts--—such as ambassadorships--—and a university education were also valued. Because both required substantial financial resources, wealth effectively shaped access to office (\citealp[p. 18--26]{burke1974}; \citealp[p. 28--29]{davis1962}). % per eccezioni Raines invenzioni  p.287-288 Alcune eccezioni di doge che non venivano da famiglie grandi, ricche o prestigiose: Nicolò da Ponte (1578) e Francesco Erizzo (1631). Da ponte: il suo arrivo al dogato frutto di circostanze uniche create dalla lotta per il potere fra famiglie ducali e famiglie del patriziato anziano. 
 These qualifications, however, were only prerequisites for consideration. As they were often shared by several nobles, competition rarely turned on credentials alone; what ultimately determined success was the breadth of the support a candidate could mobilise within the Great Council.
 
+<<casenuove.table.parties, message=F, echo=F>>=
+sort_with_empty_last <- function(x) {
+  x[order(x == "", x)]
+}
+
+family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
+
+family_labels[family_labels$Group== "Lunghi",]$Group <- "Longhi"
+longhi <- family_labels[ family_labels$Group == "Longhi", ]$Family
+ducali <- family_labels[ family_labels$Ducale == 1,]$Family
+quaranta_famiglie <- c(longhi,ducali)
+
+quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Da Ponte", "Cicogna")) ]
+
+grandi_curti <- ducali[ !(ducali %in% c("Steno", "Ponte", "Cicogna")) ]
+
+max_length <- length(longhi)
+
+length(grandi_curti) <- max_length
+grandi_curti[ is.na( grandi_curti )] <- ""
+
+length( ducali ) <- max_length
+ducali[ is.na( ducali )] <- ""
+
+family_lists <- data.frame( ducali = sort_with_empty_last(ducali), 
+                            longhi = sort_with_empty_last(longhi), 
+                            grandi_curti = sort_with_empty_last(grandi_curti) )
+
+library(kableExtra)
+kable(family_lists, 
+      col.names=c("Ducali (1382-1612)","Longhi","Grandi Curti"),
+      caption="Classification of Venetian patrician families") %>%
+  row_spec(0,bold=TRUE) %>% 
+  kable_styling(font_size = 7)
+@
+
 Precisely because victory depended on assembling such broad coalitions,  ducal elections became a crucial arena of political competition. Renaissance chronicles depict this rivalry as culminating in a conspiracy by sixteen \emph{curti} families which led to the exclusion of the \emph{longhi} from the dogeship between 1382 and 1612, after a prolonged period in which they held it almost continuously  (\citealp[p.~93]{finlay1980politicsrenaissance}; 
 \citealp[p.~79]{chojnacki1973search}; 
 \citealp[p.~421]{romanin1855v4}). %Chojniacki pag. 79 note 18 e 19, romanin nota 2.
@@ -249,13 +285,7 @@ load("data/ducali_dogi_data.rda")
 ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
 @
 
-The second dataset provides the names of the doges and the year of their appointment and is taken from the {\sf dogesr} package \citep{merelo2022good} which used the Wikipedia timeline as a source.
-
-%
-<<casenuove.casate,echo=F,message=F>>=
-family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
-@
-%
+The second dataset provides the names of the doges and the year of their appointment and is taken from the {\sf dogesr} package \citep{merelo2022good} which used the Wikipedia timeline as a source. % Loaded now in the casenuove.table.parties chunk
 
 A third dataset records, for each noble family, its factional affiliation  and the date of its admission to the nobility.  Families are assigned to one of three groups:\emph{longhi}, \emph{grandi curti}, or other \emph{curti}, following  the fifteenth-century classification described in Section~\ref{history}. Admission dates are drawn from \cite{raines2003cooptazione}, which also reports which also reports the extinction date for each noble family, defined as the last year in which the family appears in the documentary record. This third dataset is publicly available in the paper's repository under an open licence. 
 
@@ -317,13 +347,6 @@ This section provides a first examination of the marriage network and its evolut
 
 <<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks from 1350 onward, reconstructed every 50 years using matrimonial ties formed in the preceding 75 years. Gold nodes indicate {case vecchie}, red nodes {case nuove} involved in the conspiracy, and white nodes all other {case nuove};  families with one member elected doge during the corresponding period are represented by squares.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 DEPTH_IN_YEARS <- 75
-
-family_labels[family_labels$Group== "Lunghi",]$Group <- "Longhi"
-longhi <- family_labels[ family_labels$Group == "Longhi", ]$Family
-ducali <- family_labels[ family_labels$Ducale == 1,]$Family
-quaranta_famiglie <- c(longhi,ducali)
-
-quaranta_famiglie <- quaranta_famiglie[ !(quaranta_famiglie %in% c("Steno", "Da Ponte", "Cicogna")) ]
 
 window_sequence <- seq(from = 1350, to = 1550, by = 50)
 assortativity <- data.frame( curti_longhi = numeric(),
@@ -450,35 +473,6 @@ In the 1550-1625 period we see that already families with the highest betweennes
 Before these periods, the dogeship was not monopolized by the network's central actors, as several doges were drawn from families occupying relatively peripheral positions, with a low social capital and thus brokerage power. The fact that \emph{ducali} families are found throughout the ranking is consistent with an electoral system that required large majorities: winning the dogeship depended on building broad coalitions capable of attracting support from both central and peripheral segments of the patriciate.
 
 From this initial exploratory analysis we can draw several conclusions: first, that the position of doge is {\em rarely} taken by the family with the highest social status. Second there is not a clear division between so-called {\em factions}: all families have ties with each other, and most of them are indeed connected one way or another. We need then to see whether there is another angle of analysis that can explain the monopolization of the doges by the \emph{curti} during a 200-year period.
-
-
-
-<<casenuove.table.parties, message=F, echo=F>>=
-sort_with_empty_last <- function(x) {
-  x[order(x == "", x)]
-}
-
-grandi_curti <- ducali[ !(ducali %in% c("Steno", "Ponte", "Cicogna")) ]
-
-max_length <- length(longhi)
-
-length(grandi_curti) <- max_length
-grandi_curti[ is.na( grandi_curti )] <- ""
-
-length( ducali ) <- max_length
-ducali[ is.na( ducali )] <- ""
-
-family_lists <- data.frame( ducali = sort_with_empty_last(ducali), 
-                            longhi = sort_with_empty_last(longhi), 
-                            grandi_curti = sort_with_empty_last(grandi_curti) )
-
-library(kableExtra)
-kable(family_lists, 
-      col.names=c("Ducali (1382-1612)","Longhi","Grandi Curti"),
-      caption="Classification of Venetian patrician families") %>%
-  row_spec(0,bold=TRUE) %>% 
-  kable_styling(font_size = 7)
-@
 
 
 \section{Experiments and results}
