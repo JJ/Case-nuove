@@ -309,7 +309,7 @@ noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) %>% filter(
 ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()+labs(y="Marriages")
 @
 
-The final dataset contains \Sexpr{length(noble_marriages$year)} marriages. Figure~\ref{fig:casenuove.number_of_marriages_per_year} reports the number of marriages per year.
+The final dataset contains \Sexpr{sum(marriages_by_year$matrimonies)} marriages. Figure~\ref{fig:casenuove.number_of_marriages_per_year} reports the number of marriages per year.
 
 \subsection{Validation and biases}\label{ssec:validation}
 
