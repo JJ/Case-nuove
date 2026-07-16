@@ -833,14 +833,14 @@ This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competit
 
 During the two century period where the {\em grandi curti} monopolized the access to the office of doge, there were two close calls where {\em longhi} families almost managed to overturn their domination.
 
-<<casenuove.giustinian, echo=F, fig.cap="Social graph in 1486, with node size proportional to closeness, marking the two families that competed for doge; we use the regular colors for factions", fig.pos="h!tb", results='asis', warning=FALSE>>=
+<<casenuove.giustinian, echo=F, fig.cap="Social graph in 1486, with node size proportional to closeness, marking the two families that competed for doge; we use the regular colors for factions The black-rimmed nodes mark the two families that are contending in the election.", fig.pos="h!tb", results='asis', warning=FALSE>>=
 
 two_family_analysis <- function( year, casata_1, casata_2) {
 
   giustinian_marriage_data <-  noble_marriages %>%
     filter(year <= year & year >= year-DEPTH_IN_YEARS)
 
- marriage_graph <- graph_from_data_frame(
+  marriage_graph <- graph_from_data_frame(
     giustinian_marriage_data,
     directed = FALSE,
     vertices = unique(c(giustinian_marriage_data$husband_familyname_std, giustinian_marriage_data$wife_familyname_std))
@@ -858,8 +858,8 @@ two_family_analysis <- function( year, casata_1, casata_2) {
   closeness_scores <- closeness(marriage_graph, normalized=T)
   V(marriage_graph)$closeness <- closeness_scores[V(marriage_graph)$name]
 
-barbarigo_closeness <- closeness_scores[casata_1]
-giustinian_closeness <- closeness_scores[casata_2]
+  barbarigo_closeness <- closeness_scores[casata_1]
+  giustinian_closeness <- closeness_scores[casata_2]
 
   closeness_df <- data.frame(
     family    = V(marriage_graph)$name,
@@ -873,72 +873,71 @@ giustinian_closeness <- closeness_scores[casata_2]
                                     V(marriage_graph)$name,
                                           NA
   )
+
+  core_num <- coreness(marriage_graph)
+  marriage_graph <- induced_subgraph(marriage_graph, which(core_num > 6))
+
+  # Keep only the strongest ties
+  w_thresh <- quantile(E(marriage_graph)$weight, 0.6)
+
+  marriage_graph <- subgraph.edges(
+    marriage_graph,
+    which(E(marriage_graph)$weight >= w_thresh),
+    delete.vertices = FALSE
+  )
+
+  # Drop isolated AND degree-1 nodes (leaves) after the edge filter
+  marriage_graph <- induced_subgraph(marriage_graph, which(degree(marriage_graph) > 1))
+
+  highlight <- V(marriage_graph)$name %in% c(casata_1, casata_2)
+
+  ego_edges <- unlist(lapply(V(marriage_graph)[highlight], function(v) incident(marriage_graph, v)))
+  edge_col <- rep(adjustcolor("grey70", alpha.f = 0.15), ecount(marriage_graph))
+  edge_col[ego_edges] <- adjustcolor("steelblue", alpha.f = 0.8)
+  edge_wid <- rep(0.5, ecount(marriage_graph))
+  edge_wid[ego_edges] <- E(marriage_graph)$weight[ego_edges] * 1.2
+
+  # Transparent node fill; solid frame so nodes still read clearly when overlapping
+  vertex_fill  <- adjustcolor(V(marriage_graph)$color, alpha.f = 0.55)
+  V(marriage_graph)$label       <- ifelse(highlight, V(marriage_graph)$name, NA)
+  V(marriage_graph)$frame.color <- ifelse(highlight, "black", adjustcolor("grey40", alpha.f = 0.6))
+  V(marriage_graph)$size2       <- V(marriage_graph)$closeness * 10
+  label_pos <- ifelse(V(marriage_graph)$name == casata_2, 1, 3)
+
+  layout <- layout_with_fr(marriage_graph, niter = 5000)
+  par(mar = c(0, 0, 0, 0))                 # kill the default plot margins
+  layout <- norm_coords(layout, xmin = -1, xmax = 1, ymin = -1, ymax = 1)
   
-  set.seed(42)
-
-
-core_num <- coreness(marriage_graph)
-marriage_graph <- induced_subgraph(marriage_graph, which(core_num > 6))
-
-# Keep only the strongest ties
-w_thresh <- quantile(E(marriage_graph)$weight, 0.6)
-
-marriage_graph <- subgraph.edges(
-  marriage_graph,
-  which(E(marriage_graph)$weight >= w_thresh),
-  delete.vertices = FALSE
-)
-
-# Drop isolated AND degree-1 nodes (leaves) after the edge filter
-marriage_graph <- induced_subgraph(marriage_graph, which(degree(marriage_graph) > 1))
-
-highlight <- V(marriage_graph)$name %in% c(casata_1, casata_2)
-
-ego_edges <- unlist(lapply(V(marriage_graph)[highlight], function(v) incident(marriage_graph, v)))
-edge_col <- rep(adjustcolor("grey70", alpha.f = 0.15), ecount(marriage_graph))
-edge_col[ego_edges] <- adjustcolor("steelblue", alpha.f = 0.8)
-edge_wid <- rep(0.5, ecount(marriage_graph))
-edge_wid[ego_edges] <- E(marriage_graph)$weight[ego_edges] * 1.2
-
-# Transparent node fill; solid frame so nodes still read clearly when overlapping
-vertex_fill  <- adjustcolor(V(marriage_graph)$color, alpha.f = 0.55)
-V(marriage_graph)$label       <- ifelse(highlight, V(marriage_graph)$name, NA)
-V(marriage_graph)$frame.color <- ifelse(highlight, "black", adjustcolor("grey40", alpha.f = 0.6))
-V(marriage_graph)$size2       <- V(marriage_graph)$closeness * 10
-label_pos <- ifelse(V(marriage_graph)$name == casata_2, 1, 3)
-
-layout <- layout_with_fr(marriage_graph, niter = 5000)
-
-plot(marriage_graph,
+  plot(marriage_graph,
      layout = layout,
      vertex.size = V(marriage_graph)$size2,
      vertex.label = V(marriage_graph)$label,
      vertex.label.color = "black",
      vertex.label.font = 2,
      vertex.label.cex = 1.1,
-     vertex.label.dist = 2,
+     vertex.label.dist = 1,
      vertex.label.pos = label_pos,
      vertex.color = vertex_fill,
      vertex.frame.color = V(marriage_graph)$frame.color,
      edge.color = edge_col,
      edge.width = edge_wid,
      edge.curved = 0.1
-)
+  )
 
-faction_levels <- c("Longhi", "Grandi Curti", "Curti")
-# Get first-degree neighbors of each family
-barbarigo_neighbors <- neighbors(marriage_graph, V(marriage_graph)[name == casata_1])
-giustinian_neighbors <- neighbors(marriage_graph, V(marriage_graph)[name == casata_2])
+  faction_levels <- c("Longhi", "Grandi Curti", "Curti")
 
-faction_summary <- data.frame(
-  Faction    = faction_levels,
-  Barbarigo  = as.integer(table(factor(barbarigo_neighbors$Faction, levels = faction_levels))),
-  Giustinian = as.integer(table(factor(giustinian_neighbors$Faction, levels = faction_levels)))
-)
-colnames(faction_summary)[2:3] <- c(casata_1, casata_2)
+  barbarigo_neighbors <- neighbors(marriage_graph, V(marriage_graph)[name == casata_1])
+  giustinian_neighbors <- neighbors(marriage_graph, V(marriage_graph)[name == casata_2])
 
-writeLines(kable(faction_summary, format = "latex", caption="Table of connections from the candidate families to the rest of types of the network"))
-return(c(barbarigo_closeness, giustinian_closeness))
+  faction_summary <- data.frame(
+    Faction    = faction_levels,
+    Barbarigo  = as.integer(table(factor(barbarigo_neighbors$Faction, levels = faction_levels))),
+    Giustinian = as.integer(table(factor(giustinian_neighbors$Faction, levels = faction_levels)))
+  )
+  colnames(faction_summary)[2:3] <- c(casata_1, casata_2)
+
+  writeLines(kable(faction_summary, format = "latex", caption="Table of connections from the candidate families to the rest of types of the network"))
+  return(c(barbarigo_closeness, giustinian_closeness))
 }
 
 closeness_1486_results <- two_family_analysis(1486,"Barbarigo","Giustinian")
@@ -946,11 +945,11 @@ barbarigo_closeness <- closeness_1486_results[1]
 giustinian_closeness <- closeness_1486_results[2]
 @
 
-We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. What is apparent from the graph is that while the Giustinian (longhi) are closest to other of the same {\em longhi} faction, the {\em Barbarigo} have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giustinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{barbarigo_closeness}, slightly higher than 
+We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. Besides the fact that the two nodes are very close in network terms to each other, what is apparent from the graph is that while the Giustinian (longhi) are closest to other of the same {\em longhi} faction, the Barbarigo have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giustinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{barbarigo_closeness}, slightly lower than 
 \Sexpr{giustinian_closeness}
-for the Giustinian family. They were close enough to have a chance at challenging {\em grandi curti}'s domination, but not enough to actually beat them; besides, we should take into account that, although both were connected in the first degree to the two factions, the Barbarigo not only had more {\em curti} in their neighborhood, but also a good amount of families from the {\em longhi} "faction"; as a matter of fact, they had more connections to families of the {\em other} faction than to its own; the situation is inverted for the Giustinian.
+for the Giustinian family, which gave them a chance at challenging {\em grandi curti}'s domination, but not enough to actually beat them; besides, we should take into account that, although both were connected in the first degree to the two factions, the Barbarigo not only had more {\em curti} in their neighborhood, but also a good amount of families from the {\em longhi} "faction"; as a matter of fact, they had more connections to families of the {\em other} faction than to its own; the situation is inverted for the Giustinian.
 
-This close call holds two different lessons: first, there was no strict factionalism in the sense of factions totally separated in different communities, without any kind of inter-marriage; factions are also not directly connected with each other, needing in many cases go through families of the other "faction" to reach other member. Second, in a closeness-dominated network, even a small advantage can be leveraged to obtain the (very) broad coalition needed to get one of your family elected.
+This close call holds two different lessons: first, there was no strict factionalism in the sense of factions totally separated in different communities, without any kind of inter-marriage; factions are also not directly connected with each other, needing in many cases go through families of the other "faction" to reach other member. Second, in a closeness-dominated network with very tight connections and prominent families having a very similar closeness, a small advantage can give you a chance to compete, but other factors related to the ability to form a grand coalition through first-degree connections may matter more in the end.
 
 <<casenuove.corner, results="asis", echo=F, fig.cap="Social graph at the moment of the Corner election, 1521", fig.pos="h!tb">>=
 closeness_1521_results <- two_family_analysis(1521,"Grimani","Corner")
