@@ -406,7 +406,7 @@ for (y in window_sequence ) {
   V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
   V(marriage_graph)$color <- ifelse(V(marriage_graph)$Group == "Longhi",
                                     "gold", 
-                                    ifelse(V(marriage_graph)$Group=="Ducali","red","white"))
+                                    ifelse(V(marriage_graph)$Group=="Ducali","red","darkgray"))
   
   V(marriage_graph)$shape <- ifelse(V(marriage_graph)$name %in% doges, "square", "circle")
   component <- components(marriage_graph)$membership
@@ -447,7 +447,7 @@ initial_year <- 1350
 for (graph in graph_list) {
   V(graph)$betweenness = betweenness(graph)
   betweenness_df <- data.frame( family= V(graph)$name, betweenness = V(graph)$betweenness, 
-                                color=ifelse(V(graph)$color == "white","black",V(graph)$color),
+                                color=V(graph)$color,
                                 size=ifelse(V(graph)$shape == "square",4,2)
   )
   betweenness_df_sorted <- betweenness_df[order(betweenness_df$betweenness, decreasing=T),]
