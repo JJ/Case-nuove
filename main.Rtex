@@ -529,7 +529,7 @@ ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line(
 
 As an initial bird's sight-view of the network, we have plotted in Figure \ref{fig:casenuove.cohesiveness.setup} the evolution of the network in terms of number of nodes (different families) as well of the number of families that are actually connected in the main connected component. It is remarkable that, most of the time, all families are connected (in the 75 year span of the network slice); there are three periods where this does not happen: the initial period, which is not so well covered by the dataset, a brief period in the last half of the 15th century, and them practically after the battle of Lepanto in the second half of the 16th century. In general we can say, however, that most noble families are actually connected directly or not and that, even as new families are incorporated into the Golden Book, they become connected almost immediately to the rest of the families and, thus, are susceptible to mutual influence by whatever power core is exerting it at any moment.
 
-<<casenuove.analysis, echo=F, message=F, fig.cap="Analysis of distances for the two factions", fig.height=6, fig.pos="h!tb">>=
+<<casenuove.analysis, echo=F, message=F, fig.cap="Analysis of average shortest paths intra-faction (solid lines) or grandi curti vs. longhi (in orange), dashed lines for the average shortest paths to the rest of the families. Graph slices over 75 years, taken at 5 year intervals. What is represented is the average over all the families in the faction", fig.height=5, fig.pos="h!tb">>=
 
 noble_marriages_filtered <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
 # family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
@@ -539,7 +539,7 @@ ducali <- family_labels[ family_labels$Ducale == 1,]$Family
 
 curti_congiurati <- ducali[ !(ducali %in% c("Steno", "Ponte", "Cicogna")) ]
 
-window_sequence <- seq(from = min(noble_marriages_filtered$year), to = 1660, by = 5)
+window_sequence <- seq(from = 1400, to = 1575, by = 5)
 distances_window <- data.frame( total = numeric(),
                                 congiurati = numeric(),
                                 congiurati_norm = numeric(),
@@ -693,19 +693,17 @@ for (y in window_sequence ) {
 }
 
 ggplot( distances_window, aes(x = year)) +
-  geom_line(aes(y = congiurati, color = "congiurati")) +
-  geom_line(aes(y = non_congiurati, color = "Non congiurati"), linetype = "dashed") +
-  geom_line(aes(y = congiurati_vs_non, color = "congiurati vs. Non"),linetype = "dotdash") +
+  geom_line(aes(y = congiurati, color = "Grandi Curti")) +
+  geom_line(aes(y = congiurati_vs_non, color = "Grandi Curti vs. Rest"),linetype = "dotdash") +
   geom_line(aes(y = longhi, color = "Longhi")) +
-  geom_line(aes(y = non_longhi, color = "Non longhi"), linetype = "dashed") +
-  geom_line(aes(y = longhi_vs_non, color = "Longhi vs. Non"), linetype = "dotdash") +
-   geom_line(aes(y = longhi_vs_congiurati, color = "Longhi vs. Congiurati")) +
+  geom_line(aes(y = longhi_vs_non, color = "Longhi vs. Rest"), linetype = "dotdash") +
+   geom_line(aes(y = longhi_vs_congiurati, color = "Longhi vs. Grandi Curti")) +
   labs(title = "Average Shortest Path Length Over Time",
        x = "Year",
        y = "Average Shortest Path Length") +
-  scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
-                                "Longhi" = "gold","Non longhi" = "gold", "Longhi vs. Non" = "gold",
-                                "Longhi vs. Congiurati" = "green"
+  scale_color_manual(values = c("Grandi Curti" = "red", "Grandi Curti vs. Rest" = "red",
+                                "Longhi" = "gold", "Longhi vs. Rest" = "gold",
+                                "Longhi vs. Grandi Curti" = "goldenrod"
                                 )) +
   theme_minimal()
 
@@ -713,20 +711,20 @@ ggplot( distances_window, aes(x = year)) +
 
 However, what we need to look at is the capability of creating and sustaining coalitions of the two known factions: the {\em longhi} and the {\em grandi curti}. This capability can be measured in different ways. If we think of the faction as a core, it will have to be tightly connected to each other in this marriage network, as well as relatively well connected to the rest of the network. For the social network in every 75-year window, separated 5 years, the distances within the group, from the group to the rest, and among those not belonging to the group is plotted in Figure \ref{fig:casenuove.analysis}, that uses solid lines for intra-group shortest path lengths, dot-dashed lines for shortest paths from the group to outside, and dashed lines for those {\em not} belonging to the group, which can be thought as the capability for forming coalitions {\em against} the core. The $x$ axis runs over the {\em last} year of the graph. All three of them are important for group cohesion, but also for perception of a particular faction as separated or apart from the rest of the social network, and what we see is that intra-group average distances is smaller for the {\em longhi} than for the {\em grandi curti}, while the other two distances are not only similar, but also follow the same trend.
 
-<<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions.", fig.height=6, fig.pos="h!tb">>=
+<<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions. WILL BE ELIMINATED", fig.height=6, fig.pos="h!tb">>=
 ggplot( distances_window, aes(x = year)) +
-  geom_line(aes(y = congiurati_norm, color = "congiurati")) +
+  geom_line(aes(y = congiurati_norm, color = "Grandi Curti")) +
   geom_line(aes(y = non_congiurati_norm, color = "Non congiurati"), linetype = "dashed") +
-  geom_line(aes(y = congiurati_vs_non_norm, color = "congiurati vs. Non"),linetype = "dotdash") +
+  geom_line(aes(y = congiurati_vs_non_norm, color = "Grandi Curti  vs. Rest"),linetype = "dotdash") +
   geom_line(aes(y = longhi_norm, color = "Longhi")) +
   geom_line(aes(y = non_longhi_norm, color = "Non longhi"), linetype = "dashed") +
-  geom_line(aes(y = longhi_vs_non_norm, color = "Longhi vs. Non"), linetype = "dotdash") +
+  geom_line(aes(y = longhi_vs_non_norm, color = "Longhi vs. Rest"), linetype = "dotdash") +
   geom_line(aes(y = longhi_vs_congiurati_norm, color = "Longhi vs. Congiurati")) +
   labs(title = "Normalized Average Shortest Path Length Over Time",
        x = "Year",
        y = "Normalized Average Shortest Path Length") +
-  scale_color_manual(values = c("congiurati" = "blue", "Non congiurati" = "blue", "congiurati vs. Non" = "blue",
-                                "Longhi" = "gold","Non longhi" = "gold", "Longhi vs. Non" = "gold",
+  scale_color_manual(values = c("Grandi Curti" = "red", "Non congiurati" = "blue", "Grandi Curti  vs. Rest" = "blue",
+                                "Longhi" = "gold","Non longhi" = "gold", "Longhi vs. Rest" = "gold",
                                 "Longhi vs. Congiurati" = "green"
                                 )
                      ) +
@@ -735,16 +733,16 @@ ggplot( distances_window, aes(x = year)) +
 
 However, this evolution can be better observed if we normalize distances against the average distance for the specific graph we're examining; this is shown in Figure \ref{fig:casenuove.analysis.normalized}. The way it is organized is more or less the same, but differences are accentuated showing, for instance, how the {\em grandi curti} start being closer to the rest of the nodes up until approximately year 1500, when it crosses the line for the {\em longhi}. The dips happening towards the second half of the XVII century are accentuated: both groups start to be less tightly connected by that time.
 
-<<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions.", fig.height=6, fig.pos="h!tb">>=
+<<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions. . WILL BE ELIMINATED TOO", fig.height=6, fig.pos="h!tb">>=
 
 ggplot( core_periphery_timeline, aes(x = year)) + 
-  geom_line(aes(y = clique_index_congiurati, color = "congiurati")) +
+  geom_line(aes(y = clique_index_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = clique_index_longhi, color = "Longhi")) +
   labs(title = "Clique Index Over Time",
        subtitle="Lower is better",
        x = "Year",
        y = "Power-Periphery Index") +
-  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold")) +
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
   theme_minimal()
 @
 
@@ -756,12 +754,12 @@ We are more interested on the trend in the first quarter of the XVII century, wh
 
 <<casenuove.assortativity, echo=F, message=F, fig.cap="Evolution of assortativity for different type combinations: grandi curti vs. non, longhi vs. non, and longhi vs. curti",  fig.pos="h!tb", fig.height=5>>=
 ggplot( core_periphery_timeline, aes(x = year)) + 
-  geom_line(aes(y = assortativity_congiurati, color = "congiurati")) +
+  geom_line(aes(y = assortativity_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = assortativity_longhi, color = "Longhi")) +
   geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. congiurati")) +
   labs(x = "Year",
        y = "Assortativity") +
-  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold", "Longhi vs. congiurati" ="green")) +
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. congiurati" ="green")) +
   theme_minimal()
 @
 
@@ -769,7 +767,7 @@ We can also measure how every faction interacted with the rest of the nobles usi
 
 <<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriages within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
 ggplot( number_of_marriages, aes(x = year)) + 
-  geom_line(aes(y = intra_congiurati, color = "congiurati")) +
+  geom_line(aes(y = intra_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = intra_longhi, color = "Longhi")) +
   geom_line(aes(y = extra_congiurati, color = "extra congiurati")) +
   geom_line(aes(y = extra_longhi, color = "extra longhi")) +
@@ -778,7 +776,7 @@ ggplot( number_of_marriages, aes(x = year)) +
        subtitle = "Intra, inter and extra groups",
        x = "Year",
        y = "Number of marriages") +
-  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold", "Longhi vs. congiurati" ="green", 
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. congiurati" ="green", 
                                 "extra congiurati" = "light blue", "extra longhi" ="darkgoldenrod2")) +
   theme_minimal()
 
@@ -788,11 +786,11 @@ What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total numb
 
 <<casenuove.closeness, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=3, fig.pos="h!tb">>=
 ggplot( network_measures_year, aes(x = year)) + 
-  geom_line(aes(y = closeness_congiurati, color = "congiurati")) +
+  geom_line(aes(y = closeness_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = closeness_longhi, color = "Longhi")) +
   labs(x = "Year",
        y = "Average closeness per group") +
-  scale_color_manual(values = c("congiurati" = "blue", "Longhi" = "gold")) +
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
   theme_minimal()
 @
 
