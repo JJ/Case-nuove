@@ -305,7 +305,10 @@ The first criterion excludes marriages involving families that never belonged to
 <<casenuove.number_of_marriages_per_year, messages=F,echo=F, fig.cap="Number of marriages per year in the dataset, cropped to the years under study.", fig.height=4>>=
 library(ggplot2)
 library(dplyr)
-noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) %>% filter( year >= 1400 & year <= 1650 ) -> marriages_by_year
+FIRST_YEAR_UNDER_STUDY <- 1400
+LAST_YEAR_UNDER_STUDY <- 1650
+
+noble_marriages %>% group_by( year ) %>% summarise( matrimonies=n()) %>% filter( year >= FIRST_YEAR_UNDER_STUDY & year <= LAST_YEAR_UNDER_STUDY ) -> marriages_by_year
 ggplot(marriages_by_year, aes(x=year,y=matrimonies))+geom_line()+geom_point()+theme_minimal()+labs(y="Marriages")
 @
 
@@ -345,8 +348,10 @@ This section provides a first examination of the marriage network and its evolut
 
 <<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks from 1350 onward, reconstructed every 50 years using matrimonial ties formed in the preceding 75 years. Gold nodes indicate {case vecchie}, red nodes {case nuove} involved in the conspiracy, and white nodes all other {case nuove};  families with one member elected doge during the corresponding period are represented by squares.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 DEPTH_IN_YEARS <- 75
+INITIAL_YEAR_OVERVIEW <- 1350
+FINAL_YEAR_OVERVIEW <- 1550
 
-window_sequence <- seq(from = 1350, to = 1550, by = 50)
+window_sequence <- seq(from = INITIAL_YEAR_OVERVIEW, to = FINAL_YEAR_OVERVIEW, by = 50)
 assortativity <- data.frame( curti_longhi = numeric(),
                              ducali = numeric(),
                              in_quaranta = numeric(),
@@ -441,7 +446,7 @@ A third feature emerging from the graphs is the remarkable stability of the thre
 Another interesting aspect is the lack of clear factionalization. In none of the periods do either the  \emph{grandi  curti} or the \emph{longhi} families form internally cohesive clusters that exclude the rest of the patriciate. Although peripheral positions are almost always occupied by “white” nodes---namely smaller \emph{curti} families---neither the \emph{longhi} nor the \emph{grandi curti} consistently dominates the most central positions in the network. There also appears to be little evidence of distinct clusters separating the \emph{longhi} from the \emph{grandi curti}.
 
  <<casenuove.betweenness, echo=F,fig.cap="Sequence of distribution of betweenness for the marriage social networks. Colors are as in the previous figure, gold indicates a longhi family, while red corresponds to ducali; oversize points correspond to families that have had a doge during the period.", out.width="50%", fig.show="hold", fig.height=5.75>>=
-initial_year <- 1350
+initial_year <- INITIAL_YEAR_OVERVIEW
 for (graph in graph_list) {
   V(graph)$betweenness = betweenness(graph)
   betweenness_df <- data.frame( family= V(graph)$name, betweenness = V(graph)$betweenness, 
@@ -472,15 +477,27 @@ Before these periods, the dogeship was not monopolized by the network's central 
 
 From this initial exploratory analysis we can draw several conclusions: first, that the position of doge is {\em rarely} taken by the family with the highest social status. Second there is not a clear division between so-called {\em factions}: all families have ties with each other, and most of them are indeed connected one way or another. We need then to see whether there is another angle of analysis that can explain the monopolization of the doges by the \emph{curti} during a 200-year period.
 
+\subsection{Final data processing}
+
+<<casenuove.cohesiveness.sequence, echo=F>>=
+INITIAL_YEAR_EXPERIMENTS <- 1400
+FINAL_YEAR_EXPERIMENTS <- 1575
+
+window_sequence <- seq(from = INITIAL_YEAR_EXPERIMENTS, to = FINAL_YEAR_EXPERIMENTS, by = 5)
+@
+
+We are interested mainly in how the network evolves from 1400 to 1650, the years identified as {\em ducali}. Our intention is to examine how the network evolves during this period, so we will work with a set of networks that span it, in this way
+\begin{itemize}
+\item Every network will span a window of \Sexpr{DEPTH_IN_YEARS} years.  
+\item We will create slices in 5 year increments, in order to have a more fine-grained view of the evolution
+\end{itemize}
+
+This creates a sequence of \Sexpr{length(window_sequence)} slices of the network data, with enough resolution to see significant differences from one slice to the next. Data for these slices are available from the paper repository under a free license.
 
 \section{Experiments and results}
 
-What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
+% What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
 
-In order to measure that, and the evolution with time, we process additionally the network in two ways\begin{itemize}
-\item We will create slices in 5 year increments, in order to have a more fine-grained view of the evolution
-\item For every 75-year slice, we will extract the main connected component.
-\end{itemize}
 
 <<casenuove.cohesiveness.setup, echo=F, fig.height=5, fig.pos="h!tb", fig.cap="Evolution of the number of families in the main connected component; red line woul be the total number (total number of vertices), with black being the number of families (vertices) in the main connected component.">>=
 
