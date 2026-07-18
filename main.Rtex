@@ -497,11 +497,9 @@ This creates a sequence of \Sexpr{length(window_sequence)} slices of the network
 \section{Experiments and results}
 
 % What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
+We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
 
-
-<<casenuove.cohesiveness.setup, echo=F, fig.height=5, fig.pos="h!tb", fig.cap="Evolution of the number of families in the main connected component; red line woul be the total number (total number of vertices), with black being the number of families (vertices) in the main connected component.">>=
-
-window_sequence <- seq(from = min(noble_marriages$year), to = 1660, by = 5)
+<<casenuove.cohesiveness.setup, echo=F, fig.height=5, fig.pos="h!tb", fig.cap="Evolution of the number of families in the main connected component; red line woul be the total number (total number of vertices), with black being the number of families (vertices) in the main connected component.", out.width="50%", fig.height=5, fig.show='hold'>>=
 
 number_of_families_timeline <- data.frame( total_number = integer(),
                                            families_in_MCC = integer(),
@@ -530,7 +528,7 @@ for (y in window_sequence ) {
   
   number_of_families <- length(V(marriage_graph)$name)
   families_in_MCC <- length(V(marriage_graph_main)$name)
-  percentage_in_MCC <- number_of_families / families_in_MCC
+  percentage_in_MCC <- families_in_MCC/number_of_families  * 100
                                
   number_of_families_timeline <- rbind( number_of_families_timeline,
                                         data.frame( total_number = number_of_families,
@@ -542,9 +540,15 @@ for (y in window_sequence ) {
 
 ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line( color="red") +
   geom_line(data=number_of_families_timeline, aes(y=families_in_MCC)) + theme_minimal()
+
+ggplot( number_of_families_timeline, aes(x=year,y=percentage_in_MCC))+ geom_line()+ theme_minimal()
 @
 
-As an initial bird's sight-view of the network, we have plotted in Figure \ref{fig:casenuove.cohesiveness.setup} the evolution of the network in terms of number of nodes (different families) as well of the number of families that are actually connected in the main connected component. It is remarkable that, most of the time, all families are connected (in the 75 year span of the network slice); there are three periods where this does not happen: the initial period, which is not so well covered by the dataset, a brief period in the last half of the 15th century, and them practically after the battle of Lepanto in the second half of the 16th century. In general we can say, however, that most noble families are actually connected directly or not and that, even as new families are incorporated into the Golden Book, they become connected almost immediately to the rest of the families and, thus, are susceptible to mutual influence by whatever power core is exerting it at any moment.
+We have plotted in Figure \ref{fig:casenuove.cohesiveness.setup} the evolution of the network in terms of the total number of nodes (red), as well as the nodes included in the main connected component (black), as well as the percentage of families included in the main connected component on the right hand side. What we see is that, except for very brief periods of time, the main connected component includes {\em all} families in that time slice. If there is factionalization, it does not lead to a complete network split; as a matter of fact, most families are connected to each other in these networks. Even the brief periods where there are some families outside the network do not lead to the creation of a different subnetwork; they are soon folded back into the main connected component.
+
+As long as the families are connected, we need to understand how {\em close} they are to each other, again trying to understand the mechanism with which the {\em grandi curti} created the big coalition that allowed them to maintain power for such a long time.
+
+%% ------------------------------------- current limit of rewrite ----------------------------------------------------------
 
 <<casenuove.analysis, echo=F, message=F, fig.cap="Analysis of average shortest paths intra-faction (solid lines) or grandi curti vs. longhi (in orange), dashed lines for the average shortest paths to the rest of the families. Graph slices over 75 years, taken at 5 year intervals. What is represented is the average over all the families in the faction", fig.height=5, fig.pos="h!tb">>=
 
