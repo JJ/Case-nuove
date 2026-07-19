@@ -546,9 +546,8 @@ ggplot( number_of_families_timeline, aes(x=year,y=percentage_in_MCC))+ geom_line
 
 We have plotted in Figure \ref{fig:casenuove.cohesiveness.setup} the evolution of the network in terms of the total number of nodes (red), as well as the nodes included in the main connected component (black), as well as the percentage of families included in the main connected component on the right hand side. What we see is that, except for very brief periods of time, the main connected component includes {\em all} families in that time slice. If there is factionalization, it does not lead to a complete network split; as a matter of fact, most families are connected to each other in these networks. Even the brief periods where there are some families outside the network do not lead to the creation of a different subnetwork; they are soon folded back into the main connected component.
 
-As long as the families are connected, we need to understand how {\em close} they are to each other, again trying to understand the mechanism with which the {\em grandi curti} created the big coalition that allowed them to maintain power for such a long time.
+As long as the families are connected, we need to understand how {\em close} they are to each other, again looking for insights on  the mechanism with which the {\em grandi curti} created the big coalition that allowed them to maintain power for such a long time. In order to form a big coalition to shape the election outcome the {\em grandi curti} (or their opponents) should be able to reach out to a considerable portion of the network. Once we have already established the whole network is reachable, we need to measure how {\em close} the two factions are to the rest of the network to arrive to a common state.
 
-%% ------------------------------------- current limit of rewrite ----------------------------------------------------------
 
 <<casenuove.analysis, echo=F, message=F, fig.cap="Analysis of average shortest paths intra-faction (solid lines) or grandi curti vs. longhi (in orange), dashed lines for the average shortest paths to the rest of the families. Graph slices over 75 years, taken at 5 year intervals. What is represented is the average over all the families in the faction", fig.height=5, fig.pos="h!tb">>=
 
@@ -597,6 +596,29 @@ network_measures_year <- data.frame( year=integer(),
                                   closeness_longhi = numeric(),
                                   diameter = numeric(),
                                   clustering_coefficient=  numeric())
+
+compute_gini <- function(x) {
+  x <- na.omit(x)
+  n <- length(x)
+
+  if (n == 0) return(NA)
+  if (sum(x) == 0) return(0)
+
+  x <- sort(x)
+  # Mathematical formula for Gini using ordered values
+  G <- (2 * sum(seq_along(x) * x) / (n * sum(x))) - ((n + 1) / n)
+
+  return(G)
+}
+
+transition_year <- data.frame( year= integer(),
+                               global_transitivity = numeric(),
+                               edge_density = numeric(),
+                               average_constraint = numeric(),
+                               gini_constraint = numeric(),
+                               modularity = numeric(),
+                               ratio = numeric()
+)
 
 for (y in window_sequence ) {
 
@@ -711,7 +733,29 @@ for (y in window_sequence ) {
                                          )
                              )
 
+  global_transitivity <- transitivity(marriage_graph_main, type="global")
+  this_edge_density <- edge_density(marriage_graph_main)
+  constraints <- constraint( marriage_graph_main)
+
+  communities <- cluster_leiden(marriage_graph_main, resolution = 1)
+
+  # 2. Compute Modularity Score (Q)
+  modularity_score <- modularity(marriage_graph_main, membership(communities))
+
+  transition_year <- rbind( transition_year,
+                            data.frame( year= last_year,
+                                        global_transitivity = global_transitivity,
+                                        edge_density = this_edge_density,
+                                        average_constraint = mean(constraints),
+                                        gini_constraint = compute_gini( constraints),
+                                        modularity = modularity_score,
+                                        ratio = global_transitivity/this_edge_density)
+  )
 }
+
+#ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=modularity, color="modularity"))+geom_line( aes(y=average_constraint, color="constraint"))+geom_line( aes(y=gini_constraint, color="gini constraint")) + theme_minimal()
+
+#ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=average_constraint, color="average constraint"))+geom_line( aes(y=gini_constraint, color="gini constraint")) + theme_minimal()
 
 ggplot( distances_window, aes(x = year)) +
   geom_line(aes(y = congiurati, color = "Grandi Curti")) +
@@ -730,7 +774,16 @@ ggplot( distances_window, aes(x = year)) +
 
 @
 
-However, what we need to look at is the capability of creating and sustaining coalitions of the two known factions: the {\em longhi} and the {\em grandi curti}. This capability can be measured in different ways. If we think of the faction as a core, it will have to be tightly connected to each other in this marriage network, as well as relatively well connected to the rest of the network. For the social network in every 75-year window, separated 5 years, the distances within the group, from the group to the rest, and among those not belonging to the group is plotted in Figure \ref{fig:casenuove.analysis}, that uses solid lines for intra-group shortest path lengths, dot-dashed lines for shortest paths from the group to outside, and dashed lines for those {\em not} belonging to the group, which can be thought as the capability for forming coalitions {\em against} the core. The $x$ axis runs over the {\em last} year of the graph. All three of them are important for group cohesion, but also for perception of a particular faction as separated or apart from the rest of the social network, and what we see is that intra-group average distances is smaller for the {\em longhi} than for the {\em grandi curti}, while the other two distances are not only similar, but also follow the same trend.
+The average shortest path length (ASPL) measures the distance from a node to different sets of nodes. What we represent in
+ \ref{fig:casenuove.analysis} is ASPL averaged over all nodes in a faction, in three different sets:\begin{itemize}
+ \item Intra-faction, that is, average shortest path from one node in the faction to the rest; this is then averaged over all nodes. We use red for {\em grandi curti} and gold for {\em lunghi}, as usual
+ \item Extra-faction, that is, ASPL from faction nodes to the rest of the network. Please note that this includes the nodes in the other faction. We use dashed lines with the faction colors.
+ \item Inter-faction, ASPL from {\em lunghi} to {\em grandi curti} nodes. We use orange, mixing red and gold, for this line
+ \end{itemize}
+
+Please take into account that these distances include weights: if there are two connections from one family to the next, that distance counts as 0.5. This is why we see intra-faction distances between 0.6 and 0.4, with {\em longhi} more close to each other than {\em grandi curti} except for a very brief period in time. What is interesting, however, is how the {\em grandi curti} line crosses the inter-faction line shortly after 1600: although by a small amount, these would be closer to the other faction than among themselves. The other transition occurs in the dashed (extra-faction) lines: around 1575 {\em grandi curti} are further away from the rest of the network than {\em longhi}; the gap increases after 1600. These "crossing" add to the fact that shortest paths are increasing from the end of the 1500s: all individuals tend to be further away from each other in an expanding network.
+
+% This is where I stop sunday July 19th.
 
 <<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions. WILL BE ELIMINATED", fig.height=6, fig.pos="h!tb">>=
 ggplot( distances_window, aes(x = year)) +
