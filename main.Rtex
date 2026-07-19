@@ -101,7 +101,7 @@ Republic of Venice  \sep Political coalitions  \sep Social Network Analysis \sep
 \label{sec1}
 <<casenuove.functions,echo=F>>=
 #' Create a Marriage Network Graph
-#' 
+#'
 #' This function creates an undirected graph from marriage data within a specified time window
 #' before a given election year.
 #'
@@ -111,7 +111,7 @@ Republic of Venice  \sep Political coalitions  \sep Social Network Analysis \sep
 #'   - wife_familyname_std: Standardized wife's family name
 #' @param election_year The target election year
 #' @param years_before Number of years before the election to include (default: 20)
-#' 
+#'
 #' @return An igraph graph object representing the marriage network
 #' @importFrom igraph graph_from_data_frame
 #' @importFrom dplyr filter
@@ -119,28 +119,28 @@ Republic of Venice  \sep Political coalitions  \sep Social Network Analysis \sep
 create_marriage_network <- function(marriage_data, election_year, years_before = 20) {
   marriages_window <- marriage_data %>%
     filter(year <= election_year & year >= election_year - years_before)
-  
+
   marriage_network <- graph_from_data_frame(
     marriages_window,
     directed = FALSE,
-    vertices = unique(c(marriages_window$husband_familyname_std, 
+    vertices = unique(c(marriages_window$husband_familyname_std,
                        marriages_window$wife_familyname_std))
   )
-  
+
   return(marriage_network)
 }
 @
 
 According to the traditional myth, the Republic of Venice was ruled by a selfless and harmonious patrician elite committed to the common good \citep{gaeta1961alcune,gilbert1968venetian, muir1981civic}. %Muir Ch. 1
- Historical reality, however, fell short of this idealized image: political rivalries recurred throughout the Republic's history  \citep{grubb1986myths,cracco1979,queller86}.  
+Historical reality, however, fell short of this idealized image: political rivalries recurred throughout the Republic's history  \citep{grubb1986myths,cracco1979,queller86}.
 
-For the late medieval and early modern period, scholars have identified a division within the patriciate between a small group of leading families, which controlled  a disproportionate share of major offices, and a broader body of lesser families; the dominant group comprised around forty \emph{casate}, twenty-four belonging to the  \emph{longhi} (long) or \emph{case vecchie} (old houses), that is, families of the most ancient standing, while the remaining were the \emph{grandi curti}, the leading families within the much larger group of \emph{curti} (short) or \emph{case nuove} (new houses). In the second half of the fourteenth century, these forty families accounted for  only 22 per cent of the  181 noble lineages \citep{chojnacki1973search}. Although their larger size gave them more seats and votes in the Great Council, the Republic's main political assembly, than their numerical importance among noble lineages would suggest, they nevertheless remained a minority.\footnote{According to one estimate, the \emph{case vecchie} held about one third of the votes in the Great Council at the beginning of the sixteenth century \citep[p. 93]{finlay1980politicsrenaissance}.} An interesting question, therefore, is how such a small minority came to dominate political office, and what role was played by the remaining families \citep[p. 21-22]{burke1974}. %22% da Cojniacki1973, pag. 51, un terzo (35%) da Finlay pag. 93 
+For the late medieval and early modern period, scholars have identified a division within the patriciate between a small group of leading families, which controlled  a disproportionate share of major offices, and a broader body of lesser families; the dominant group comprised around forty \emph{casate}, twenty-four belonging to the  \emph{longhi} (long) or \emph{case vecchie} (old houses), that is, families of the most ancient standing, while the remaining were the \emph{grandi curti}, the leading families within the much larger group of \emph{curti} (short) or \emph{case nuove} (new houses). In the second half of the fourteenth century, these forty families accounted for  only 22 per cent of the  181 noble lineages \citep{chojnacki1973search}. Although their larger size gave them more seats and votes in the Great Council, the Republic's main political assembly, than their numerical importance among noble lineages would suggest, they nevertheless remained a minority.\footnote{According to one estimate, the \emph{case vecchie} held about one third of the votes in the Great Council at the beginning of the sixteenth century \citep[p. 93]{finlay1980politicsrenaissance}.} An interesting question, therefore, is how such a small minority came to dominate political office, and what role was played by the remaining families \citep[p. 21-22]{burke1974}. %22% da Cojniacki1973, pag. 51, un terzo (35%) da Finlay pag. 93
 
- 
- A second striking feature of Venice's political history is that, between 1382 and 1612, every doge—--nineteen in total—--came from \emph{grandi curti} families \citep{damosto1966dogi}. This exclusion of the \emph{longhi} was specific to this period and confined to the dogate; the \emph{longhi} continued to hold other prominent positions within the Republic’s major institutions. A further question concerns the reasons underlying this exclusion. Some historical accounts refer to a conspiracy among the \emph{grandi curti} families as a possible explanation; however, the evidence remains inconclusive (\citealp[p.~93]{finlay1980politicsrenaissance}; 
- \citealp[p.~79]{chojnacki1973search}; 
+
+ A second striking feature of Venice's political history is that, between 1382 and 1612, every doge --nineteen in total-- came from \emph{grandi curti} families \citep{damosto1966dogi}. This exclusion of the \emph{longhi} was specific to this period and confined to the dogate; the \emph{longhi} continued to hold other prominent positions within the Republic’s major institutions. A further question concerns the reasons underlying this exclusion. Some historical accounts refer to a conspiracy among the \emph{grandi curti} families as a possible explanation; however, the evidence remains inconclusive (\citealp[p.~93]{finlay1980politicsrenaissance};
+ \citealp[p.~79]{chojnacki1973search};
  \citealp[p.~421]{romanin1855v4}).
- 
+
 Addressing these two questions requires consideration of the Venetian institutional framework. The Republic comprised over one hundred principal magistracies, including the dogate, most of which were filled through elections held in the Great Council, the plenary  political assembly composed of all members of the patriciate. The council's electoral procedures combined sortition and successive rounds of voting, which often required qualified majorities of over sixty percent. These  high majorities requirements, together with the frequency of elections, fostered the formation of coalitions among noble families, %Finlay p. 3
 yet the nature of these coalitions has remained largely unexplored due to the scarcity of direct evidence: the Venetian Republic regarded factional division as a threat to its stability and systematically discouraged open expressions of conflict, leaving little explicit trace of political alignments \citep{van2018people}.
 
@@ -166,23 +166,23 @@ Before turning to the analysis of the marriage network, it is necessary to under
 
 \subsection{Political divisions in the Renaissance Venetian patriciate}
 
-The Venetian nobility was formally established with the Serrata (closure) of 1297, a measure that restricted access to the Great Council, the main political assembly. This law granted membership to all individuals who had served on the Great Council during the previous four years and to others who had taken part in the government over the preceding thirty years, provided they received a council’s approval. In 1323, a subsequent law made this status hereditary: all male sons of members of the Great Council were automatically admitted upon reaching the age of twenty-five \citep{chojnacki1973search,serrata}. 
-Despite its name, the Serrata did not lead to a reduction in the size of the Great Council. On the contrary, the number of councillors increased from an average of less than three hundred before the Serrata, to more than one thousand \citep{chojnacki97, raines2003cooptazione}. Beyond its numerical expansion, the closure fundamentally transformed the nature of the institution. Rather than a relatively small body of members elected for limited terms from among the leading families, the Great Council became the permanent plenary assembly of the hereditary patriciate, with membership determined by birth rather than election. 
+The Venetian nobility was formally established with the Serrata (closure) of 1297, a measure that restricted access to the Great Council, the main political assembly. This law granted membership to all individuals who had served on the Great Council during the previous four years and to others who had taken part in the government over the preceding thirty years, provided they received a council’s approval. In 1323, a subsequent law made this status hereditary: all male sons of members of the Great Council were automatically admitted upon reaching the age of twenty-five \citep{chojnacki1973search,serrata}.
+Despite its name, the Serrata did not lead to a reduction in the size of the Great Council. On the contrary, the number of councillors increased from an average of less than three hundred before the Serrata, to more than one thousand \citep{chojnacki97, raines2003cooptazione}. Beyond its numerical expansion, the closure fundamentally transformed the nature of the institution. Rather than a relatively small body of members elected for limited terms from among the leading families, the Great Council became the permanent plenary assembly of the hereditary patriciate, with membership determined by birth rather than election.
 
-Although  additions to the ranks of the nobility continued  for some times after 1297, hereditary membership was progressively reinforced through a series of subsequent measures. What \citet{second:serrata} has termed the ``second Serrata'' introduced the compulsory registration of patrician births and increasingly rigorous procedures for admission to the Great Council, while the ``third Serrata'' \citep{chojnacki00} required the registration of patrician marriages and tightened the rules governing the hereditary transmission of noble status. Together, these measures made entry into the patriciate progressively more difficult and reinforced its character as a closed hereditary elite. 
+Although  additions to the ranks of the nobility continued  for some times after 1297, hereditary membership was progressively reinforced through a series of subsequent measures. What \citet{second:serrata} has termed the ``second Serrata'' introduced the compulsory registration of patrician births and increasingly rigorous procedures for admission to the Great Council, while the ``third Serrata'' \citep{chojnacki00} required the registration of patrician marriages and tightened the rules governing the hereditary transmission of noble status. Together, these measures made entry into the patriciate progressively more difficult and reinforced its character as a closed hereditary elite.
 From the mid-fourteenth century onward, new admissions remained rare until the mid-seventeenth century. The only significant exception was the aggregation of approximately thirty families in 1381, granted in recognition of their financial and military support during the War of Chioggia \citep{raines2003cooptazione}.\footnote{\ New and more substantial waves of admissions occurred in the seventeenth and early eighteenth centuries, when the Republic, faced with the fiscal pressures of prolonged warfare during the War of Candia and the Morean War, opened access to the patriciate in exchange for considerable financial contributions \citep{raines2003cooptazione}.}
 
-The Serrata did not give rise to major episodes of social unrest or sustained protest among those excluded. Social conflict in Venice remained limited, in part because the patriciate preserved stability by ensuring justice and an adequate food supply for the lower classes \citep{pullan1971rich}.  
+The Serrata did not give rise to major episodes of social unrest or sustained protest among those excluded. Social conflict in Venice remained limited, in part because the patriciate preserved stability by ensuring justice and an adequate food supply for the lower classes \citep{pullan1971rich}.
 By contrast, tensions were more pronounced within the patriciate itself.
 Although the Serrata instituted formal equality under the principle of one man, one vote, the Great Council was nonetheless marked by significant internal divisions. In this context, leading families sought alternative means of asserting pre-eminence and differentiating themselves from their peers.
-In the mid-fourteenth century, two lists---one anonymous and the other attributed to the patrician Pietro Giustinian---identified  certain families as  the founders of Venice,  conventionally tracing their origins to the ninth century \citep[p. 398]{raines2006invention1}. Although the lists underwent several revisions and varied in their earliest versions, by the fifteenth century their composition had stabilized at twenty-four families \citep[p.~434]{raines2006invention1} whose names are listed in the second  column of Table~\ref{tab:casenuove.table.parties}. 
-When the admissions of new nobles after the War of Chioggia reconfigure the balance of power within the patriciate, these twenty-four families came to constitute a distinct political grouping,  increasingly referred to as the \emph{case vecchie} or \emph{longhi}. They stood in opposition to the remaining families, identified as the \emph{case nuove} or \emph{curti}. 
+In the mid-fourteenth century, two lists---one anonymous and the other attributed to the patrician Pietro Giustinian---identified  certain families as  the founders of Venice,  conventionally tracing their origins to the ninth century \citep[p. 398]{raines2006invention1}. Although the lists underwent several revisions and varied in their earliest versions, by the fifteenth century their composition had stabilized at twenty-four families \citep[p.~434]{raines2006invention1} whose names are listed in the second  column of Table~\ref{tab:casenuove.table.parties}.
+When the admissions of new nobles after the War of Chioggia reconfigure the balance of power within the patriciate, these twenty-four families came to constitute a distinct political grouping,  increasingly referred to as the \emph{case vecchie} or \emph{longhi}. They stood in opposition to the remaining families, identified as the \emph{case nuove} or \emph{curti}.
 Among the \emph{case nuove}, those admitted  after the war were known as the \emph{case nuovissime}, or ``newest houses'' (\citealp{chojnacki1973search}; \citealp[p. 92-96]{finlay1980politicsrenaissance}; \citealp[p. 780]{raines2006invention2}). %(Chojnacki Search, pp. 49-50)
 
 
-It is important to emphasize that, beyond the conventional narrative, the distinction between \emph{longhi} and \emph{curti} cannot be explained solely by lineage antiquity or wealth. Although the \emph{longhi} generally represented the oldest patrician lineages, several \emph{curti} could also trace their origins back to the early centuries of Venice and enjoyed comparable social prestige. Likewise, economic wealth did not map neatly onto this distinction: some \emph{curti} accumulated great fortunes through trade, while certain \emph{longhi} lineages—or branches within them—experienced significant economic decline.\footnote{At the end of the fifteenth century, the nobleman Priuli noted in his diaries that roughly three quarters of the patriciate were ``poor,'' meaning that they depended on paid public office for their subsistence \citep[p. 73]{finlay1980politicsrenaissance}.} Rather, the distinction reflected the balance of power at the time the lists were compiled, shaped by a combination of genealogical seniority, economic resources, and, more broadly, social and political prestige. In particular, among the \emph{curti}, a group of sixteen families came to be widely recognized as belonging to the political elite. Throughout this paper, we use the term \emph{grandi curti} for these sixteen families, to distinguish them from the remaining \emph{curti}. The second column of Table~\ref{tab:casenuove.table.parties} lists the \emph{grandi curti}. Together with the twenty-four \emph{longhi}, they constituted the so-called "Forty Families", recognized by contemporaries as the dominant political elite of the Venetian Republic throughout the period considered in this study. 
+It is important to emphasize that, beyond the conventional narrative, the distinction between \emph{longhi} and \emph{curti} cannot be explained solely by lineage antiquity or wealth. Although the \emph{longhi} generally represented the oldest patrician lineages, several \emph{curti} could also trace their origins back to the early centuries of Venice and enjoyed comparable social prestige. Likewise, economic wealth did not map neatly onto this distinction: some \emph{curti} accumulated great fortunes through trade, while certain \emph{longhi} lineages—or branches within them—experienced significant economic decline.\footnote{At the end of the fifteenth century, the nobleman Priuli noted in his diaries that roughly three quarters of the patriciate were ``poor,'' meaning that they depended on paid public office for their subsistence \citep[p. 73]{finlay1980politicsrenaissance}.} Rather, the distinction reflected the balance of power at the time the lists were compiled, shaped by a combination of genealogical seniority, economic resources, and, more broadly, social and political prestige. In particular, among the \emph{curti}, a group of sixteen families came to be widely recognized as belonging to the political elite. Throughout this paper, we use the term \emph{grandi curti} for these sixteen families, to distinguish them from the remaining \emph{curti}. The second column of Table~\ref{tab:casenuove.table.parties} lists the \emph{grandi curti}. Together with the twenty-four \emph{longhi}, they constituted the so-called "Forty Families", recognized by contemporaries as the dominant political elite of the Venetian Republic throughout the period considered in this study.
 
- 
+
 <<casenuove.table.parties, message=F, echo=F>>=
 sort_with_empty_last <- function(x) {
   x[order(x == "", x)]
@@ -207,15 +207,15 @@ grandi_curti[ is.na( grandi_curti )] <- ""
 length( ducali ) <- max_length
 ducali[ is.na( ducali )] <- ""
 
-family_lists <- data.frame( longhi = sort_with_empty_last(longhi), 
+family_lists <- data.frame( longhi = sort_with_empty_last(longhi),
                             grandi_curti = sort_with_empty_last(grandi_curti),
                             ducali = sort_with_empty_last(ducali) )
 
 library(kableExtra)
-kable(family_lists, 
+kable(family_lists,
       col.names=c("Longhi","Grandi Curti","Ducali (1382-1612)"),
       caption="Classification of Venetian patrician families") %>%
-  row_spec(0,bold=TRUE) %>% 
+  row_spec(0,bold=TRUE) %>%
   kable_styling(font_size = 7)
 @
 
@@ -226,26 +226,26 @@ Following the Serrata, the hereditary nobility described above constituted the m
 
 The Great Council elected the holders of most major offices of the Republic, including the Doge, the six Ducal Councillors, collectively known as the Minor Council, the Senate, the Council of Ten, and the Council of Forty \citep[ch. 1]{maraniniv2}. Including the numerous lower-ranking magistracies, the offices to be filled numbered in the hundreds, and most were held for short terms. As a result, the Great Council met regularly to fill them through elections. These procedures were characterized by three defining features: the frequent use of committees of electors, the selection of their members by lot (sortition), and successive rounds of balloting. By concentrating the final decision in the hands of a relatively small body of electors, these committees facilitated bargaining and compromise among the leading families.
 
-These mechanisms reached their most elaborate form in the election of the Doge, which consisted of ten successive rounds and the formation of five different electoral committees, each requiring large supermajorities. In the final ballot, twenty-five out of forty-one votes were required, a majority of just over sixty per cent  \citep{tucci2014,molinari2020republic}. Such a demanding procedure, together with the Venetian ideal of public office as a service to the common good, exercised by experienced officeholders and constrained to prevent the concentration of personal or family power, shaped the profile of serious contenders. Those elected were typically of advanced age\footnote{\ Given that the office was held for life, candidates considered too young were generally excluded \citep{smith2021long}. Having too many sons could also prove a disadvantage, for fear of nepotism \citep[134]{finlay1980politicsrenaissance}.}  and had a distinguished record of prior office-holding \citep[124–141]{finlay1980politicsrenaissance}. Service in high-ranking posts--—such as ambassadorships--—and a university education were also valued. Because both required substantial financial resources, wealth effectively shaped access to office (\citealp[p. 18--26]{burke1974}; \citealp[p. 28--29]{davis1962}). % per eccezioni Raines invenzioni  p.287-288 Alcune eccezioni di doge che non venivano da famiglie grandi, ricche o prestigiose: Nicolò da Ponte (1578) e Francesco Erizzo (1631). Da ponte: il suo arrivo al dogato frutto di circostanze uniche create dalla lotta per il potere fra famiglie ducali e famiglie del patriziato anziano. 
+These mechanisms reached their most elaborate form in the election of the Doge, which consisted of ten successive rounds and the formation of five different electoral committees, each requiring large supermajorities. In the final ballot, twenty-five out of forty-one votes were required, a majority of just over sixty per cent  \citep{tucci2014,molinari2020republic}. Such a demanding procedure, together with the Venetian ideal of public office as a service to the common good, exercised by experienced officeholders and constrained to prevent the concentration of personal or family power, shaped the profile of serious contenders. Those elected were typically of advanced age\footnote{\ Given that the office was held for life, candidates considered too young were generally excluded \citep{smith2021long}. Having too many sons could also prove a disadvantage, for fear of nepotism \citep[134]{finlay1980politicsrenaissance}.}  and had a distinguished record of prior office-holding \citep[124–141]{finlay1980politicsrenaissance}. Service in high-ranking posts--—such as ambassadorships--—and a university education were also valued. Because both required substantial financial resources, wealth effectively shaped access to office (\citealp[p. 18--26]{burke1974}; \citealp[p. 28--29]{davis1962}). % per eccezioni Raines invenzioni  p.287-288 Alcune eccezioni di doge che non venivano da famiglie grandi, ricche o prestigiose: Nicolò da Ponte (1578) e Francesco Erizzo (1631). Da ponte: il suo arrivo al dogato frutto di circostanze uniche create dalla lotta per il potere fra famiglie ducali e famiglie del patriziato anziano.
 These qualifications, however, were only prerequisites for consideration. As they were often shared by several nobles, competition rarely turned on credentials alone; what ultimately determined success was the breadth of the support a candidate could mobilize within the Great Council.
 
-Precisely because victory depended on assembling such broad coalitions,  ducal elections became a crucial arena of political competition. Renaissance chronicles depict this rivalry as culminating in a conspiracy by sixteen \emph{curti} families which led to the exclusion of the \emph{longhi} from the dogeship between 1382 and 1612, after a prolonged period in which they held it almost continuously  (\citealp[p.~93]{finlay1980politicsrenaissance}; 
-\citealp[p.~79]{chojnacki1973search}; 
+Precisely because victory depended on assembling such broad coalitions,  ducal elections became a crucial arena of political competition. Renaissance chronicles depict this rivalry as culminating in a conspiracy by sixteen \emph{curti} families which led to the exclusion of the \emph{longhi} from the dogeship between 1382 and 1612, after a prolonged period in which they held it almost continuously  (\citealp[p.~93]{finlay1980politicsrenaissance};
+\citealp[p.~79]{chojnacki1973search};
 \citealp[p.~421]{romanin1855v4}). %Chojniacki pag. 79 note 18 e 19, romanin nota 2.
  A list of the families that held the office of doge during the conspiracy---the so-called \emph{ducali} families---is provided in the third column of Table~\ref{tab:casenuove.table.parties}.
 
-The extent to which this \emph{longhi–curti} opposition amounted to a genuine and sustained political conflict, however, remains uncertain. As Finlay has observed,  
-although the \emph{longhi} were excluded from the dogeship during this period, their representation in other major offices was broadly proportional to their numerical strength in the Great Council \citep[92-93]{finlay1980politicsrenaissance}. %anche rainesinventiona pag 443 la mette in dubbio 
+The extent to which this \emph{longhi–curti} opposition amounted to a genuine and sustained political conflict, however, remains uncertain. As Finlay has observed,
+although the \emph{longhi} were excluded from the dogeship during this period, their representation in other major offices was broadly proportional to their numerical strength in the Great Council \citep[92-93]{finlay1980politicsrenaissance}. %anche rainesinventiona pag 443 la mette in dubbio
 This suggests that their political marginalisation may have been more limited than the traditional narrative implies.
 
 The chronology of the rivalry is equally problematic. A seventeenth-century account dates the alleged pact among the \emph{curti} families to 1450; however, the exclusion itself began much earlier, and periods of especially intense competition were concentrated in particular elections, most notably those of 1486 and 1521 \citep[145--154]{finlay1980politicsrenaissance}. %Alvise da Mosto, by contrast, traces the pact back to 1414 \cite[p. XLII]{@bookdamosto1966dogi}.
 In the election of 1486, which followed the brief nine-month dogeship of Marco Barbarigo, Bernardo Giustinian of the  \emph{longhi} came close to defeating Agostino Barbarigo. Having twice secured twenty-three votes, two short of the required majority, he eventually withdrew in Barbarigo’s favour, reportedly to preserve patrician unity. The \emph{curti} responded by withholding support from \emph{longhi} candidates in the subsequent  yearly elections to the Senate and the Council of Ten (\citealp[p.145--7]{finlay1980politicsrenaissance}; \citealp[p. 439--40]{raines2006invention1}). %anche Raines pag. 49
 A similar attempt occurred in  1521, when Giorgio Corner sought to break the \emph{curti}'s hold on the dogeship. Despite his wealth and initially favourable sortition---as several electors were drawn from very small houses not aligned with either candidate---he never secured more than fifteen votes, and Antonio Grimani prevailed. As in the 1486 elections, retaliation against the \emph{longhi} followed and an elector who had backed the \emph{curti} in the final college was rewarded with a procuratorship \citep[p. 152--5]{finlay1980politicsrenaissance}.% ci sarebbe anche 1578 Da ponte. Famiglia nobile alla serrata poi cancellata e poi reinserita nel 1406 (negroponte). Molto dotto. Eletto con 27 voti, dopo con 45 scrutini contro Tiepolo e Soranzo (lungi) e Gritti (curti). Da Mosto p. 370 Vedi anche Raines invention 287-88.
- 
-One possible interpretation of this so-called conspiracy, which has not yet been systematically explored, is that it reflected not a rigid division between \emph{longhi} and \emph{curti}, but rather a struggle for dominance among the forty most powerful clans of the city, with many smaller \emph{curti} families at least tacitly aligned with the conspiring ones \citep[p.~94]{finlay1980politicsrenaissance}. Yet, reconstructing political divisions remains difficult. The  Republic of Venice consistently portrayed factional conflict as a danger to its  stability and sought to suppress its overt expression; as a result, traces of organised political groupings in the sources are fragmentary \citep{van2018people}. 
+
+One possible interpretation of this so-called conspiracy, which has not yet been systematically explored, is that it reflected not a rigid division between \emph{longhi} and \emph{curti}, but rather a struggle for dominance among the forty most powerful clans of the city, with many smaller \emph{curti} families at least tacitly aligned with the conspiring ones \citep[p.~94]{finlay1980politicsrenaissance}. Yet, reconstructing political divisions remains difficult. The  Republic of Venice consistently portrayed factional conflict as a danger to its  stability and sought to suppress its overt expression; as a result, traces of organised political groupings in the sources are fragmentary \citep{van2018people}.
 
 This paper, therefore, examines indirect evidence of political alliances using a sequence of  networks  constructed over successive time windows from a dataset of marriages among Venetian noble families compiled by  \cite{PugaTrefler}. In Renaissance Venice, marriage was a central instrument of family strategy and one of the principal mechanisms through which durable political coalitions were forged and maintained.\footnote{\emph{Broglio} likewise helped  to build clienteles, especially in the later period  of the Republic, when impoverished nobles---known as \emph{Sguizeri} (Swiss), in reference  to the mercenary soldiers---were effectively paid  in return for their  votes,
-%anche a pagina 20dice dopo Agnadello, 
+%anche a pagina 20dice dopo Agnadello,
 a practice that the Republic consistently sought to curb. In Venice even \emph{broglio onesto}, i.e. the open solicitation of electoral support, was officially forbidden (\citealp[p. 204-218]{finlay1980politicsrenaissance}; \citealp[ch. 3]{queller86}).} It could benefit all families involved: those of lower standing enhanced their status through advantageous matches, while more prestigious lineages secured substantial dowries and strengthened their economic and political networks, as in-laws  became potential business partners and political allies \citep[p.81-82]{dowries:chojnacki, raines2013rameau, finlay1980politicsrenaissance}. %Raines a pag.30
 Marriage thus played a crucial role in the political and social management of the family and, for this very reason, offers valuable insight into patterns of cohesion and division within the patriciate.
 
@@ -267,7 +267,7 @@ This section in organized as follows. In Subsection~\ref{ssec:sources}, we descr
 
 \subsection{Data sources}\label{ssec:sources}
 
-We rely on three datasets: an existing database of marriages among Venetian nobles; a database of doges elected after 1297; and a third dataset that includes additional information on noble families drawn from secondary sources. 
+We rely on three datasets: an existing database of marriages among Venetian nobles; a database of doges elected after 1297; and a third dataset that includes additional information on noble families drawn from secondary sources.
 
 %
 <<casenuove.marriages,echo=F,message=F>>=
@@ -276,7 +276,7 @@ first_year <- min(noble_marriages$year)
 last_year <- max(noble_marriages$year)
 @
 %
-The first dataset, which forms the basis of our network analysis, consists of  Venetian matrimonial records spanning the period from \Sexpr{first_year} to \Sexpr{last_year}. Originally compiled by \cite{PugaTrefler}, it was normalized and adapted by \cite{merelo2024intra} and \cite{histories4020012}. Each record corresponds to a single marriage entry in the Avogaria del Comun registers, the magistracy responsible for recording marriages involving at least one noble. Most entries are dated and include the spouses’ first names and noble family affiliation. 
+The first dataset, which forms the basis of our network analysis, consists of  Venetian matrimonial records spanning the period from \Sexpr{first_year} to \Sexpr{last_year}. Originally compiled by \cite{PugaTrefler}, it was normalized and adapted by \cite{merelo2024intra} and \cite{histories4020012}. Each record corresponds to a single marriage entry in the Avogaria del Comun registers, the magistracy responsible for recording marriages involving at least one noble. Most entries are dated and include the spouses’ first names and noble family affiliation.
 
 <<casenuove.dogi,echo=F,message=F>>=
 load("data/ducali_dogi_data.rda")
@@ -285,7 +285,7 @@ ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
 
 The second dataset provides the names of the doges and the year of their appointment and is taken from the {\sf dogesr} package \citep{merelo2022good} which used the Wikipedia timeline as a source. % Loaded now in the casenuove.table.parties chunk
 
-A third dataset records, for each noble family, its factional affiliation  and the date of its admission to the nobility.  Families are assigned to one of three groups:\emph{longhi}, \emph{grandi curti}, or other \emph{curti}, following  the fifteenth-century classification described in Section~\ref{history}. Admission dates are drawn from \cite{raines2003cooptazione}, which also reports which also reports the extinction date for each noble family, defined as the last year in which the family appears in the documentary record. This third dataset is publicly available in the paper's repository under an open licence. 
+A third dataset records, for each noble family, its factional affiliation  and the date of its admission to the nobility.  Families are assigned to one of three groups:\emph{longhi}, \emph{grandi curti}, or other \emph{curti}, following  the fifteenth-century classification described in Section~\ref{history}. Admission dates are drawn from \cite{raines2003cooptazione}, which also reports which also reports the extinction date for each noble family, defined as the last year in which the family appears in the documentary record. This third dataset is publicly available in the paper's repository under an open licence.
 
 Because the three datasets come from different sources, we harmonize family names to ensure consistent identification across records. When a direct match is not possible, we proceed as follows:\begin{itemize}
 \item When differences reflect only orthographic variation (e.g., Da Mosto vs Mosto or Mosto, Da), we standardize names to the form used in the Puga and Trefler dataset;
@@ -319,12 +319,12 @@ The final dataset contains \Sexpr{sum(marriages_by_year$matrimonies)} marriages.
 The approach adopted in this paper---using marriage networks to reconstruct patterns of political alignment within the Venetian patriciate between 1400 and 1650---rests on two assumptions: that the patrilineal family (\emph{casata}) was the relevant political unit, and that marriage ties reflected political alignment between families.
 
 Although Venetian patrician families often comprised numerous branches living in separate households that, over time, developed a degree of autonomy in their economic activities, the \emph{casata} remained the primary political unit throughout the period under study %p. 128 e 141 ma anche pag. 22-24 di cooptazione
-(\citealp[]{raines2013rameau}; \citealp[p. 81-87]{finlay1980politicsrenaissance}; \citealp[]{chojnacki:1985};  \citealp[ch. 3]{romano1987patricians}).\footnote{\ It was only during the eighteenth century that the \emph{casata} lost its political primacy  to its branches \citep{raines2003cooptazione}.} %pag. 50  
+(\citealp[]{raines2013rameau}; \citealp[p. 81-87]{finlay1980politicsrenaissance}; \citealp[]{chojnacki:1985};  \citealp[ch. 3]{romano1987patricians}).\footnote{\ It was only during the eighteenth century that the \emph{casata} lost its political primacy  to its branches \citep{raines2003cooptazione}.} %pag. 50
 Republican institutions reinforced this principle: in many electoral procedures, the selection of one member of a lineage automatically excluded all the others, effectively treating officeholders as representatives of their family rather than autonomous political actors \citep[p. 110-111]{maraniniv2}.
 
-Marriage alliances likewise had both economic and political significance. As shown by \cite{PugaTrefler}, marriages in the fifteenth century were closely connected to the financing of long-distance trade, while dowries facilitated the transfer of  resources across lineages and helped families maintain or improve their economic and social position \citep{dowries:chojnacki}. 
+Marriage alliances likewise had both economic and political significance. As shown by \cite{PugaTrefler}, marriages in the fifteenth century were closely connected to the financing of long-distance trade, while dowries facilitated the transfer of  resources across lineages and helped families maintain or improve their economic and social position \citep{dowries:chojnacki}.
 Beyond their economic and commercial functions, marriages also had clear political implications. In-laws formed part of the political network on which a family could rely for political support and  votes in the Great Council. Marriages within different branches of the same lineage could also strengthen family cohesion and lineage consciousness  (\citealp[]{chojnacki:1985}; \citealp[p.~81-96]{finlay1980politicsrenaissance}; \citealp[]{raines2003cooptazione}; \citealp[]{raines2013rameau}; \citealp[ch.~3] {romano1987patricians}). %raines cooptazione pag 24-25
-These considerations justify treating the \emph{casata} as the relevant unit of political analysis and marriage ties as meaningful indicators of political alignment. 
+These considerations justify treating the \emph{casata} as the relevant unit of political analysis and marriage ties as meaningful indicators of political alignment.
 
 A separate question concerns the representativeness of the network used in this study. The data assembled by Puga and Trefler  derive from a nineteenth-century manuscript held at the Archivio di Stato di Venezia and are  largely based on  records of the Avogaria di Comun, which registered  marriages involving noble husbands from the early fifteenth century onward. Following legislation enacted in 1376 and 1422 as part of the process often referred to as the "second Serrata" \citep{second:serrata}, which excluded illegitimate children and those born to socially unworthy mothers of non-noble birth, marriage registration by the Avogaria di Comun became essential for determining eligibility for noble status. This institutional role provides strong reason to believe that the records were sistematically maintained, with the exception of the earliest decades of the fifteenth century, when the relatively small number of recorded marriages suggests incomplete coverage. Results for this initial period should therefore be interpreted with caution. Moreover, the quality and completeness of the dataset have already been established in previous work by Puga and Trefler.
 
@@ -344,7 +344,7 @@ To further validate the dataset, Figure \ref{fig:casenuove.marriages.validation}
 
 \subsection{Initial exploratory analysis}\label{ssec:exploration}
 
-This section provides a first examination of the marriage network and its evolution over the period under study. This analysis rests on the assumption that, unlike patrilineal ties, marriage alliances created strong but comparatively transient connections. In particular, both \citet[p. 82]{finlay1980politicsrenaissance} and \citet[p. 143]{raines2013rameau} note that these ties typically lasted for about three generations, roughly spanning the period of co-residence across successive cohorts within the same household. On this basis, and assuming a generational length of approximately 25 years \citep{social:memory}, we analyse the network using a 75-year moving window: at any given time, we include only marital ties formed in the preceding 75 years, in order to capture the “living memory” of past social connections. 
+This section provides a first examination of the marriage network and its evolution over the period under study. This analysis rests on the assumption that, unlike patrilineal ties, marriage alliances created strong but comparatively transient connections. In particular, both \citet[p. 82]{finlay1980politicsrenaissance} and \citet[p. 143]{raines2013rameau} note that these ties typically lasted for about three generations, roughly spanning the period of co-residence across successive cohorts within the same household. On this basis, and assuming a generational length of approximately 25 years \citep{social:memory}, we analyse the network using a 75-year moving window: at any given time, we include only marital ties formed in the preceding 75 years, in order to capture the “living memory” of past social connections.
 
 <<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks from 1350 onward, reconstructed every 50 years using matrimonial ties formed in the preceding 75 years. Gold nodes indicate {case vecchie}, red nodes {case nuove} involved in the conspiracy, and white nodes all other {case nuove};  families with one member elected doge during the corresponding period are represented by squares.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 DEPTH_IN_YEARS <- 75
@@ -388,29 +388,29 @@ for (y in window_sequence ) {
     directed = FALSE,
     vertices = unique(c(marriages_window$husband_familyname_std, marriages_window$wife_familyname_std))
   )
-  
+
   doges <- unique(doges.years[ doges.years$Start >= y & doges.years$Start <= y + DEPTH_IN_YEARS, ]$Family.doge)
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
-  
+
   V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", "Corti")
   V(marriage_graph)$types_curti_longhi <- ifelse(V(marriage_graph)$Faction == "Longhi", 1,2)
   assortativity_curti_longhi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_curti_longhi, directed = FALSE)
-  
+
   V(marriage_graph)$Ducale <- ifelse(V(marriage_graph)$name %in% ducali, TRUE, FALSE)
   V(marriage_graph)$types_ducali <- ifelse(V(marriage_graph)$Ducale == TRUE, 1,2)
   assortativity_ducali <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_ducali, directed = FALSE)
-  
+
   V(marriage_graph)$InQuaranta <- ifelse(V(marriage_graph)$name %in% quaranta_famiglie, TRUE, FALSE)
   V(marriage_graph)$types_quaranta <- ifelse(V(marriage_graph)$InQuaranta == TRUE, 1,2)
   assortativity_quaranta <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_quaranta, directed = FALSE)
-  
+
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
   V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
   V(marriage_graph)$color <- ifelse(V(marriage_graph)$Group == "Longhi",
-                                    "gold", 
+                                    "gold",
                                     ifelse(V(marriage_graph)$Group=="Ducali","red","darkgray"))
-  
+
   V(marriage_graph)$shape <- ifelse(V(marriage_graph)$name %in% doges, "square", "circle")
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
@@ -426,7 +426,7 @@ for (y in window_sequence ) {
   )
   graph_list[[list_index]] <- marriage_graph
   list_index <- list_index+1
-  
+
   network_measures <- rbind( network_measures,
                              data.frame( dates = paste(y, "-", last_year),
                                          average_degree = mean(degree(marriage_graph_main)),
@@ -437,9 +437,9 @@ for (y in window_sequence ) {
 }
 @
 
-Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \citep{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{ grandi curti} families  and white nodes other \emph{curti} families. The \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. No families are excluded from the  main connected component of each 75-year network. 
-The figure highlights several important features of the network. First, not every \emph{ducali} family occupies a central position in the network. 
-Second, the effects of the alleged \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families. 
+Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm \citep{kamada1989algorithm} provides an overview of the evolution of the marital social network over the period of interest. It shows the main component of six networks constructed using the 75-year moving window, spaced at 50-year intervals (1350–1425, 1400–1475, etc.). In the graph, gold nodes represent \emph{longhi} families, red nodes \emph{ grandi curti} families  and white nodes other \emph{curti} families. The \emph{ducali} families, i.e., families that had a doge elected in the period under consideration, are represented as squares. No families are excluded from the  main connected component of each 75-year network.
+The figure highlights several important features of the network. First, not every \emph{ducali} family occupies a central position in the network.
+Second, the effects of the alleged \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families.
 
 A third feature emerging from the graphs is the remarkable stability of the three (overlapping) time windows at the centre of the sequence, which exhibit very similar structural properties. By contrast, the first and the last windows depart from this pattern. Since the earliest window is affected by the lower coverage of the historical records, we focus on the transition from the fourth to the fifth window. Whereas  the network for 1500--1575 appears densely interwoven, with most families embedded in a compact core, the last networks (1550-1625) is looser, with a growing number of families outside the densely connected core.
 
@@ -449,7 +449,7 @@ Another interesting aspect is the lack of clear factionalization. In none of the
 initial_year <- INITIAL_YEAR_OVERVIEW
 for (graph in graph_list) {
   V(graph)$betweenness = betweenness(graph)
-  betweenness_df <- data.frame( family= V(graph)$name, betweenness = V(graph)$betweenness, 
+  betweenness_df <- data.frame( family= V(graph)$name, betweenness = V(graph)$betweenness,
                                 color=V(graph)$color,
                                 size=ifelse(V(graph)$shape == "square",4,2)
   )
@@ -488,7 +488,7 @@ window_sequence <- seq(from = INITIAL_YEAR_EXPERIMENTS, to = FINAL_YEAR_EXPERIME
 
 We are interested mainly in how the network evolves from 1400 to 1650, the years identified as {\em ducali}. Our intention is to examine how the network evolves during this period, so we will work with a set of networks that span it, in this way
 \begin{itemize}
-\item Every network will span a window of \Sexpr{DEPTH_IN_YEARS} years.  
+\item Every network will span a window of \Sexpr{DEPTH_IN_YEARS} years.
 \item We will create slices in 5 year increments, in order to have a more fine-grained view of the evolution
 \end{itemize}
 
@@ -516,26 +516,26 @@ for (y in window_sequence ) {
     directed = FALSE,
     vertices = unique(c(marriages_window$husband_familyname_std, marriages_window$wife_familyname_std))
   )
-  
+
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
-  
+
   V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% ducali, "Ducali", "Corti"))
-  
+
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
-  
+
   number_of_families <- length(V(marriage_graph)$name)
   families_in_MCC <- length(V(marriage_graph_main)$name)
   percentage_in_MCC <- families_in_MCC/number_of_families  * 100
-                               
+
   number_of_families_timeline <- rbind( number_of_families_timeline,
                                         data.frame( total_number = number_of_families,
                                                     families_in_MCC = families_in_MCC,
                                                     percentage_in_MCC = percentage_in_MCC,
                                                     year = last_year))
-  
+
 }
 
 ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line( color="red") +
@@ -597,7 +597,7 @@ network_measures_year <- data.frame( year=integer(),
                                   closeness_longhi = numeric(),
                                   diameter = numeric(),
                                   clustering_coefficient=  numeric())
-  
+
 for (y in window_sequence ) {
 
   last_year <- y + DEPTH_IN_YEARS
@@ -609,48 +609,48 @@ for (y in window_sequence ) {
     directed = FALSE,
     vertices = unique(c(marriages_window$husband_familyname_std, marriages_window$wife_familyname_std))
   )
-  
+
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
-  
+
   V(marriage_graph)$Group <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Curti Congiurati", "Curti"))
-  
+
   component <- components(marriage_graph)$membership
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
-  
+
   distance <- distances(marriage_graph_main, weights = E(marriage_graph_main)$distances)
   average_distance <- mean(distance)
-  
+
   vertices_longhi <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Longhi"]
   vertices_non_longhi <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Longhi"]
-  
+
   distance_longhi_non_longhi <- distances(marriage_graph_main, v = vertices_longhi, to = vertices_non_longhi, weights = E(marriage_graph_main)$distances)
   mean_longhi_non_longhi <- mean(distance_longhi_non_longhi)
-  
+
   distances_longhi_longhi <- distances(marriage_graph_main, v = vertices_longhi, to = vertices_longhi, weights = E(marriage_graph_main)$distances)
   mean_longhi_longhi <- mean(distances_longhi_longhi)
-  
+
   distances_non_longhi_non_longhi <- distances(marriage_graph_main, v = vertices_non_longhi, to = vertices_non_longhi, weights = E(marriage_graph_main)$distances)
   mean_non_longhi_non_longhi <- mean(distances_non_longhi_non_longhi)
-  
+
   clique_index_longhi <- mean_longhi_non_longhi - mean_longhi_longhi
-                           
+
   vertices_congiurati <- V(marriage_graph_main)[V(marriage_graph_main)$Group == "Curti Congiurati"]
   vertices_non_congiurati <- V(marriage_graph_main)[V(marriage_graph_main)$Group != "Curti Congiurati"]
-  
+
   distance_congiurati_non_congiurati <- distances(marriage_graph_main, v = vertices_congiurati, to = vertices_non_congiurati, weights = E(marriage_graph_main)$distances)
   mean_congiurati_non_congiurati <- mean(distance_congiurati_non_congiurati)
-  
+
   distances_congiurati_congiurati <- distances(marriage_graph_main, v = vertices_congiurati, to = vertices_congiurati, weights = E(marriage_graph_main)$distances)
   mean_congiurati_congiurati <- mean(distances_congiurati_congiurati)
-  
+
   distances_non_congiurati_non_congiurati <- distances(marriage_graph_main, v = vertices_non_congiurati, to = vertices_non_congiurati, weights = E(marriage_graph_main)$distances)
   mean_non_congiurati_non_congiurati <- mean(distances_non_congiurati_non_congiurati)
-  
+
   distances_longhi_congiurati <- distances( marriage_graph_main, v = vertices_longhi, to = vertices_congiurati, weights = E(marriage_graph_main)$distances )
   mean_longhi_congiurati <- mean( distances_longhi_congiurati )
-  
+
   clique_index_congiurati <- mean_congiurati_non_congiurati - mean_congiurati_congiurati
 
   number_of_marriages <- rbind( number_of_marriages,
@@ -662,7 +662,7 @@ for (y in window_sequence ) {
                                             extra_longhi = length(E(marriage_graph_main)[ vertices_non_longhi %--% vertices_longhi ])
                                             )
   )
-  
+
   distances_window <- rbind(distances_window,
                          data.frame( total = average_distance,
                                      congiurati = mean_congiurati_congiurati,
@@ -680,14 +680,14 @@ for (y in window_sequence ) {
                                      longhi_vs_congiurati = mean_longhi_congiurati,
                                      longhi_vs_congiurati_norm = mean_longhi_congiurati/average_distance,
                                      year = last_year))
-  
+
   V(marriage_graph)$types_congiurati <- ifelse(V(marriage_graph)$Group == "Curti Congiurati", 1,2)
   assortativity_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_congiurati, directed = FALSE)
   V(marriage_graph)$types_longhi <- ifelse(V(marriage_graph)$Group == "Longhi", 1,2)
   assortativity_longhi <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_longhi, directed = FALSE)
   V(marriage_graph)$types_both <- ifelse(V(marriage_graph)$Group == "Longhi", 1, ifelse(V(marriage_graph)$Group == "Curti Congiurati",2,3))
   assortativity_longhi_congiurati <- assortativity_nominal(marriage_graph, V(marriage_graph)$types_both, directed = FALSE)
-  
+
   core_periphery_timeline <- rbind(core_periphery_timeline,
                                      data.frame( clique_index_congiurati = clique_index_congiurati,
                                                  assortativity_congiurati = assortativity_congiurati,
@@ -695,7 +695,7 @@ for (y in window_sequence ) {
                                                  assortativity_longhi = assortativity_longhi,
                                                  assortativity_longhi_congiurati = assortativity_longhi_congiurati,
                                                  year = last_year ))
-  
+
   # 1. Calculate closeness as a named vector
   closeness_scores <- closeness(marriage_graph_main, normalized=T)
 
@@ -710,7 +710,7 @@ for (y in window_sequence ) {
                                          clustering_coefficient = transitivity(marriage_graph_main)
                                          )
                              )
-  
+
 }
 
 ggplot( distances_window, aes(x = year)) +
@@ -756,7 +756,7 @@ However, this evolution can be better observed if we normalize distances against
 
 <<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions. . WILL BE ELIMINATED TOO", fig.height=6, fig.pos="h!tb">>=
 
-ggplot( core_periphery_timeline, aes(x = year)) + 
+ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = clique_index_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = clique_index_longhi, color = "Longhi")) +
   labs(title = "Clique Index Over Time",
@@ -774,7 +774,7 @@ These charts are a step towards explaining why the {\em grandi curti} were able 
 We are more interested on the trend in the first quarter of the XVII century, when effectively the {\em longhi} retrieved their access to the dogate. Figure \ref{fig:casenuove.analysis.normalized} possibly shows the clearest picture. This chart shows normalized average shortest past distances. Intra-faction distances reflect cohesiveness within a faction, and what we see is that while {\em longhi} and {\em grandi curti} were very close together in terms of normalized distance until the end of the XVI century, the difference between them starts to increase by the beginning of the XVII. Same happens with the distance between the factions and the rest of the network: while {\em grandi curti} maintain a slight advantage over the {\em longhi}, eventually the latter begin being being closer to the {\em periphery} by the end of that century. It is interesting also, in this chart, to check the distances between the two "factions", {\em longhi} and {\em grandi curti}. While during most of the period distances between them are longer than intra-faction distances, there come a point at the beginning of the 17th century, before the change of regime, when {\em grandi curti} are on average further away from each other (solid blue line) than from the {\em longhi} (green line).
 
 <<casenuove.assortativity, echo=F, message=F, fig.cap="Evolution of assortativity for different type combinations: grandi curti vs. non, longhi vs. non, and longhi vs. curti",  fig.pos="h!tb", fig.height=5>>=
-ggplot( core_periphery_timeline, aes(x = year)) + 
+ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = assortativity_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = assortativity_longhi, color = "Longhi")) +
   geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. congiurati")) +
@@ -787,7 +787,7 @@ ggplot( core_periphery_timeline, aes(x = year)) +
 We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortativity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em longhi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em longhi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em longhi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em longhi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em longhi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
 
 <<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriages within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
-ggplot( number_of_marriages, aes(x = year)) + 
+ggplot( number_of_marriages, aes(x = year)) +
   geom_line(aes(y = intra_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = intra_longhi, color = "Longhi")) +
   geom_line(aes(y = extra_congiurati, color = "extra congiurati")) +
@@ -797,7 +797,7 @@ ggplot( number_of_marriages, aes(x = year)) +
        subtitle = "Intra, inter and extra groups",
        x = "Year",
        y = "Number of marriages") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. congiurati" ="green", 
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. congiurati" ="green",
                                 "extra congiurati" = "light blue", "extra longhi" ="darkgoldenrod2")) +
   theme_minimal()
 
@@ -806,7 +806,7 @@ ggplot( number_of_marriages, aes(x = year)) +
 What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em longhi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em longhi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
 
 <<casenuove.closeness, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=3, fig.pos="h!tb">>=
-ggplot( network_measures_year, aes(x = year)) + 
+ggplot( network_measures_year, aes(x = year)) +
   geom_line(aes(y = closeness_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = closeness_longhi, color = "Longhi")) +
   labs(x = "Year",
@@ -818,7 +818,7 @@ ggplot( network_measures_year, aes(x = year)) +
 We see in Figure \ref{fig:casenuove.closeness}, which represents the normalized average closeness for the two factions, the {\em grandi curti} and the {\em longhi}. Its value is relatively high; being close to 0.5, it means that the average number of edges they both had to work through to get to any family in the connected component (which represents almost all families in the network at every point in time) is around 2. The {\em grandi curti} have the leas up until mid-XVI, but then the {\em longhi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both.
 %
 <<casenuove.diameter, echo=F, message=F, fig.cap="Evolution of the clustering coefficient over time. The green line marks the year when Francesco Contarini was elected.", fig.height=3, fig.pos="h!tb">>=
-ggplot( network_measures_year, aes(x = year, y = clustering_coefficient)) + 
+ggplot( network_measures_year, aes(x = year, y = clustering_coefficient)) +
   geom_line() +
   geom_point( aes(size=diameter))+
   geom_segment(x=1623, xend=1623,y=0.20,yend=0.45,color="green")+ # Francesco Contarini elected doge
@@ -856,21 +856,21 @@ two_family_analysis <- function( year, casata_1, casata_2) {
     directed = FALSE,
     vertices = unique(c(giustinian_marriage_data$husband_familyname_std, giustinian_marriage_data$wife_familyname_std))
   )
-  
+
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
-  
+
   V(marriage_graph)$Faction <- ifelse(V(marriage_graph)$name %in% longhi, "Longhi", ifelse(V(marriage_graph)$name %in% curti_congiurati, "Grandi Curti", "Curti"))
-  
+
   V(marriage_graph)$color <- ifelse(V(marriage_graph)$Faction == "Longhi",
-                                    "gold", 
+                                    "gold",
                                     ifelse(V(marriage_graph)$Faction=="Grandi Curti","red","darkgray"))
-  
+
   closeness_scores <- closeness(marriage_graph, normalized=T)
   V(marriage_graph)$closeness <- closeness_scores[V(marriage_graph)$name]
 
-  barbarigo_closeness <- closeness_scores[casata_1]
-  giustinian_closeness <- closeness_scores[casata_2]
+  casata_1_closeness <- closeness_scores[casata_1]
+  casata_2_closeness <- closeness_scores[casata_2]
 
   closeness_df <- data.frame(
     family    = V(marriage_graph)$name,
@@ -879,7 +879,7 @@ two_family_analysis <- function( year, casata_1, casata_2) {
 
   closeness_df_sorted <- closeness_df[order(closeness_df$closeness, decreasing = TRUE), ]
   rownames(closeness_df_sorted) <- NULL  # tidy up row numbers
-  
+
   V(marriage_graph)$label <- ifelse( V(marriage_graph)$name %in% c(casata_1, casata_2),
                                      V(marriage_graph)$name,
                                      NA
@@ -916,10 +916,10 @@ two_family_analysis <- function( year, casata_1, casata_2) {
   label_pos <- ifelse(V(marriage_graph)$name == casata_2, 1, 3)
 
   layout <- layout_with_fr(marriage_graph, niter = 5000)
-  
+
   par(mar = c(0, 0, 0, 0))                 # kill the default plot margins
   layout <- norm_coords(layout, xmin = -1, xmax = 1, ymin = -1, ymax = 1)
-  
+
   plot(marriage_graph,
      layout = layout,
      vertex.size = V(marriage_graph)$size2,
@@ -949,7 +949,7 @@ two_family_analysis <- function( year, casata_1, casata_2) {
   colnames(faction_summary)[2:3] <- c(casata_1, casata_2)
 
   writeLines(kable(faction_summary, format = "latex", caption="Table of connections from the candidate families to the rest of types of the network"))
-  return(c(barbarigo_closeness, giustinian_closeness))
+  return(c(casata_1_closeness, casata_2_closeness))
 }
 
 closeness_1486_results <- two_family_analysis(1486,"Barbarigo","Giustinian")
@@ -957,7 +957,7 @@ barbarigo_closeness <- closeness_1486_results[1]
 giustinian_closeness <- closeness_1486_results[2]
 @
 
-We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. Besides the fact that the two nodes are very close in network terms to each other, what is apparent from the graph is that while the Giustinian (longhi) are closest to other of the same {\em longhi} faction, the Barbarigo have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giustinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{barbarigo_closeness}, slightly lower than 
+We have plotted the main nodes of the network (by degree) in Figure \ref{fig:casenuove.giustinian}, highlighting the connections between the two candidates and the rest of the network. Node size is proportional to closeness. Besides the fact that the two nodes are very close in network terms to each other, what is apparent from the graph is that while the Giustinian (longhi) are closest to other of the same {\em longhi} faction, the Barbarigo have a more diverse (network) neighborhood. In fact, we represent the number of first-degree connection of each family in Table \ref{tab:casenuove.giustinian}. Looking at the whole network, the {\em casata} Barbarigo closeness is \Sexpr{barbarigo_closeness}, slightly lower than
 \Sexpr{giustinian_closeness}
 for the Giustinian family, which gave them a chance at challenging {\em grandi curti}'s domination, but not enough to actually beat them; besides, we should take into account that, although both were connected in the first degree to the two factions, the Barbarigo not only had more {\em curti} in their neighborhood, but also a good amount of families from the {\em longhi} "faction"; as a matter of fact, they had more connections to families of the {\em other} faction than to its own; the situation is inverted for the Giustinian.
 
