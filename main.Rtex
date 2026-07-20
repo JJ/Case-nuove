@@ -487,14 +487,7 @@ FINAL_YEAR_EXPERIMENTS <- 1575
 window_sequence <- seq(from = INITIAL_YEAR_EXPERIMENTS, to = FINAL_YEAR_EXPERIMENTS, by = 5)
 @
 
-We are interested mainly in how the network evolves from 1400 to 1650, the years identified as {\em ducali}. Our intention is to examine how the network evolves during this period, so we will work with a set of networks that span it, in this way
-\begin{itemize}
-\item Every network will span a window of \Sexpr{DEPTH_IN_YEARS} years.
-\item We will create slices in 5 year increments, in order to have a more fine-grained view of the evolution
-\end{itemize}
-
-This creates a sequence of \Sexpr{length(window_sequence)} slices of the network data, with enough resolution to see significant differences from one slice to the next. Data for these slices are available from the paper repository under a free license.
-
+We now turn to the evolution of the marriage network between 1400 and 1650 with the aim of examining how its structure changed over the two centuries of the \emph{curti} monopoly and the years immediately following its end. To capture structural changes at a finer temporal resolution, we continue to use \Sexpr{DEPTH_IN_YEARS}-year moving windows but shift them every five years, rather than every fifty. This produces a sequence of \Sexpr{length(window_sequence)} overlapping networks, allowing us to follow the evolution of the network in considerably greater detail. The data for all network slices are available in the paper's online repository under a free license.
 
 % What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
 We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
