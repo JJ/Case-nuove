@@ -423,6 +423,7 @@ for (y in window_sequence ) {
         vertex.label = NA,
         vertex.color = V(marriage_graph)$color,
         edge.width = E(marriage_graph)$weight,
+        edge.color = adjustcolor("darkblue", alpha.f = 0.3),
         layout = layout_with_kk,
         main = paste("Marriage Network from", y, "to", last_year)
   )
