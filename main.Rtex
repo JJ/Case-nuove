@@ -347,7 +347,7 @@ To further validate the dataset, Figure \ref{fig:casenuove.marriages.validation}
 
 This section provides a first examination of the marriage network and its evolution over the period under study. This analysis rests on the assumption that, unlike patrilineal ties, marriage alliances created strong but comparatively transient connections. In particular, both \citet[p. 82]{finlay1980politicsrenaissance} and \citet[p. 143]{raines2013rameau} note that these ties typically lasted for about three generations, roughly spanning the period of co-residence across successive cohorts within the same household. On this basis, and assuming a generational length of approximately 25 years \citep{social:memory}, we analyze the network using a 75-year moving window: at any given time, we include only marital ties formed in the preceding 75 years, in order to capture the “living memory” of past social connections.
 
-<<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks based on 75-year moving windows (50-year intervals). Gold nodes denote \\emph{longhi}, red nodes \\emph{grandi curti}, grey nodes other \\emph{curti}; dogal families are shown as squares.", out.width="50%", fig.show="hold", fig.height=5.75>>=
+<<casenuove.graphs,echo=F,message=F,fig.cap="Marriage networks based on 75-year moving windows (50-year intervals). Gold nodes denote \\emph{longhi}, red nodes \\emph{grandi curti}, grey nodes other \\emph{curti}; dogal families are shown as squares.", out.width="50%", fig.show="hold", fig.height=6.15>>=
 DEPTH_IN_YEARS <- 75
 INITIAL_YEAR_OVERVIEW <- 1350
 FINAL_YEAR_OVERVIEW <- 1550
@@ -417,6 +417,7 @@ for (y in window_sequence ) {
   marriage_graph_main <- subgraph(marriage_graph, V(marriage_graph)$name[component == 1])
   excluded_families_list[[list_index]] <- V(marriage_graph)$name[component != 1]
 
+  par(mar = c(0, 0, 1, 0))                 # kill the default plot margins
   plot(marriage_graph_main,
         vertex.size = 5,
         vertex.label = NA,
