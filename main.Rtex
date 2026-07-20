@@ -478,8 +478,7 @@ The fact that \emph{ducali} families are found throughout the ranking is consist
 
 This exploratory analysis suggests two main conclusions. First, the dogeship was only rarely secured by the family occupying the most central position in the marriage network. Second, the network provides little evidence of a persistent structural division between the alleged factions: ties between \emph{longhi} and \emph{curti} were widespread, and virtually all families belonged to a single connected component. These findings suggest that the long-lasting monopoly of the dogeship by the \emph{curti} cannot be explained solely in terms of betweenness centrality or the overall pattern of marriage ties. The following sections therefore explore whether other structural features of the network may account for it.
 
-
-\subsection{Final data processing}
+\section{Experiments and results}
 
 <<casenuove.cohesiveness.sequence, echo=F>>=
 INITIAL_YEAR_EXPERIMENTS <- 1400
@@ -496,7 +495,6 @@ We are interested mainly in how the network evolves from 1400 to 1650, the years
 
 This creates a sequence of \Sexpr{length(window_sequence)} slices of the network data, with enough resolution to see significant differences from one slice to the next. Data for these slices are available from the paper repository under a free license.
 
-\section{Experiments and results}
 
 % What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
 We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
