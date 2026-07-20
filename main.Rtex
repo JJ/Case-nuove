@@ -783,44 +783,13 @@ The average shortest path length (ASPL) measures the distance from a node to dif
 
 Please take into account that these distances include weights: if there are two connections from one family to the next, that distance counts as 0.5. This is why we see intra-faction distances between 0.6 and 0.4, with {\em longhi} more close to each other than {\em grandi curti} except for a very brief period in time. What is interesting, however, is how the {\em grandi curti} line crosses the inter-faction line shortly after 1600: although by a small amount, these would be closer to the other faction than among themselves. The other transition occurs in the dashed (extra-faction) lines: around 1575 {\em grandi curti} are further away from the rest of the network than {\em longhi}; the gap increases after 1600. These "crossing" add to the fact that shortest paths are increasing from the end of the 1500s: all individuals tend to be further away from each other in an expanding network.
 
-% This is where I stop sunday July 19th.
+This chart thus helps answer the two research questions. From the beginning of the period under study up until the end of the 1500s, the {\em grandi curti} had an slight distance advantage to the rest of the network (which we should remind includes the {\em longhi}); this distance kept decreasing more or less at the same pace as the {\em longhi} with the rest of the network. This decreasing average distance implied that it was relatively easy for them to create the grand coalitions needed to win the elections, as it happened. At the same time, by the end of the 1500s and beginning of the 1600s, the data reveal several shifts happening concurrently:\begin{itemize}
+\item ASPL starts to increase: the network is expanding, with the position of these two factions not keeping pace with that expansion.
+\item Almost simultaneously, the ASPL from t he {\em longhi} to the rest of the network surpasses the one between the {\em grandi curti} and the rest of the network, indicating structural changes where the position of the {\em longhi} has improved with respect to the {\em grandi curti}.
+\item A few years later, inter-faction ASPL start to be lower than intra-{\em grandi curti} distance, indicating a greater integration between the two factions than how {\em grandi curti} relate to each other. This indicates that colective action of {\em grandi curti} and {\em longhi} together becomes easier than for the {\em grandi curti} by themselves; but again it is an indication of deep structural changes in the structure of the network.
+\end{itemize}
 
-<<casenuove.analysis.normalized, echo=F, message=F, fig.cap="Chart of normalized distances for the two factions. WILL BE ELIMINATED", fig.height=6, fig.pos="h!tb">>=
-ggplot( distances_window, aes(x = year)) +
-  geom_line(aes(y = congiurati_norm, color = "Grandi Curti")) +
-  geom_line(aes(y = non_congiurati_norm, color = "Non congiurati"), linetype = "dashed") +
-  geom_line(aes(y = congiurati_vs_non_norm, color = "Grandi Curti  vs. Rest"),linetype = "dotdash") +
-  geom_line(aes(y = longhi_norm, color = "Longhi")) +
-  geom_line(aes(y = non_longhi_norm, color = "Non longhi"), linetype = "dashed") +
-  geom_line(aes(y = longhi_vs_non_norm, color = "Longhi vs. Rest"), linetype = "dotdash") +
-  geom_line(aes(y = longhi_vs_congiurati_norm, color = "Longhi vs. Congiurati")) +
-  labs(title = "Normalized Average Shortest Path Length Over Time",
-       x = "Year",
-       y = "Normalized Average Shortest Path Length") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Non congiurati" = "blue", "Grandi Curti  vs. Rest" = "blue",
-                                "Longhi" = "gold","Non longhi" = "gold", "Longhi vs. Rest" = "gold",
-                                "Longhi vs. Congiurati" = "green"
-                                )
-                     ) +
-  theme_minimal()
-@
-
-However, this evolution can be better observed if we normalize distances against the average distance for the specific graph we're examining; this is shown in Figure \ref{fig:casenuove.analysis.normalized}. The way it is organized is more or less the same, but differences are accentuated showing, for instance, how the {\em grandi curti} start being closer to the rest of the nodes up until approximately year 1500, when it crosses the line for the {\em longhi}. The dips happening towards the second half of the XVII century are accentuated: both groups start to be less tightly connected by that time.
-
-<<casenuove.analysis.clique, echo=F, message=F, fig.cap="Chart of clique index (inner-outer distances-inner distances) for the two factions. . WILL BE ELIMINATED TOO", fig.height=6, fig.pos="h!tb">>=
-
-ggplot( core_periphery_timeline, aes(x = year)) +
-  geom_line(aes(y = clique_index_congiurati, color = "Grandi Curti")) +
-  geom_line(aes(y = clique_index_longhi, color = "Longhi")) +
-  labs(title = "Clique Index Over Time",
-       subtitle="Lower is better",
-       x = "Year",
-       y = "Power-Periphery Index") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
-  theme_minimal()
-@
-
-Still, in order to form a coalition you need both the members of your faction as those not belonging to it; the wide coalitions required by the Venetian electoral conventions ensure that is a must to crown someone of your faction as a doge; and as measured above, it needs not only a tight intra-group connection and a close integration with those not belonging to your group, but also a low perception of a separate group in the social network. This is measured by the clique index, which is defined as the difference between the average distance between the faction and those not in the faction and the intra-faction average distance. The evolution through time of this index is shown in Figure \ref{fig:casenuove.analysis.clique}. The {\em grandi curti} have a lower index: they are better integrated with those not in the group than the {\em longhi}, giving them a better coalition-forming ability. Still, this is not an absolute, and there is a sudden shift in the indices happening again the same dates, around the 2nd half of the XVII century.
+% This is where I stop Monday morning July 20th.
 
 These charts are a step towards explaining why the {\em grandi curti} were able to form these wide coalition: well connected to their periphery, and not perceived as a separate power group, unlike the {\em longhi}, However, the perception and the cohesion seems to unravel towards the end of the period, which might explain the return to the {\em longhi} as preferred families for dogeship. And they draw a relatively complicated scenario, with dynamic factions that are at the same time well related to each other through the common political and commercial (including matrimonial) framework of the Republic of Venice, but keeping their relatively separate identities using the same set of links. As is shown in Figure \ref{fig:casenuove.cohesiveness.setup}, there is a substantial demographic shift by mid-XVII century which is right behind the end of the {\em ducale} doge era, thus it cannot explain the shift (although it might have contributed to its permanency).
 
