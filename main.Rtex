@@ -594,6 +594,11 @@ network_measures_year <- data.frame( year=integer(),
                                   diameter = numeric(),
                                   clustering_coefficient=  numeric())
 
+edges_year <- data.frame( year=integer(),
+                          weight_average_global = numeric(),
+                          weight_average_grandi_curti = numeric(),
+                          weight_average_longhi = numeric() )
+
 compute_gini <- function(x) {
   x <- na.omit(x)
   n <- length(x)
@@ -606,6 +611,13 @@ compute_gini <- function(x) {
   G <- (2 * sum(seq_along(x) * x) / (n * sum(x))) - ((n + 1) / n)
 
   return(G)
+}
+
+# Average edge weight among a specific set of vertices (e.g., one faction)
+avg_weight_within <- function(graph, vertex_names) {
+  v <- V(graph)[V(graph)$name %in% vertex_names]
+  edges_within <- E(graph)[v %--% v]
+  mean(edges_within$weight)
 }
 
 transition_year <- data.frame( year= integer(),
@@ -748,12 +760,26 @@ for (y in window_sequence ) {
                                         modularity = modularity_score,
                                         ratio = global_transitivity/this_edge_density)
   )
+  
+  edges_year <- rbind( edges_year,
+                       data.frame( year= last_year,
+                                   weight_average_global = mean(E(marriage_graph_main)$weight),
+                                   weight_average_grandi_curti = avg_weight_within( marriage_graph_main, curti_congiurati),
+                                   weight_average_longhi = avg_weight_within( marriage_graph_main, longhi)
+                                   )
+  )
 }
 
 #ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=modularity, color="modularity"))+geom_line( aes(y=average_constraint, color="constraint"))+geom_line( aes(y=gini_constraint, color="gini constraint")) + theme_minimal()
 
 #ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=average_constraint, color="average constraint"))+geom_line( aes(y=gini_constraint, color="gini constraint")) + theme_minimal()
 
+# ggplot( edges_year, aes(x=year))+ geom_line( aes(y=weight_average_global, color="Global"))+
+#    geom_line( aes(y=weight_average_grandi_curti, color="Grandi Curti"))+
+#    geom_line( aes(y=weight_average_longhi, color="Longhi"))+
+#    scale_color_manual( values = c("Global"="blue","Grandi Curti"="red", "Longhi"="gold"))+
+#   theme_minimal()
+  
 # ggplot( distances_window, aes(x = year)) +
 #   geom_line(aes(y = congiurati, color = "Grandi Curti")) +
 #   geom_line(aes(y = congiurati_vs_non, color = "Grandi Curti vs. Rest"),linetype = "dotdash") +
@@ -810,20 +836,16 @@ As can be seen from Figure~\ref{fig:casenuove.analysis}, the \emph{longhi} remai
  A second crossing occurs in the extra-faction (dashed) lines: around 1575, the \emph{grandi curti} become more distant from the rest of the network than the \emph{longhi}, and this gap widens after 1600. Both transitions take place against a general increase in shortest-path lengths from the late sixteenth century onward, indicating that families became progressively more distant from one another as the network expanded.
  
 
- 
-
 This chart thus helps answer the two research questions. From the beginning of the period under study up until the end of the 1500, the {\em grandi curti} had a slight distance advantage to the rest of the network (which we should remind includes the {\em longhi}); this distance kept decreasing more or less at the same pace as the {\em longhi} with the rest of the network. This decreasing average distance implied that it was relatively easy for them to create the grand coalitions needed to win the elections, as it happened. At the same time, by the end of the 1500 and beginning of the 1600, the data reveal several shifts happening concurrently:\begin{itemize}
 \item ASPL starts to increase: the network is expanding, with the position of these two factions not keeping pace with that expansion.
 \item Almost simultaneously, the ASPL from t he {\em longhi} to the rest of the network surpasses the one between the {\em grandi curti} and the rest of the network, indicating structural changes where the position of the {\em longhi} has improved with respect to the {\em grandi curti}.
-\item A few years later, inter-faction ASPL start to be lower than intra-{\em grandi curti} distance, indicating a greater integration between the two factions than how {\em grandi curti} relate to each other. This indicates that colective action of {\em grandi curti} and {\em longhi} together becomes easier than for the {\em grandi curti} by themselves; but again it is an indication of deep structural changes in the structure of the network.
+\item A few years later, inter-faction ASPL start to be lower than intra-{\em grandi curti} distance, indicating a greater integration between the two factions than how {\em grandi curti} relate to each other. This indicates that collective action of {\em grandi curti} and {\em longhi} together becomes easier than for the {\em grandi curti} by themselves; but again it is an indication of deep structural changes in the structure of the network.
 \end{itemize}
-
-% This is where I stop Monday morning July 20th.
 
 These charts are a step towards explaining why the {\em grandi curti} were able to form these wide coalition: well connected to their periphery, and not perceived as a separate power group, unlike the {\em longhi}. However, while this gives us an idea of how the groups interact and relate to each other, we need to understand, at a node level, how every family relates to the rest, and how node-level measures add up at the faction level. We need to then look at closeness centrality % would need a reference here
 which measures the effective distance from every node to the rest of the network.
 
-<<casenuove.closeness, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=3, fig.pos="h!tb">>=
+<<casenuove.closeness, warning=FALSE, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=3, fig.pos="h!tb">>=
 ggplot( network_measures_year, aes(x = year)) +
   geom_line(aes(y = closeness_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = closeness_longhi, color = "Longhi")) +
@@ -831,10 +853,43 @@ ggplot( network_measures_year, aes(x = year)) +
        y = "Average closeness per group") +
   scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
   theme_minimal()
+
+# Check correlation
+# Split at the crossover (~1550, based on your chart)
+post_crossover <- network_measures_year %>% filter(year >= 1550)
+
+# 1. Raw correlation on levels (can be inflated by shared trend)
+cor_levels <- cor.test(post_crossover$closeness_congiurati, post_crossover$closeness_longhi)
+
+# 2. Correlation on year-over-year changes (removes shared trend, tests real co-movement)
+post_crossover <- post_crossover %>%
+  arrange(year) %>%
+  mutate(
+    delta_congiurati = closeness_congiurati - lag(closeness_congiurati),
+    delta_longhi      = closeness_longhi - lag(closeness_longhi)
+  )
+
+cor_deltas_post <- cor.test(post_crossover$delta_congiurati, post_crossover$delta_longhi)
+
+
+# 3. For comparison: same two tests on the pre-crossover period
+pre_crossover <- network_measures_year %>% filter(year < 1550)
+cor_levels_pre <- cor.test(pre_crossover$closeness_congiurati, pre_crossover$closeness_longhi)
+
+pre_crossover <- pre_crossover %>%
+  arrange(year) %>%
+  mutate(
+    delta_congiurati = closeness_congiurati - lag(closeness_congiurati),
+    delta_longhi      = closeness_longhi - lag(closeness_longhi)
+  )
+
+cor_deltas_pre <- cor.test(pre_crossover$delta_congiurati, pre_crossover$delta_longhi)
 @
 
-This is what we are plotting in Figure \ref{fig:casenuove.closeness}, which represents the average closeness for the two factions, the {\em grandi curti} and the {\em longhi}. Its value is relatively high; being close to 0.5, it means that, on average, the average number of edges they both had to work through to get to any family in the connected component (which represents almost all families in the network at every point in time, as we have seen in Figure \ref{casenuove.cohesiveness.setup}) is around 2. 
+This is what we are plotting in Figure \ref{fig:casenuove.closeness}, which represents the average closeness for the two factions, the {\em grandi curti} and the {\em longhi}. Its value is relatively high; being close to 0.5, it means that, on average, the average number of edges they both had to work through to get to any family in the connected component (which represents almost all families in the network at every point in time, as we have seen in Figure \ref{fig:casenuove.cohesiveness.setup}) is around 2. What we see is again a situation where, up until the year 1550, the {\em grandi curti} have a better closeness than the {\em longhi}, after a sudden drop in the value for the former. Both start to increase from that moment on, until again close to the end of the period they reach almost equality, with the {\em grandi curti} having a small advantage. Again, this will help respond the first research question: the {\em grandi curti} leveraged the closure, or high-closeness, regime to push their candidates into office. From the mid-XVI, however, there was an evolving situation: closeness was increasing, but it was doing so with the {\em longhi} having a small superiority. There is an interesting effect observed also after this crossover: the changes in closeness start to be correlated. While before the crossover correlation between them is only significant at the level \Sexpr{cor_deltas_pre$p.value} and with a value of \Sexpr{cor_deltas_pre$estimate}, {\em after} the crossover the correlation value jumps to \Sexpr{cor_deltas_post$estimate} with a p-level of \Sexpr{cor_deltas_post$p.value}. This correlation indicates that there is a fundamental change in the structure of the network in that date: the two "factions" start to work in a more synchronized way.
 
+% Stopped here 
+% 
 Even if this indicates that there is effectively a very closely knit network, with many connections, we see some evolution which allows us to go further responding the research questions. The {\em grandi curti} have the lead up until mid-XVI, but then the {\em longhi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both, even if they remain more or less equal.
 
 <<casenuove.closeness.histo, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=5, fig.pos="h!tb">>=
@@ -903,8 +958,6 @@ ggplot(closeness_snapshots, aes(x = closeness, fill = Faction, color = Faction))
 Averages, however, can only give you a general idea of what is happening; since we have a variety of agents for every faction, checking the distribution would give us a better idea of how close are nodes belonging to each faction to the rest of the network. We have chosen three dates: \Sexpr{paste(years_of_interest, collapse=", ")}, and made a density plot with the distribution of closeness centrality for each faction; this is represented in Figure \ref{fig:casenuove.closeness.histo}. What we see is that when the {\em grandi curti} have the lead, in 1500, they are more or less centrally distributed, with a peak centered around the average. However, the situation changes in \Sexpr{years_of_interest[2]}, with several "bumps" that indicate that, even if on average {\em lunghi} are closer to the rest of the network, there is a sizable group of {\em grandi curti} that have a very high closeness; still, there is yet another group of {\em lunghi} that have the highest closeness in the network. This indicates that closeness-related {\em challenges} will not have a fixed outcome, and that probably other factors need to be taken into account. In the final chart, in 1625, averages are close together but again distribution is so complex that it is likely that closeness no longer plays a role. 
 
 Looking again at the research questions,the fact that the distribution of closeness is better for the {\em grandi curti}, at least until the middle of the XVI, can explain why they kept the office of the doge {\em until the time their collective closeness was on average worse than that for the lunghi}. However, even after that date the small difference and the fact that there were families with a very low closeness meant that in a closure-dominated network they could still manage to create the grand coalitions needed to obtain the doge for them.
-
-% ----------------- Evening Monday July 20th here ---
 
 %However, the perception and the cohesion seems to unravel towards the end of the period, which might explain the return to the {\em longhi} as preferred families for dogeship. And they draw a relatively complicated scenario, with dynamic factions that are at the same time well related to each other through the common political and commercial (including matrimonial) framework of the Republic of Venice, but keeping their relatively separate identities using the same set of links. As is shown in Figure \ref{fig:casenuove.cohesiveness.setup}, there is a substantial demographic shift by mid-XVII century which is right behind the end of the {\em ducale} doge era, thus it cannot explain the shift (although it might have contributed to its permanency).
 
