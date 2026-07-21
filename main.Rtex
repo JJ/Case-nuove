@@ -893,7 +893,7 @@ These results provide further evidence for our first research question. During t
 
 Another interesting pattern emerges after the crossover. The evolution of closeness centrality becomes much more synchronized across the two factions. XXX
 
-Before the crossover, changes in closeness are only weakly correlated: correlation is \Sexpr{cor_deltas_pre$estimate}, (p=\Sexpr{cor_deltas_pre$p.value}), whereas afterwards the correlation rises to \Sexpr{cor_deltas_post$estimate} ((p=)\Sexpr{cor_deltas_post$p.value}). This stronger correlation suggests a structural change in the network, with the two factions evolving in a more coordinated manner over time.
+Before the crossover, changes in closeness are only weakly correlated: correlation is \Sexpr{cor_deltas_pre$estimate}, (p=\Sexpr{cor_deltas_pre$p.value}), whereas afterwards the correlation rises to \Sexpr{cor_deltas_post$estimate} (p=\Sexpr{cor_deltas_post$p.value}). This stronger correlation suggests a structural change in the network, with the two factions evolving in a more coordinated manner over time.
 
 % Stopped here 
 % 
