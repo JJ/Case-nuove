@@ -499,6 +499,9 @@ number_of_families_timeline <- data.frame( total_number = integer(),
                                            families_in_MCC = integer(),
                                            percentage_in_MCC = numeric(),
                                            year = integer())
+previous_families <- NULL
+family_changes <- list()
+list_index <- 1
 for (y in window_sequence ) {
 
   last_year <- y + DEPTH_IN_YEARS
@@ -511,6 +514,26 @@ for (y in window_sequence ) {
     vertices = unique(c(marriages_window$husband_familyname_std, marriages_window$wife_familyname_std))
   )
 
+  # --- Track families added/removed vs. the previous window ---
+  current_families <- V(marriage_graph)$name
+
+  if (!is.null(previous_families)) {
+    added   <- setdiff(current_families, previous_families)
+    removed <- setdiff(previous_families, current_families)
+
+    family_changes[[list_index]] <- list(
+      year   = last_year,
+      added       = added,
+      removed     = removed,
+      n_added     = length(added),
+      n_removed   = length(removed)
+    )
+    list_index <- list_index+1
+  }
+
+  previous_families <- current_families
+  # --- end tracking ---
+  
   E(marriage_graph)$weight <- 1
   marriage_graph <- simplify(marriage_graph, edge.attr.comb = "sum")
   E(marriage_graph)$distances <- 1 / E(marriage_graph)$weight
