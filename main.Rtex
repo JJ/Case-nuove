@@ -842,7 +842,7 @@ This chart thus helps answer the two research questions. From the beginning of t
 \item A few years later, inter-faction ASPL start to be lower than intra-{\em grandi curti} distance, indicating a greater integration between the two factions than how {\em grandi curti} relate to each other. This indicates that collective action of {\em grandi curti} and {\em longhi} together becomes easier than for the {\em grandi curti} by themselves; but again it is an indication of deep structural changes in the structure of the network.
 \end{itemize}
 
-As a complementary measure, we compute the (normalized???) average closeness centrality of each faction. Unlike the intra- and extra-faction ASPL, which separately capture proximity within the faction and to the rest of the network, closeness centrality \citep{freeman79,wasserman1994} captures how close each family is to the network as a whole by taking into account its shortest-path distances to all other reachable families. Averaging this quantity over all families provides a single measure of the proximity of the faction to the network as a whole.
+As a complementary measure, we compute the (normalized???) average closeness centrality of each faction. Unlike the intra- and extra-faction ASPL, which separately capture proximity within the faction and to the rest of the network, closeness centrality \citep{freeman1979,wasserman1994} captures how close each family is to the network as a whole by taking into account its shortest-path distances to all other reachable families. Averaging this quantity over all families provides a single measure of the proximity of the faction to the network as a whole.
 
 <<casenuove.closeness, warning=FALSE, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=3, fig.pos="h!tb">>=
 ggplot( network_measures_year, aes(x = year)) +
@@ -885,7 +885,7 @@ pre_crossover <- pre_crossover %>%
 cor_deltas_pre <- cor.test(pre_crossover$delta_congiurati, pre_crossover$delta_longhi)
 @
 
-Figure~\ref{fig.closeness} reports the average closeness centrality of the two dominant factions, the \emph{grandi curti} (red line) and the \emph{longhi} (gold line). Values remain relatively high throughout the period. An average closeness of about 0.5 implies that, on average, any family could reach another family in approximately two steps within the main connected component, which includes almost all families at every point in time (Figure~\ref{fig.cohesiveness.setup}).
+Figure~\ref{fig:casenuove.closeness} reports the average closeness centrality of the two dominant factions, the \emph{grandi curti} (red line) and the \emph{longhi} (gold line). Values remain relatively high throughout the period. An average closeness of about 0.5 implies that, on average, any family could reach another family in approximately two steps within the main connected component, which includes almost all families at every point in time (Figure~\ref{fig:casenuove.cohesiveness.setup}).
 
 The figure again reveals a marked change around the middle of the sixteenth century. Until approximately 1550, the \emph{grandi curti} exhibit consistently higher closeness centrality than the \emph{longhi}. This advantage disappears in 1550, after a sharp decline in the closeness of the \emph{grandi curti}. From that point onward, closeness increases for both factions, with the \emph{longhi} maintaining a slight advantage until the two series converge towards the end of the period.
 
