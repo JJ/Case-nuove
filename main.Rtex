@@ -546,7 +546,7 @@ The figure shows that, except for a few brief periods, the main connected compon
 Establishing that the network is connected is only the first step. We must also understand how closely families were connected to one another, as this provides insight into the mechanisms through which the \emph{grandi curti} were able to build the broad coalitions that sustained their political dominance. In an electoral system requiring the support of a large share of the patriciate, the ability of the \emph{grandi curti}—--or of their opponents—--to reach a substantial portion of the network was crucial. Having established that virtually all families belonged to a single connected component, the next question is how close the competing factions were to the rest of the network and, therefore, how easily they could mobilize support.
 
 
-<<casenuove.analysis, echo=F, message=F, fig.cap="Analysis of average shortest paths intra-faction (solid lines) or grandi curti vs. longhi (in orange), dashed lines for the average shortest paths to the rest of the families. Graph slices over 75 years, taken at 5 year intervals. What is represented is the average over all the families in the faction", fig.height=5, fig.pos="h!tb">>=
+<<casenuove.analysis, echo=F, message=F, fig.cap="Evolution of intra-, extra-, and inter-faction average shortest path lengths (ASPL). Networks are computed over 75-year windows at 5-year intervals.", fig.height=5, fig.pos="h!tb">>=
 
 noble_marriages_filtered <- read.csv("data/noble-marriages-year.csv", stringsAsFactors = FALSE)
 # family_labels <- read.csv("data/family-labels-accession.csv", stringsAsFactors = FALSE)
