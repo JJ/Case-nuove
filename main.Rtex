@@ -772,8 +772,6 @@ for (y in window_sequence ) {
 
 #ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=modularity, color="modularity"))+geom_line( aes(y=average_constraint, color="constraint"))+geom_line( aes(y=gini_constraint, color="gini constraint")) + theme_minimal()
 
-#ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=average_constraint, color="average constraint"))+geom_line( aes(y=gini_constraint, color="gini constraint")) + theme_minimal()
-
 # ggplot( edges_year, aes(x=year))+ geom_line( aes(y=weight_average_global, color="Global"))+
 #    geom_line( aes(y=weight_average_grandi_curti, color="Grandi Curti"))+
 #    geom_line( aes(y=weight_average_longhi, color="Longhi"))+
@@ -895,9 +893,16 @@ Another interesting pattern emerges after the crossover. The evolution of closen
 
 Before the crossover, changes in closeness are only weakly correlated: correlation is \Sexpr{cor_deltas_pre$estimate}, (p=\Sexpr{cor_deltas_pre$p.value}), whereas afterwards the correlation rises to \Sexpr{cor_deltas_post$estimate} (p=\Sexpr{cor_deltas_post$p.value}). This stronger correlation suggests a structural change in the network, with the two factions evolving in a more coordinated manner over time.
 
-% Stopped here 
-% 
-Even if this indicates that there is effectively a very closely knit network, with many connections, we see some evolution which allows us to go further responding the research questions. The {\em grandi curti} have the lead up until mid-XVI, but then the {\em longhi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both, even if they remain more or less equal.
+What we can gather from this analysis so far is that up until the middle of the XVI, the {\em grandi curti} had an efficient mechanism to create grand coalitions leveraging closeness across the network, their positioning in it so that they could use their social capital and links to obtain collective action in the direction they needed. However, a transition starts to occur in that date, even if the the {\em grandi curti} would still keep electing doges within their families for a few decades.
+
+<<casenuove.constraint, echo=F, fig.cap="Global evolution of the network in two structure-related aspects: average constraint and edge density", fig.height=5, fig.pos="h!tb">>=
+ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=average_constraint, color="average constraint")) + theme_minimal()
+@
+
+Figure \ref{casenuove.constraint} shows the evolution of several structural values along time. The line marked "constraint" shows the value of Burt's constraint \cite{burt1992structural}. 
+
+
+% Even if this indicates that there is effectively a very closely knit network, with many connections, we see some evolution which allows us to go further responding the research questions. The {\em grandi curti} have the lead up until mid-XVI, but then the {\em longhi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both, even if they remain more or less equal.
 
 <<casenuove.closeness.histo, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=5, fig.pos="h!tb">>=
 years_of_interest <- c(1500, 1575, 1625)
