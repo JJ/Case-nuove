@@ -1006,18 +1006,96 @@ This figure draw a more nuanced scenario that connects micro with macro measurem
 
 %We are more interested on the trend in the first quarter of the XVII century, when effectively the {\em longhi} retrieved their access to the dogate. Figure \ref{fig:casenuove.analysis.normalized} possibly shows the clearest picture. This chart shows normalized average shortest past distances. Intra-faction distances reflect cohesiveness within a faction, and what we see is that while {\em longhi} and {\em grandi curti} were very close together in terms of normalized distance until the end of the XVI century, the difference between them starts to increase by the beginning of the XVII. Same happens with the distance between the factions and the rest of the network: while {\em grandi curti} maintain a slight advantage over the {\em longhi}, eventually the latter begin being being closer to the {\em periphery} by the end of that century. It is interesting also, in this chart, to check the distances between the two "factions", {\em longhi} and {\em grandi curti}. While during most of the period distances between them are longer than intra-faction distances, there come a point at the beginning of the 17th century, before the change of regime, when {\em grandi curti} are on average further away from each other (solid blue line) than from the {\em longhi} (green line).
 
-<<casenuove.assortativity, echo=F, message=F, fig.cap="Evolution of assortativity for different type combinations: grandi curti vs. non, longhi vs. non, and longhi vs. curti",  fig.pos="h!tb", fig.height=5>>=
+<<casenuove.assortativity, echo=F, message=F, fig.cap="Evolution of assortativity for different type combinations: grandi curti vs. non, longhi vs. non, and longhi vs. curti",  fig.pos="h!tb", fig.height=4>>=
 ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = assortativity_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = assortativity_longhi, color = "Longhi")) +
   geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. congiurati")) +
   labs(x = "Year",
        y = "Assortativity") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. congiurati" ="green")) +
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. grandi curti" ="green")) +
   theme_minimal()
+
+max_intra_curti_assortativity <- core_periphery_timeline[which(core_periphery_timeline$assortativity_congiurati == max(core_periphery_timeline$assortativity_congiurati)),]$year
+
+#---- Compute correlation
+library(zoo)
+
+core_periphery_timeline <- core_periphery_timeline %>% arrange(year)
+
+window_size <- 6  # 6 points x 5-year step = 30-year window
+
+rolling_cor <- rollapply(
+  data = core_periphery_timeline[, c("assortativity_congiurati", "assortativity_longhi")],
+  width = window_size,
+  FUN = function(x) cor(x[, 1], x[, 2]),
+  by.column = FALSE,
+  align = "center",
+  fill = NA
+)
+
+rolling_cor_df <- data.frame(year = core_periphery_timeline$year, rolling_correlation = rolling_cor)
+
+# ggplot(rolling_cor_df, aes(x = year, y = rolling_correlation)) +
+#   geom_line() +
+#   geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
+#   labs(title = "30-year rolling correlation: Grandi Curti vs. Longhi assortativity",
+#        x = "Year", y = "Rolling correlation") +
+#   theme_minimal()
+
+# Find the first year after which the rolling correlation stays positive for the rest of the series
+rc <- rolling_cor_df$rolling_correlation
+years <- rolling_cor_df$year
+
+split_year <- NA
+for (i in seq_along(rc)) {
+  if (!is.na(rc[i]) && all(rc[i:length(rc)] > 0, na.rm = TRUE)) {
+    split_year <- years[i]
+    break
+  }
+}
+
+rc_clean <- rolling_cor_df %>% filter(!is.na(rolling_correlation)) %>% arrange(year)
+
+# Identify runs of consecutive same-sign values
+rc_clean <- rc_clean %>%
+  mutate(sign = sign(rolling_correlation),
+         run_id = cumsum(sign != lag(sign, default = first(sign))))
+
+# Find the longest run where sign is positive
+positive_runs <- rc_clean %>%
+  filter(sign > 0) %>%
+  group_by(run_id) %>%
+  summarise(start_year = min(year),
+            end_year = max(year),
+            length_years = end_year - start_year,
+            n_points = n(),
+            .groups = "drop") %>%
+  arrange(desc(length_years))
+
+longest_start <- positive_runs$start_year[1]
+longest_end   <- positive_runs$end_year[1]
+
+within_period <- core_periphery_timeline %>% filter(year >= longest_start & year <= longest_end)
+
+cor_within <- cor.test(within_period$assortativity_congiurati, within_period$assortativity_longhi)
+
+pre_period <- core_periphery_timeline %>% filter(year <= longest_start )
+
+cor_pre <- cor.test(pre_period$assortativity_congiurati, pre_period$assortativity_longhi)
+
+
 @
 
-We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortativity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em longhi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em longhi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em longhi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em longhi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em longhi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
+This is why in Figure~\ref{fig:casenuove.assortativity} we look at the nominal assortativity \cite{newman2003mixing}, which is related to the inter- and intra- marriage patterns. Positive assortativity indicates a preference for marriages intra- or inter-faction. The figure shows opposite evolution of the three variables up until approximately the year 1550; although they all move in a relatively narrow band around 0, which indicates no preference, {\em grandi curti} increasingly marry among themselves, while {\em longhi} tend to marry into other families. In this case, assortativity is necessarily correlated since factions are picking marriage partners from the same pool. However, we can observe a change in correlation which happens in \Sexpr{longest_start}: correlation between the assortavity of {\em grandi curti} and {\em congiurati} passes from \Sexpr{round(cor_within$estimate,2)} to \Sexpr{round(cor_pre$estimate,2)}, in both cases with statistical significance. That is the year when the assortativity of {\em longhi} starts to drop sharply and fall below zero, indicating they increasingly marry with others, including (as the inter-marriage assortativity index shows) the {\em grandi curti}. We can go yet again to Figure~\ref{fig:casenuove.cohesiveness.setup} to check how the two factions are synchronizing also its closeness: since they tend to be increasingly connected with each other, closeness tends to be the same, which explains these two results together.
+
+From the point of view of the first research question, on maintaining the regime of {\em grandi curti} doges, this can be interpreted as a {\em reverse absorption} of the {\em longhi} by them: they were so closely connected, that during this transition period the victory of a {\em grandi curti} could be construed as a victory of the newly-merged two factions (even if it is only one of the factions the one that keeps getting their members elected doges). From a historical point of view, the maintenance of the {\em closure} regime could be understood as a non-aggression pact that maintains the status quo, since any challenge by the incumbent could result in stalled election, ingobernability, and perception of weakness by their enemies (the Ottoman empire mainly, but also increasingly the Duke of Osuna, the Spanish governor in Naples).
+
+However, we find again a change of scenario in  \Sexpr{round(positive_runs$start_year[3],2)}, where correlation becomes once again negative, marking yet another phase in the network. This is close enough to the return of the {\em longhi} but also to the return, as seen in Figure~\ref{fig:casenuove.betweenness} to the return of the high-betweenness doges in the Donà family. But we will need to understand better the changes in the network around that date to pinpoint the final date for the change of regime. This is why we will look at the number of marriages next.
+
+%  Limit morning July 22th
+
+% We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortativity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em longhi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em longhi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em longhi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em longhi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em longhi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
 
 <<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriages within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
 ggplot( number_of_marriages, aes(x = year)) +
