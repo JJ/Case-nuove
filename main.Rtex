@@ -137,6 +137,35 @@ year_at_max <- function(df, col, year_col = "year") {
 year_at_min <- function(df, col, year_col = "year") {
   df[[year_col]][which.min(df[[col]])]
 }
+
+compute_constraint_components <- function(g) {
+  A <- as_adjacency_matrix(g, attr = "weight", sparse = FALSE)
+  row_sums <- rowSums(A)
+  P <- A / row_sums
+  P[is.nan(P)] <- 0
+
+  PP <- P %*% P   # PP[i,j] = sum_q P[i,q]*P[q,j]; diag(P)=0 so q != i,j automatically
+
+  n <- nrow(A)
+  direct_mean   <- numeric(n)
+  indirect_mean <- numeric(n)
+  constraint    <- numeric(n)
+
+  for (i in seq_len(n)) {
+    js <- which(A[i, ] > 0)
+    if (length(js) == 0) {
+      direct_mean[i] <- NA; indirect_mean[i] <- NA; constraint[i] <- NA
+      next
+    }
+    p_ij   <- P[i, js]
+    ind_ij <- PP[i, js]
+    direct_mean[i]   <- mean(p_ij)
+    indirect_mean[i] <- mean(ind_ij)
+    constraint[i]    <- sum((p_ij + ind_ij)^2)
+  }
+
+  data.frame(family = V(g)$name, direct = direct_mean, indirect = indirect_mean, constraint = constraint)
+}
 @
 
 According to the traditional myth, the Republic of Venice was ruled by a selfless and harmonious patrician elite committed to the common good \citep{gaeta1961alcune,gilbert1968venetian, muir1981civic}. %Muir Ch. 1
@@ -630,6 +659,8 @@ edges_year <- data.frame( year=integer(),
                           weight_average_grandi_curti = numeric(),
                           weight_average_longhi = numeric() )
 
+components_over_time <- data.frame()
+
 compute_gini <- function(x) {
   x <- na.omit(x)
   n <- length(x)
@@ -799,6 +830,10 @@ for (y in window_sequence ) {
                                    weight_average_longhi = avg_weight_within( marriage_graph_main, longhi)
                                    )
   )
+  
+  comp <- compute_constraint_components(marriage_graph_main)
+  comp$year <- last_year
+  components_over_time <- rbind(components_over_time, comp)
 }
 
 #ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=modularity, color="modularity"))+geom_line( aes(y=average_constraint, color="constraint"))+geom_line( aes(y=gini_constraint, color="gini constraint")) + theme_minimal()
@@ -850,6 +885,13 @@ ggplot(distances_window, aes(x = year)) +
 # Some minima
 min_ASPL_longhi <- year_at_min(distances_window,"longhi")
 min_ASPL_extra_longhi <- year_at_min(distances_window, "longhi_vs_non")
+
+# Burt's components over time
+component_summary <- components_over_time %>%
+  group_by(year) %>%
+  summarise(mean_direct = mean(direct, na.rm = TRUE),
+            mean_indirect = mean(indirect, na.rm = TRUE))
+
 @
 
 We begin by measuring proximity using the average shortest path length (ASPL).  For each family, we first compute the average shortest path to a given set of nodes; we then average this quantity over all families belonging to the same faction. Figure~\ref{fig:casenuove.analysis} reports three measures:\begin{itemize}
@@ -1141,6 +1183,8 @@ max_marriages_inter <- year_at_max(number_of_marriages,"inter_congiurati_longhi"
 @
 
 Figure~\ref{fig:casenuove.number_of_marriages} plots the number of marriages in every graph slice, divided as usual into intra-, extra- and inter-marriages. They all reach a maximum between \Sexpr{max_marriages_intra_grandi_curti} and \Sexpr{max_marriages_inter}. These span a number of years at the end of which we have observed the peak in global transitivity (Figure~\ref{fig:casenuove.assortativity}), as well as other peaks that also indicate structural changes: change of the sign of the correlation between {\em grandi curti} and {\em longhi} assortativity, the minimum of intra-{\em longhi} (\Sexpr{min_ASPL_longhi}) and extra-{\em longhi} ASPL (\Sexpr{min_ASPL_extra_longhi}), minimum average constraint (\Sexpr{min_constraint_year}) and maximum edge density (\Sexpr{max_density_year}).
+
+If we were talking about a transitional phase where the {\em status quo} did not change, all these peaks are really indicative of a change. The first indication of this change is when  the number of marriages starts to fall for the {\em grandi curti}, either external or external; the intra-{\em longhi} marriages falls next, and this has the greatest volume among all. When the rest of the series reach their peak in \Sexpr{max_marriages_inter} the transitivity does too. This starts to create structural holes. However, it will not be until \Sexpr{max_density_year} when edge density reaches its peak; the network will be still well connected, but there is a rewiring of these connections. 
 
 % What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em longhi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em longhi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
 
