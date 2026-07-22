@@ -912,17 +912,17 @@ The figure again reveals a marked change around the middle of the sixteenth cent
 
 These results provide further evidence for our first research question. During the period in which they dominated Venetian politics, the \emph{grandi curti} occupied more central positions in the marriage network, allowing them to reach the rest of the patriciate through shorter paths. After the mid-sixteenth century, however, this advantage largely disappeared.
 
-Another interesting pattern emerges after the crossover. The evolution of closeness centrality becomes much more synchronized across the two factions. XXX
+Another interesting pattern emerges after the crossover. The evolution of closeness centrality becomes much more synchronized across the two factions. The correlation between changes in the two series rises from \Sexpr{cor_deltas_pre$estimate} before the crossover to \Sexpr{cor_deltas_post$estimate} afterwards, with the corresponding p-values equal to \Sexpr{cor_deltas_pre$p.value} and \Sexpr{cor_deltas_post$p.value}, respectively.
+ This stronger correlation suggests a structural change in the network, with the two factions evolving in a more coordinated manner over time.
 
-Before the crossover, changes in closeness are only weakly correlated: correlation is \Sexpr{cor_deltas_pre$estimate}, (p=\Sexpr{cor_deltas_pre$p.value}), whereas afterwards the correlation rises to \Sexpr{cor_deltas_post$estimate} (p=\Sexpr{cor_deltas_post$p.value}). This stronger correlation suggests a structural change in the network, with the two factions evolving in a more coordinated manner over time.
+ What emerges from the analysis so far is that, until the middle of the sixteenth century, the \emph{grandi curti} possessed an effective mechanism for building broad political coalitions. Their central position in the marriage network enabled them to leverage social ties to coordinate support for their preferred candidates. Around the mid-sixteenth century, however, this pattern began to change. This marked the beginning of the transition that would eventually end the \emph{grandi curti}'s long-standing monopoly over the dogeship.
 
-What we can gather from this analysis so far is that up until the middle of the XVI, the {\em grandi curti} had an efficient mechanism to create grand coalitions leveraging closeness across the network, their positioning in it so that they could use their social capital and links to obtain collective action in the direction they needed. However, a transition starts to occur in that date, even if the the {\em grandi curti} would still keep electing doges within their families for a few decades.
 
 <<casenuove.constraint, echo=F, fig.cap="Global evolution of the network in two structure-related aspects: average constraint and edge density", fig.height=5, fig.pos="h!tb">>=
 ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=average_constraint, color="average constraint")) + theme_minimal()
 @
 
-Figure \ref{casenuove.constraint} shows the evolution of several structural values along time. The line marked "constraint" shows the value of Burt's constraint \cite{burt1992structural}. 
+Figure \ref{fig:casenuove.constraint} shows the evolution of several structural values along time. The line marked "constraint" shows the value of Burt's constraint \citep{burt1992structural}. 
 
 
 % Even if this indicates that there is effectively a very closely knit network, with many connections, we see some evolution which allows us to go further responding the research questions. The {\em grandi curti} have the lead up until mid-XVI, but then the {\em longhi} take a small lead. However, by the middle of the XVII there is a sudden drop-off of closeness centrality for both, even if they remain more or less equal.
