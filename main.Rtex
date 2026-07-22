@@ -129,6 +129,14 @@ create_marriage_network <- function(marriage_data, election_year, years_before =
 
   return(marriage_network)
 }
+
+year_at_max <- function(df, col, year_col = "year") {
+  df[[year_col]][which.max(df[[col]])]
+}
+
+year_at_min <- function(df, col, year_col = "year") {
+  df[[year_col]][which.min(df[[col]])]
+}
 @
 
 According to the traditional myth, the Republic of Venice was ruled by a selfless and harmonious patrician elite committed to the common good \citep{gaeta1961alcune,gilbert1968venetian, muir1981civic}. %Muir Ch. 1
@@ -838,6 +846,10 @@ ggplot(distances_window, aes(x = year)) +
     )
   ) +
   theme_minimal()
+
+# Some minima
+min_ASPL_longhi <- year_at_min(distances_window,"longhi")
+min_ASPL_extra_longhi <- year_at_min(distances_window, "longhi_vs_non")
 @
 
 We begin by measuring proximity using the average shortest path length (ASPL).  For each family, we first compute the average shortest path to a given set of nodes; we then average this quantity over all families belonging to the same faction. Figure~\ref{fig:casenuove.analysis} reports three measures:\begin{itemize}
@@ -1010,10 +1022,10 @@ This figure draw a more nuanced scenario that connects micro with macro measurem
 ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = assortativity_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = assortativity_longhi, color = "Longhi")) +
-  geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. congiurati")) +
+  geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. grandi curti")) +
   labs(x = "Year",
        y = "Assortativity") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. grandi curti" ="green")) +
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. grandi curti" ="goldenrod2")) +
   theme_minimal()
 
 max_intra_curti_assortativity <- core_periphery_timeline[which(core_periphery_timeline$assortativity_congiurati == max(core_periphery_timeline$assortativity_congiurati)),]$year
@@ -1091,30 +1103,46 @@ This is why in Figure~\ref{fig:casenuove.assortativity} we look at the nominal a
 
 From the point of view of the first research question, on maintaining the regime of {\em grandi curti} doges, this can be interpreted as a {\em reverse absorption} of the {\em longhi} by them: they were so closely connected, that during this transition period the victory of a {\em grandi curti} could be construed as a victory of the newly-merged two factions (even if it is only one of the factions the one that keeps getting their members elected doges). From a historical point of view, the maintenance of the {\em closure} regime could be understood as a non-aggression pact that maintains the status quo, since any challenge by the incumbent could result in stalled election, ingobernability, and perception of weakness by their enemies (the Ottoman empire mainly, but also increasingly the Duke of Osuna, the Spanish governor in Naples).
 
-However, we find again a change of scenario in  \Sexpr{round(positive_runs$start_year[3],2)}, where correlation becomes once again negative, marking yet another phase in the network. This is close enough to the return of the {\em longhi} but also to the return, as seen in Figure~\ref{fig:casenuove.betweenness} to the return of the high-betweenness doges in the Donà family. But we will need to understand better the changes in the network around that date to pinpoint the final date for the change of regime. This is why we will look at the number of marriages next.
-
-%  Limit morning July 22th
+However, we find again a change of scenario in  \Sexpr{positive_runs$start_year[3]}, where correlation becomes once again negative, marking yet another phase in the network. This is close enough to the return of the {\em longhi} but also to the return, as seen in Figure~\ref{fig:casenuove.betweenness} to the return of the high-betweenness doges in the Donà family. But we will need to understand better the changes in the network around that date to pinpoint the final date for the change of regime. This is why we will look at the number of marriages next.
 
 % We can also measure how every faction interacted with the rest of the nobles using assortativity \cite{newman2003mixing}, that is, how they link within the group and across faction boundaries; in this case we work with {\em name} assortativity. The evolution of within-group and inter-group assortativity is shown in Figure \ref{fig:casenuove.assortativity}. It is interesting to note how the two factions have different marriage {\em policies}, and they diverge in the first half of the XV: while {\em longhi} drop their assortativity marrying {\em outside} their group, the {\em grandi curti} go in the opposite direction: they preferably marry other families within the group. But more interesting is to follow inter-group assortativity, that is, how the 16 families that form the {\em grandi curti} faction marry the {\em longhi} and vice-versa: from the moment mentioned above they split, it follows the assortativity coefficient of the {\em longhi}, that is, they preferably marry with each other; taking into account that the {\em grandi curti} did not, what this implies is that the amount of marriages where the {\em longhi} participated was higher than the ones where there were members of the opposite faction. But more interesting is the moment these two lines decouple by the beginning of the XVII: while the {\em longhi} still keep marrying preferably {\em outside} their group, they {\em do not} marry with {\em grandi curti} preferably, keeping the inter-group assortativity or slighly positive.
 
-<<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriages within, inter and extra groups", fig.height=5, fig.pos="h!tb">>=
+<<casenuove.number_of_marriages, echo=F, message=F, fig.cap="Evolution of the number of marriages within, inter and extra groups", fig.height=4, fig.pos="h!tb">>=
 ggplot( number_of_marriages, aes(x = year)) +
   geom_line(aes(y = intra_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = intra_longhi, color = "Longhi")) +
-  geom_line(aes(y = extra_congiurati, color = "extra congiurati")) +
-  geom_line(aes(y = extra_longhi, color = "extra longhi")) +
-  geom_line(aes(y = inter_congiurati_longhi, color = "Longhi vs. congiurati")) +
+  geom_line(aes(y = extra_congiurati, color = "Extra-Grandi Curti"), linetype="dotdash") +
+  geom_line(aes(y = extra_longhi, color = "Extra-Longhi"), linetype = "dotdash") +
+  geom_line(aes(y = inter_congiurati_longhi, color = "Longhi vs. Grandi Curti")) +
   labs(title = "Number of marriages over time",
        subtitle = "Intra, inter and extra groups",
        x = "Year",
        y = "Number of marriages") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. congiurati" ="green",
-                                "extra congiurati" = "light blue", "extra longhi" ="darkgoldenrod2")) +
+    scale_color_manual(
+      name = "colour",
+      breaks = c("Grandi Curti", "Longhi",
+               "Extra-Grandi Curti", "Extra-Longhi", "Longhi vs. Grandi Curti"),
+      values = c("Grandi Curti" = "red", "Extra-Grandi Curti" = "red",
+               "Longhi" = "gold", "Extra-Longhi" = "gold",
+               "Longhi vs. Grandi Curti" = "goldenrod"),
+      guide = guide_legend(
+        override.aes = list(
+          linetype = c("solid", "solid", "dotdash", "dotdash", "solid")
+        )
+      )
+    )+
   theme_minimal()
 
+max_marriages_extra_longhi <- year_at_max(number_of_marriages,"extra_longhi")
+max_marriages_extra_grandi_curti <- year_at_max(number_of_marriages,"extra_congiurati")
+max_marriages_intra_longhi <- year_at_max(number_of_marriages,"intra_longhi")
+max_marriages_intra_grandi_curti <- year_at_max(number_of_marriages,"intra_congiurati")
+max_marriages_inter <- year_at_max(number_of_marriages,"inter_congiurati_longhi")
 @
 
-What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em longhi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em longhi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
+Figure~\ref{fig:casenuove.number_of_marriages} plots the number of marriages in every graph slice, divided as usual into intra-, extra- and inter-marriages. They all reach a maximum between \Sexpr{max_marriages_intra_grandi_curti} and \Sexpr{max_marriages_inter}. These span a number of years at the end of which we have observed the peak in global transitivity (Figure~\ref{fig:casenuove.assortativity}), as well as other peaks that also indicate structural changes: change of the sign of the correlation between {\em grandi curti} and {\em longhi} assortativity, the minimum of intra-{\em longhi} (\Sexpr{min_ASPL_longhi}) and extra-{\em longhi} ASPL (\Sexpr{min_ASPL_extra_longhi}), minimum average constraint (\Sexpr{min_constraint_year}) and maximum edge density (\Sexpr{max_density_year}).
+
+% What we show in Figure \ref{fig:casenuove.number_of_marriages} is the total number of marriages for every 75-year graph. The  inter-group  number of marriages starts initially with a low value, but eventually it overtakes either number of marriages, following more or less the same trend as both intra-group marriages. Extra-group marriages reach a peak by the end of the XVI, and since then extra-group marriages fall faster than either intra- or inter-group marriages. Seen this way, the change of regime that stopped the {\em grandi curti} from continuing holding the office of doge seems, in part, demographic: when the number of marriages fell together with the population of nobles, the {\em longhi}, being more numerous and having a more extensive network of first-degree alliances, could leverage better their position, partly keeping the {\em grandi curti} out of the doge's office. As a matter of fact, the first {\em longhi} family that managed to become doge was the Contarini, one of the more numerous families within the Venetian noble class. As a matter of fact, they returned to office yet again in 1630 with Nicolò Contarini.
 
 %
 <<casenuove.diameter, echo=F, message=F, fig.cap="Evolution of the clustering coefficient over time. The green line marks the year when Francesco Contarini was elected.", fig.height=3, fig.pos="h!tb">>=
