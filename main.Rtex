@@ -922,7 +922,7 @@ ggplot( network_measures_year, aes(x = year)) +
   geom_line(aes(y = closeness_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = closeness_longhi, color = "Longhi")) +
   labs(x = "Year",
-       y = "Average closeness per group") +
+       y = "Average closeness centrality per group") +
   scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
   theme_minimal()
 
