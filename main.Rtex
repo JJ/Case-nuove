@@ -533,7 +533,9 @@ The analysis proceeds in three stages. Section~\ref{ssec:cohesion} examines chan
 
 \subsection{Structural network cohesion}\label{ssec:cohesion}
 
-We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
+We begin by examining the cohesion of the marriage network through measures of connectivity, path length, and closeness centrality.
+
+%We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
 
 <<casenuove.cohesiveness.setup, echo=F, fig.height=5, fig.pos="h!tb", fig.cap="Evolution of the size of the marriage network and its main connected component. Left: total number of families and size of the main connected component. Right: percentage of families belonging to the main connected component.", out.width="50%", fig.height=5, fig.show='hold'>>=
 
@@ -603,7 +605,7 @@ ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line(
 ggplot( number_of_families_timeline, aes(x=year,y=percentage_in_MCC))+ geom_line()+ theme_minimal()
 @
 
-We begin by examining the cohesion and centrality of the marriage network through measures of connectivity, path length, and closeness centrality.
+
 Figure~\ref{fig:casenuove.cohesiveness.setup} reports the size of the networks across the overlapping time windows. The left panel compares the total number of nodes (red line) with the number belonging to the main connected component (black line), while the right panel reports the percentage of families included in the main connected component. In both panels, the horizontal axis corresponds to the last year of each 75-year window.
 
 Two features stand out in the figure. First, the size of the patrician network enters a period of sharp decline in the second half of the sixteenth century that continues  until 1646, when the admission of new families reverses this trend. Second, except for two brief periods, the main connected component contains {\em all} families present in each time window. Thus, even if political divisions existed, they did not produce a fragmentation of the marriage network into separate components. Families that temporarily fell outside the main connected component remained few in number and were subsequently reabsorbed into it, rather than forming persistent alternative sub-networks.
@@ -1266,6 +1268,9 @@ ggplot(closeness_snapshots_filtered, aes(x = betweenness, fill = Faction, color 
         legend.position = "none")
 @
 
+\subsubsection{Brokerage and Political Influence}\label{ssec:brokerage}
+
+XXX
 To examine how brokerage positions evolved during this period of network reorganization, Figure~\ref{fig:casenuove.betweenness.evolution} compares the distribution of betweenness centrality by faction in two representative network snapshots: \Sexpr{years_to_keep[1]}, during the transition identified in the previous sections, and \Sexpr{years_to_keep[2]}, after the main structural changes had taken place. The vertical lines indicate the median betweenness of each faction, while the labels identify the five families with the highest betweenness in each period. Family names are shown above the axis for the \emph{grandi curti} and below it for the \emph{longhi}, using the corresponding faction colors (red and gold).
 
 The two distributions display a substantial overlap in both periods. Nevertheless, by \Sexpr{years_to_keep[2]} the median betweenness of the \emph{longhi} exceeds that of the \emph{grandi curti} by a wider margin than in \Sexpr{years_to_keep[1]}, indicating that brokerage positions became relatively more common among the former. More importantly, however, the families occupying the highest betweenness positions belong to both factions. While only Donato and Zorzi remain among the most central brokerage families across the two snapshots, most of the leading positions are occupied by different families fifty years later, indicating a considerable turnover among the principal brokers.
