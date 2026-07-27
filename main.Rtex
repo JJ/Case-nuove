@@ -1081,11 +1081,11 @@ Taken together, these three measures suggest that the reorganization of the marr
 ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = assortativity_congiurati, color = "Grandi Curti")) +
   geom_line(aes(y = assortativity_longhi, color = "Longhi")) +
-  geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. Grandi Curti")) +
+  geom_line(aes(y = assortativity_longhi_congiurati, color = "Inter Longhi - Grandi Curti")) +
   labs(x = "Year",
        y = "Assortativity") +
   scale_color_manual(name=NULL,
-                     values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. Grandi Curti" ="goldenrod")) +
+                     values = c("Grandi Curti" = "red", "Longhi" = "gold", "Inter Longhi - Grandi Curti" ="goldenrod")) +
   theme_minimal()
 
 max_intra_curti_assortativity <- core_periphery_timeline[which(core_periphery_timeline$assortativity_congiurati == max(core_periphery_timeline$assortativity_congiurati)),]$year
