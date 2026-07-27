@@ -870,7 +870,7 @@ ggplot(distances_window, aes(x = year)) +
   labs(x = "Year",
        y = "Average Shortest Path Length") +
   scale_color_manual(
-    name = "colour",
+    name = NULL,
     breaks = c("Grandi Curti", "Grandi Curti vs. Rest",
                "Longhi", "Longhi vs. Grandi Curti", "Longhi vs. Rest"),
     values = c("Grandi Curti" = "red", "Grandi Curti vs. Rest" = "red",
@@ -925,7 +925,8 @@ ggplot( network_measures_year, aes(x = year)) +
   geom_line(aes(y = closeness_longhi, color = "Longhi")) +
   labs(x = "Year",
        y = "Average closeness centrality per group") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
+  scale_color_manual(name=NULL,
+                     values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
   theme_minimal()
 
 # Check correlation
@@ -1045,7 +1046,15 @@ Taken together, these findings provide further evidence relevant to the two rese
 Interestingly, this transition occurs at approximately the same time as the patrician network reaches its maximum size and subsequently begins to contract (Figure~\ref{fig:casenuove.closeness}). Although this temporal coincidence does not establish a causal link, it suggests that changes in the size of the marriage pool may have contributed to the broader reorganization of the network. We now examine whether this interpretation is supported by more global network measures.
 
 <<casenuove.constraint, echo=F, fig.cap="Global evolution of the network in two structure-related aspects: average constraint and edge density", fig.height=3, fig.pos="h!tb">>=
-ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="global_transitivity")) + geom_line( aes(y=edge_density, color="edge_density"))+geom_line( aes(y=average_constraint, color="average constraint")) + theme_minimal() + labs(y="Structural variable values")
+ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="Global transitivity")) + 
+  geom_line( aes(y=edge_density, color="Edge density"))+
+  geom_line( aes(y=average_constraint, color="Average constraint")) + 
+  scale_color_manual( name=NULL,
+                      values = c("Global transitivity" = "darkblue", 
+                                 "Edge density" = "darkgreen",
+                                 "Average constraint" = "darkgray"))+
+  theme_minimal() + 
+  labs(y="Structural variable values")
 min_constraint_year <- transition_year[which(transition_year$average_constraint == min(transition_year$average_constraint)),]$year
 max_density_year <- transition_year[which(transition_year$edge_density == max(transition_year$edge_density)),]$year
 max_transitivity_year <- transition_year[which(transition_year$global_transitivity == max(transition_year$global_transitivity)),]$year
@@ -1068,7 +1077,8 @@ ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. Grandi Curti")) +
   labs(x = "Year",
        y = "Assortativity") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. Grandi Curti" ="goldenrod")) +
+  scale_color_manual(name=NULL,
+                     values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. Grandi Curti" ="goldenrod")) +
   theme_minimal()
 
 max_intra_curti_assortativity <- core_periphery_timeline[which(core_periphery_timeline$assortativity_congiurati == max(core_periphery_timeline$assortativity_congiurati)),]$year
@@ -1165,7 +1175,7 @@ ggplot( number_of_marriages, aes(x = year)) +
   labs( x = "Year",
        y = "Number of marriages") +
     scale_color_manual(
-      name = "colour",
+      name = NULL,
       breaks = c("Grandi Curti", "Longhi",
                "Extra-Grandi Curti", "Extra-Longhi", "Longhi vs. Grandi Curti"),
       values = c("Grandi Curti" = "red", "Extra-Grandi Curti" = "red",
