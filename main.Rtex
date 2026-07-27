@@ -531,7 +531,7 @@ The analysis proceeds in three stages. Section~{cohesion} examines changes in th
 
 % What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
 
-\subsusection{Strucutral cohesion}}~\laber{choesion}
+\subsubsection{Structural cohesion}~\label{choesion}
 
 We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
 
