@@ -1053,15 +1053,31 @@ Interestingly, this transition occurs at approximately the same time as the patr
 To investigate whether the changes observed in proximity and centrality reflects a broader reorganization of the marriage network, Figure~\ref{fig:casenuove.constraint} reports the evolution of three global network measures: edge density (green), average Burt's constraint (gray), and global transitivity (blue). Together, these measures capture complementary aspects of network organization and provide a more global perspective on the structural changes observed in the proximity measures.
 
 <<casenuove.constraint, echo=F, fig.cap="Global evolution of the network in two structure-related aspects: average constraint and edge density", fig.height=3, fig.pos="h!tb">>=
-ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="Global transitivity")) + 
-  geom_line( aes(y=edge_density, color="Edge density"))+
-  geom_line( aes(y=average_constraint, color="Average constraint")) + 
-  scale_color_manual( name=NULL,
-                      values = c("Global transitivity" = "darkblue", 
-                                 "Edge density" = "darkgreen",
-                                 "Average constraint" = "darkgray"))+
-  theme_minimal() + 
-  labs(y="Structural variable values")
+# ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="Global transitivity")) + 
+#   geom_line( aes(y=edge_density, color="Edge density"))+
+#   geom_line( aes(y=average_constraint, color="Average constraint")) + 
+#   scale_color_manual( name=NULL,
+#                       values = c("Global transitivity" = "darkblue", 
+#                                  "Edge density" = "darkgreen",
+#                                  "Average constraint" = "darkgray"))+
+#   theme_minimal() + 
+#   labs(y="Structural variable values")
+
+ggplot(transition_year, aes(x = year)) +
+  geom_line(aes(y = global_transitivity, color = "Global transitivity")) +
+  geom_line(aes(y = edge_density, color = "Edge density")) +
+  geom_line(aes(y = average_constraint, color = "Average constraint")) +
+  scale_color_manual(
+    name = NULL,
+    values = c("Global transitivity" = "darkblue",
+             "Edge density" = "magenta1",
+             "Average constraint" = "coral"),
+    # This argument forces the specific order you requested:
+    limits = c("Global transitivity", "Average constraint", "Edge density")
+  ) +
+  theme_minimal() +
+  labs(y = "Structural variable values")
+
 min_constraint_year <- transition_year[which(transition_year$average_constraint == min(transition_year$average_constraint)),]$year
 max_density_year <- transition_year[which(transition_year$edge_density == max(transition_year$edge_density)),]$year
 max_transitivity_year <- transition_year[which(transition_year$global_transitivity == max(transition_year$global_transitivity)),]$year
