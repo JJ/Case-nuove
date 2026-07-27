@@ -865,20 +865,20 @@ for (y in window_sequence ) {
 #   theme_minimal()
 
 ggplot(distances_window, aes(x = year)) +
-  geom_line(aes(y = congiurati, color = "Grandi Curti")) +
-  geom_line(aes(y = congiurati_vs_non, color = "Grandi Curti vs. Rest"), linetype = "dotdash") +
-  geom_line(aes(y = longhi, color = "Longhi")) +
-  geom_line(aes(y = longhi_vs_non, color = "Longhi vs. Rest"), linetype = "dotdash") +
-  geom_line(aes(y = longhi_vs_congiurati, color = "Longhi vs. Grandi Curti")) +
+  geom_line(aes(y = congiurati, color = "Intra-Grandi Curti")) +
+  geom_line(aes(y = congiurati_vs_non, color = "Extra-Grandi Curti"), linetype = "dotdash") +
+  geom_line(aes(y = longhi, color = "Intra-Longhi")) +
+  geom_line(aes(y = longhi_vs_non, color = "Extra-Longhi"), linetype = "dotdash") +
+  geom_line(aes(y = longhi_vs_congiurati, color = "Inter Longhi-Grandi Curti")) +
   labs(x = "Year",
        y = "Average Shortest Path Length") +
   scale_color_manual(
     name = NULL,
-    breaks = c("Grandi Curti", "Grandi Curti vs. Rest",
-               "Longhi", "Longhi vs. Grandi Curti", "Longhi vs. Rest"),
-    values = c("Grandi Curti" = "red", "Grandi Curti vs. Rest" = "red",
-               "Longhi" = "gold", "Longhi vs. Rest" = "gold",
-               "Longhi vs. Grandi Curti" = "goldenrod"),
+    breaks = c("Intra-Grandi Curti", "Extra-Grandi Curti",
+               "Intra-Longhi", "Inter Longhi-Grandi Curti", "Extra-Longhi"),
+    values = c("Intra-Grandi Curti" = "red", "Extra-Grandi Curti" = "red",
+               "Intra-Longhi" = "gold", "Extra-Longhi" = "gold",
+               "Inter Longhi-Grandi Curti" = "goldenrod"),
     guide = guide_legend(
       override.aes = list(
         linetype = c("solid", "dotdash", "solid", "solid", "dotdash")
