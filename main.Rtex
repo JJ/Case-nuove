@@ -500,6 +500,7 @@ for (graph in graph_list) {
   print(ggplot( betweenness_df_sorted, aes(x=index,y=betweenness))+
           geom_point(color=betweenness_df_sorted$color,alpha=0.5,
                      size=betweenness_df_sorted$size)+
+          ylab("Betweenness centrality")+
           scale_x_log10()+scale_y_log10(limits = c(0.1, 1900))+theme_minimal()+xlab(paste("Years", initial_year, "-", initial_year+DEPTH_IN_YEARS)))
   initial_year <- initial_year + 50
 }
