@@ -4,6 +4,7 @@
 \usepackage{amssymb}
 %% The amsmath package provides various useful equation environments.
 \usepackage{amsmath}
+\usepackage{booktabs}
 
 \journal{Social Networks}
 
@@ -253,7 +254,7 @@ kable(family_lists,
       col.names=c("Longhi","Grandi Curti","Ducali (1382-1612)"),
       caption="Classification of Venetian patrician families") %>%
   row_spec(0,bold=TRUE) %>%
-  kable_styling(font_size = 9)
+  kable_styling(font_size = 9, latex_options="hold_position")
 @
 
 
