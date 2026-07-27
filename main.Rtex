@@ -1282,7 +1282,6 @@ This interpretation is also consistent with the sequence of dogal elections foll
 
 This interpretation is also consistent with the sequence of dogal elections following the end of the \emph{grandi curti} monopoly. Several of the doges elected after 1612—--including members of the Bembo, Donato, Priuli, Contarini, and Corner families--—belonged to families occupying some of the most prominent brokerage positions in the marriage network. Significantly, these families came from both the \emph{grandi curti} and the \emph{longhi}, suggesting that brokerage positions had become more relevant than factional affiliation alone.
 
-This change of regime can be observed clearly in the betweenness centrality of the families elected after the end of the Memmo dogate: Bembo (1615), Donato again (1618) and Priuli (1618) which are the three families with the highest betweenness in Figure~\ref{fig:casenuove.betweenness.evolution} (bottom). After them, the Contarini (1623, betweenness \Sexpr{round(closeness_snapshots[closeness_snapshots$family == "Contarini" & closeness_snapshots$year == 1625,]$betweenness,2)} ) and Cornaro/Corner (1625, betweenness \Sexpr{round(closeness_snapshots[closeness_snapshots$family == "Corner" & closeness_snapshots$year == 1625,]$betweenness,2)} ). These two happen to be {\em longhi}, but the common characteristic of these families is their high betweenness, that is, social capital.
 
 \section{Conclusions and discussion}
 
