@@ -1066,7 +1066,7 @@ ggplot( core_periphery_timeline, aes(x = year)) +
   geom_line(aes(y = assortativity_longhi_congiurati, color = "Longhi vs. Grandi Curti")) +
   labs(x = "Year",
        y = "Assortativity") +
-  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. Grandi Curti" ="goldenrod2")) +
+  scale_color_manual(values = c("Grandi Curti" = "red", "Longhi" = "gold", "Longhi vs. Grandi Curti" ="goldenrod")) +
   theme_minimal()
 
 max_intra_curti_assortativity <- core_periphery_timeline[which(core_periphery_timeline$assortativity_congiurati == max(core_periphery_timeline$assortativity_congiurati)),]$year
