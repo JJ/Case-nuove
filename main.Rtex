@@ -533,7 +533,7 @@ The analysis proceeds in three stages. Section~\ref{ssec:cohesion} examines chan
 
 \subsection{Structural network cohesion}\label{ssec:cohesion}
 
-We begin by examining the cohesion of the marriage network through measures of connectivity, path length, and closeness centrality.
+We begin by examining the cohesion of the marriage network and the structural position of the patrician groups within it through measures of connectivity, path length, and closeness centrality.
 
 %We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
 
