@@ -599,14 +599,14 @@ for (y in window_sequence ) {
 
 }
 
-ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line( color="red") +
+ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line( color="cyan") +
   geom_line(data=number_of_families_timeline, aes(y=families_in_MCC)) + theme_minimal()
 
 ggplot( number_of_families_timeline, aes(x=year,y=percentage_in_MCC))+ geom_line()+ theme_minimal()
 @
 
 
-Figure~\ref{fig:casenuove.cohesiveness.setup} reports the size of the networks across the overlapping time windows. The left panel compares the total number of nodes (red line) with the number belonging to the main connected component (black line), while the right panel reports the percentage of families included in the main connected component. In both panels, the horizontal axis corresponds to the last year of each 75-year window.
+Figure~\ref{fig:casenuove.cohesiveness.setup} reports the size of the networks across the overlapping time windows. The left panel compares the total number of nodes (cyan line) with the number belonging to the main connected component (black line), while the right panel reports the percentage of families included in the main connected component. In both panels, the horizontal axis corresponds to the last year of each 75-year window.
 
 Two features stand out in the figure. First, the size of the patrician network enters a period of sharp decline in the second half of the sixteenth century that continues  until 1646, when the admission of new families reverses this trend. Second, except for two brief periods, the main connected component contains {\em all} families present in each time window. Thus, even if political divisions existed, they did not produce a fragmentation of the marriage network into separate components. Families that temporarily fell outside the main connected component remained few in number and were subsequently reabsorbed into it, rather than forming persistent alternative sub-networks.
 
