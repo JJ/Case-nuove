@@ -1065,7 +1065,7 @@ max_density_year <- transition_year[which(transition_year$edge_density == max(tr
 max_transitivity_year <- transition_year[which(transition_year$global_transitivity == max(transition_year$global_transitivity)),]$year
 @
 
-Figure~\ref{fig:casenuove.constraint} reports the evolution of three global network measures: edge density (green), average Burt's constraint (red) and global transitivity (blue). Since these measures capture complementary aspects of network organization, they help assess whether the changes observed in the proximity measures are also reflected in more global properties of the marriage network.
+Figure~\ref{fig:casenuove.constraint} reports the evolution of three global network measures: edge density (green), average Burt's constraint (gray) and global transitivity (blue). Since these measures capture complementary aspects of network organization, they help assess whether the changes observed in the proximity measures are also reflected in more global properties of the marriage network.
 
 Edge density, defined as the ratio between observed and possible marriage ties, increases gradually until approximately \Sexpr{max_density_year}, after which it begins to decline. On its own, however, this trend is difficult to interpret, because edge density depends jointly on the number of marriage ties and the size of the network. 
 
