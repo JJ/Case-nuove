@@ -526,12 +526,12 @@ window_sequence <- seq(from = INITIAL_YEAR_EXPERIMENTS, to = FINAL_YEAR_EXPERIME
 
 We now turn to the evolution of the marriage network between \Sexpr{INITIAL_YEAR_EXPERIMENTS} and \Sexpr{FINAL_YEAR_EXPERIMENTS+DEPTH_IN_YEARS} with the aim of examining how its structure changed over the two centuries of the \emph{curti} monopoly and the years immediately following its end. To capture structural changes at a finer temporal resolution, we continue to use \Sexpr{DEPTH_IN_YEARS}-year moving windows but shift them every five years, rather than every fifty. This produces a sequence of \Sexpr{length(window_sequence)} overlapping networks, allowing us to follow the evolution of the network in considerably greater detail. The data for all network slices are available in the paper's online repository under a free license.
 
-The analysis proceeds in three stages. Section~{cohesion} examines changes in the overall cohesion and centrality of the marriage network. Section~{marriage pattern} considers how patterns of marriage formation evolved, focusing on global network structure, factional mixing, and the intensity of marriage activity. Finally, Section~{brokerage} examines the evolution of brokerage positions to assess whether the changing network structure altered the mechanisms through which individual families could exercise political influence.
+The analysis proceeds in three stages. Section~\ref{ssec:cohesion} examines changes in the overall cohesion and centrality of the marriage network. Section~\ref{ssec:reorganization} considers how patterns of marriage formation evolved, focusing on global network structure, factional mixing, and the intensity of marriage activity. Finally, Section~\ref{ssec:brokerage} examines the evolution of brokerage positions to assess whether the changing network structure altered the mechanisms through which individual families could exercise political influence.
 
 
 % What we are interested in is to check the cohesion of the different possible factions. Since we are speaking about a power core and a periphery, we are mainly speaking about distances in network terms, that is, how easy would be to reach any member of the social network from any other, and how these evolve; in time, a group can gain or lose cohesiveness if distances among them change, and it can also {\em dilute} itself among the rest if it is {\em closer} in network terms to its periphery. Our main hypothesis here would be that the faction that is able to {\em differentiate less} from its periphery while maintaining a high cohesion itself would be more likely to gather a qualified majority big enough to be able to get closer, or even achieve, election to office of dogeship.
 
-\subsubsection{Structural cohesion}~\label{choesion}
+\subsection{Structural network cohesion}\label{ssec:cohesion}
 
 We are interested in two main research questions; the first one is related to how could a small group of families, the {\em grandi curti}, manage to monopolize the highest office in Venice for more than two centuries. We will need to look at the network, and check if there are, for instance, clear-cut divisions that would mark real factional politics where the biggest divided sub-network obtains supremacy.
 
@@ -1048,7 +1048,7 @@ Taken together, these findings provide further evidence relevant to the two rese
 
 Interestingly, this transition occurs at approximately the same time as the patrician network reaches its maximum size and subsequently begins to contract (Figure~\ref{fig:casenuove.closeness}). Although this temporal coincidence does not establish a causal link, it suggests that changes in the size of the marriage pool may have contributed to the broader reorganization of the network. In the next session we examine whether this interpretation is supported by more global network measures.
 
-\subsection{Network Reorganization}\label{reorganization}
+\subsection{Network Reorganization}\label{ssec:reorganization}
 
 <<casenuove.constraint, echo=F, fig.cap="Global evolution of the network in two structure-related aspects: average constraint and edge density", fig.height=3, fig.pos="h!tb">>=
 ggplot( transition_year, aes(x=year))+ geom_line( aes(y=global_transitivity, color="Global transitivity")) + 
