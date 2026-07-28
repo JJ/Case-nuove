@@ -544,19 +544,21 @@ Figure \ref{fig:casenuove.graphs}, which uses the Kamada-Kawai layout algorithm 
 Several features emerge from the figure. First, not every \emph{ducali} family occupies a central position in the network. Second, the effects of the alleged \emph{curti} conspiracy are clearly visible: no gold squares appear in the second, third, and fourth graphs, i.e., between 1400 and 1575, since all doges were from  \emph{curti} families. Third, the three overlapping networks at the center of the sequence display remarkably similar structural properties, suggesting a prolonged period of stability.  By contrast, the first and the last windows depart from this pattern. Since the earliest window is affected by the lower coverage of the historical records, we focus on the transition from the fourth to the fifth window. Whereas  the  1500--1575 network appears densely interwoven, with most families embedded in a compact core, in 1550--1625 the network is noticeably looser, with a growing number of families outside the densely connected core. 
 Finally, there is little visual evidence of clear factionalization. In none of the snapshots do either the  \emph{grandi  curti} or the \emph{longhi} families form internally cohesive clusters that exclude the rest of the patriciate. Although peripheral positions are almost always occupied by smaller \emph{curti} families (grey nodes), neither the \emph{grandi curti} nor the \emph{longhi} consistently dominate the most central positions in the network or form distinct clusters separated from one another.
 
- <<casenuove.betweenness, echo=F,fig.cap="Betweenness centrality by rank across the five overlapping periods. Node colors are as in Figure~\\ref{fig:casenuove.graphs}; larger nodes denote \\emph{ducali} families.", out.width="50%", fig.show="hold", fig.height=5.75>>=
+ <<casenuove.betweenness, echo=F,fig.cap="Betweenness centrality by rank across the five overlapping periods. Node colors are as in Figure~\\ref{fig:casenuove.graphs}; larger square nodes denote \\emph{ducali} families.", out.width="50%", fig.show="hold", fig.height=5.75>>=
 initial_year <- INITIAL_YEAR_OVERVIEW
 for (graph in graph_list) {
   V(graph)$betweenness = betweenness(graph)
-  betweenness_df <- data.frame( family= V(graph)$name, betweenness = V(graph)$betweenness,
+  betweenness_df <- data.frame( family= V(graph)$name, 
+                                betweenness = V(graph)$betweenness,
                                 color=V(graph)$color,
+                                shape=V(graph)$shape,
                                 size=ifelse(V(graph)$shape == "square",4,2)
   )
   betweenness_df_sorted <- betweenness_df[order(betweenness_df$betweenness, decreasing=T),]
   betweenness_df_sorted <- betweenness_df_sorted[ betweenness_df_sorted$betweenness > 0,]
   betweenness_df_sorted$index <- seq_len(nrow(betweenness_df_sorted))
   print(ggplot( betweenness_df_sorted, aes(x=index,y=betweenness))+
-          geom_point(color=betweenness_df_sorted$color,alpha=0.5,
+          geom_point(color=betweenness_df_sorted$color,alpha=0.5, shape=betweenness_df_sorted$shape,
                      size=betweenness_df_sorted$size)+
           ylab("Betweenness centrality")+
           scale_x_log10()+scale_y_log10(limits = c(0.1, 1900))+theme_minimal()+xlab(paste("Years", initial_year, "-", initial_year+DEPTH_IN_YEARS)))
@@ -1371,7 +1373,6 @@ ggplot(closeness_snapshots_filtered, aes(x = betweenness, fill = Faction, color 
 @
 
 \subsection{Brokerage and Political Influence}\label{ssec:brokerage}
-
 
 The preceding analyses have shown that the structural advantage initially enjoyed by the \emph{grandi curti} gradually diminished as the marriage network became more cohesive and the distinction between the two principal factions weakened. This raises a final question: once this faction-level advantage had largely disappeared, did the network begin to favor a different type of structural position? To address this issue,  Figure~\ref{fig:casenuove.betweenness.evolution} compares the distribution of betweenness centrality by faction in two representative network snapshots: \Sexpr{years_to_keep[1]}, during the transition identified in the previous sections, and \Sexpr{years_to_keep[2]}, after the main structural changes had taken place. The vertical lines indicate the median betweenness of each faction, while the labels identify the five families with the highest betweenness in each period. Those above the axis belong to the \emph{grandi curti} and those below it to the \emph{longhi}, using the corresponding faction colours (red and gold).
 
