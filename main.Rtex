@@ -1032,6 +1032,30 @@ ggplot( network_measures_year, aes(x = year)) +
                      values = c("Grandi Curti" = "red", "Longhi" = "gold")) +
   theme_minimal()
 
+greater_values_closeness <- network_measures_year %>%
+  filter(closeness_congiurati < closeness_longhi)
+
+# 2. Interval Bounds: To find the continuous blocks (start and end indices)
+# Create a logical vector for the condition
+condition_closeness <- network_measures_year$closeness_congiurati < network_measures_year$closeness_longhi
+
+# Replace any potential NAs with FALSE so rle() doesn't break
+condition_closeness[is.na(condition_closeness)] <- FALSE
+
+# Apply run-length encoding to find continuous sequences of TRUE/FALSE
+runs_closeness <- rle(condition_closeness)
+
+# Calculate the start and end row indices for every run
+end_idx_closeness <- cumsum(runs_closeness$lengths)
+start_idx_closeness <- end_idx_closeness - runs_closeness$lengths + 1
+
+# Extract only the intervals where the condition evaluated to TRUE
+interval_bounds_closeness <- data.frame(
+  start_row = start_idx_closeness[runs_closeness$values == TRUE],
+  end_row = end_idx_closeness[runs_closeness$values == TRUE]
+)
+
+closeness_crossover_year <- network_measures_year$year[interval_bounds_closeness[[1]][1]]
 # Check correlation
 # Split at the crossover (~1550, based on your chart)
 post_crossover <- network_measures_year %>% filter(year >= 1550)
@@ -1062,13 +1086,79 @@ pre_crossover <- pre_crossover %>%
   )
 
 cor_deltas_pre <- cor.test(pre_crossover$delta_congiurati, pre_crossover$delta_longhi)
+
+#------------- Test 
+#
+network_measures_year <- network_measures_year %>% 
+    arrange(year) %>%
+    mutate(
+      delta_congiurati = closeness_congiurati - lag(closeness_congiurati),
+      delta_longhi      = closeness_longhi - lag(closeness_longhi)
+    )
+
+model_deltas <- lm(delta_longhi ~ delta_congiurati, data = network_measures_year, na.action = na.exclude)
+
+# 3. Calculate Cook's distance, sort descending, and extract the highest leverage year
+influential_year <- network_measures_year %>%
+  mutate(cooks_d = cooks.distance(model_pre)) %>%
+  arrange(desc(cooks_d)) %>%
+  select(year, cooks_d, delta_congiurati, delta_longhi) %>%
+  slice(1)
+
+
+# trying to find the exact point with the correlation
+# ----------------------------------------------------------------------------
+
+# library(purrr)
+# library(tidyr)
+# 
+# # 1. Clean the dataset to ensure we only evaluate rows with valid deltas
+# clean_network <- network_measures_year %>%
+#   drop_na(delta_congiurati, delta_longhi)
+# 
+# # 2. Define the range of years to test using the cleaned data
+# min_year <- min(clean_network$year) + 5
+# max_year <- max(clean_network$year) - 5
+# split_candidates <- seq(min_year, max_year, by=5)
+# 
+# # 3. Iterate over every possible split year safely
+# correlation_shifts <- map_dfr(split_candidates, function(split_yr) {
+#   
+#   # Partition the data
+#   pre_data <- clean_network %>% filter(year <= split_yr)
+#   post_data <- clean_network %>% filter(year > split_yr)
+#   
+#   # Safety check: cor.test requires at least 3 valid observations
+#   if (nrow(pre_data) >= 3 && nrow(post_data) >= 3) {
+#     pre_cor <- cor.test(pre_data$delta_congiurati, pre_data$delta_longhi)
+#     post_cor <- cor.test(post_data$delta_congiurati, post_data$delta_longhi)
+#     
+#     tibble(
+#       split_year = split_yr,
+#       pre_r = pre_cor$estimate,
+#       pre_p_value = pre_cor$p.value,
+#       post_r = post_cor$estimate,
+#       post_p_value = post_cor$p.value
+#     )
+#   } else {
+#     # If a slice is too small, return NAs and keep the loop running
+#     tibble(
+#       split_year = split_yr,
+#       pre_r = NA_real_,
+#       pre_p_value = NA_real_,
+#       post_r = NA_real_,
+#       post_p_value = NA_real_
+#     )
+#   }
+# })
+
 @
 
 Figure~\ref{fig:casenuove.closeness} reports the average closeness centrality of the two dominant factions, the \emph{grandi curti} (red line) and the \emph{longhi} (gold line). Values remain relatively high throughout the period: An average closeness of about 0.5 implies that, on average, any family could reach another in approximately two steps within the main connected component, which, as shown in Figure~~\ref{fig:casenuove.cohesiveness.setup}, contains virtually all families throughout the period.
 
-The figure again reveals a marked change around the middle of the sixteenth century. Until approximately 1550, the \emph{grandi curti} exhibit consistently higher closeness centrality than the \emph{longhi}, allowing them to reach the rest of the patriciate through shorter paths. This advantage disappears in 1550, after a sharp decline in the closeness of the \emph{grandi curti}. From that point onward, closeness shows an overall increasing trend for both factions, with the \emph{longhi} maintaining a slight advantage until the two series converge towards the end of the period.
+The figure again reveals a marked change around the middle of the sixteenth century. Until approximately \Sexpr{closeness_crossover_year}, the \emph{grandi curti} exhibit consistently higher closeness centrality than the \emph{longhi}, allowing them to reach the rest of the patriciate through shorter paths. This advantage disappears in right before \Sexpr{closeness_crossover_year}, after a sharp decline in the closeness of the \emph{grandi curti}. From that point onward, closeness shows an overall increasing trend for both factions, with the \emph{longhi} maintaining a slight advantage until the two series converge towards the end of the period.
 
-Another interesting pattern emerges after the crossover. The evolution of closeness centrality becomes much more synchronized across the two factions. The correlation between changes in the two series rises from \Sexpr{round(cor_deltas_pre$estimate,2)} before the crossover to \Sexpr{round(cor_deltas_post$estimate,2)} thereafter, with the corresponding p-values equal to \Sexpr{round(cor_deltas_pre$p.value,3)} and \Sexpr{round(cor_deltas_post$p.value,3)}, respectively.
+Another interesting pattern emerges right before the crossover. The evolution of closeness centrality becomes much more synchronized across the two factions. The correlation between changes in the two series rises from \Sexpr{round(cor_deltas_pre$estimate,2)} before the crossover to \Sexpr{round(cor_deltas_post$estimate,2)} thereafter, with the corresponding p-values equal to \Sexpr{round(cor_deltas_pre$p.value,3)} and \Sexpr{round(cor_deltas_post$p.value,3)}, respectively.
  The stronger and more statistically robust correlation after the crossover is consistent with a structural change in the network, with the two factions evolving in a more coordinated manner from that point onward.
 
 <<casenuove.closeness.histo, echo=F, message=F, fig.cap="Evolution of closeness centrality over time", fig.height=5, fig.pos="h!tb">>=
