@@ -961,6 +961,47 @@ component_summary <- components_over_time %>%
   summarise(mean_direct = mean(direct, na.rm = TRUE),
             mean_indirect = mean(indirect, na.rm = TRUE))
 
+# 1. Simple Filtering: If you just want to isolate all rows where this is true
+greater_values <- distances_window %>%
+  filter(congiurati > longhi_vs_congiurati)
+
+# 2. Interval Bounds: To find the continuous blocks (start and end indices)
+# Create a logical vector for the condition
+condition <- distances_window$congiurati > distances_window$longhi_vs_congiurati
+
+# Replace any potential NAs with FALSE so rle() doesn't break
+condition[is.na(condition)] <- FALSE
+
+# Apply run-length encoding to find continuous sequences of TRUE/FALSE
+runs <- rle(condition)
+
+# Calculate the start and end row indices for every run
+end_idx <- cumsum(runs$lengths)
+start_idx <- end_idx - runs$lengths + 1
+
+# Extract only the intervals where the condition evaluated to TRUE
+interval_bounds <- data.frame(
+  start_row = start_idx[runs$values == TRUE],
+  end_row = end_idx[runs$values == TRUE]
+)
+
+# If your dataframe has a date or time column (e.g., 'year'), you can map these indices back:
+# interval_bounds$start_time <- distances_window$year[interval_bounds$start_row]
+# interval_bounds$end_time <- distances_window$year[interval_bounds$end_row]
+
+first_period <- paste(
+  distances_window$year[interval_bounds$start_row[2]], 
+  distances_window$year[interval_bounds$end_row[2]], 
+  sep = "-"
+)
+
+# Extract the very last interval block
+last_idx <- nrow(interval_bounds)
+last_period <- paste(
+  distances_window$year[interval_bounds$start_row[last_idx]], 
+  distances_window$year[interval_bounds$end_row[last_idx]], 
+  sep = "-"
+)
 @
 
 As shown in Figure~\ref{fig:casenuove.analysis}, the intra-faction ASPL for both factions is consistently lower than the extra-faction ASPL, the latter being approximately twice as large throughout the period. This indicates that families belonging to the same faction were, on average, more closely connected to one another than to the rest of the patriciate. At the same time, the \emph{longhi} generally display slightly lower intra-faction ASPL than the \emph{grandi curti}, suggesting stronger internal cohesion, while the inter-faction ASPL remains only slightly larger than the two intra-faction ASPLs through most of the period, indicating that marriages between the two elite factions were also frequent.
@@ -968,7 +1009,7 @@ As shown in Figure~\ref{fig:casenuove.analysis}, the intra-faction ASPL for both
 A second feature of the figure is the common temporal pattern shared by all five series. Average shortest path lengths decline until approximately the second half of the sixteenth century, indicating increasing cohesion within the marriage network. Thereafter, all measures begin to rise, reflecting a gradual reduction in overall connectedness. This reversal is more pronounced for the \emph{grandi curti}, whose internal cohesion begins to weaken earlier and more rapidly than that of the \emph{longhi}.
 
 Third, the extra-faction ASPL suggests a gradual change in the relative position of the two factions within the broader network. During the first part of the period, the \emph{grandi curti} maintain a slight advantage, being on average closer to families outside their own faction. This advantage disappears towards the end of the sixteenth century, when the \emph{longhi} become marginally better connected to the rest of the network. 
-A more striking change occurs around 1615--1620, when the inter-faction ASPL falls below the intra-faction ASPL of the \emph{grandi curti}. From that point onward, a \emph{grandi curti} family is, on average, closer to a \emph{longhi} family than to another \emph{grandi curti} family. This crossover points to a profound reorganization of the marriage network, suggesting that the structural separation between the two elite factions had largely disappeared.
+A more striking change occurs around \Sexpr{first_period}, when the inter-faction ASPL falls below the intra-faction ASPL of the \emph{grandi curti}. After an inversion in the next period, during \Sexpr{last_period} a \emph{grandi curti} family is, on average, closer to a \emph{longhi} family than to the families in their own faction. This crossover points to a profound reorganization of the marriage network, suggesting that the structural separation between the two elite factions had largely disappeared.
 
 These results suggest that the \emph{grandi curti} initially occupied a structurally advantageous position within the marriage network, a position that may have facilitated the formation of the broad coalitions required to sustain their long-standing monopoly over the dogeship. They also point to a gradual weakening of this advantage around the turn of the seventeenth century through changes that could help explain the end of that monopoly. 
 
