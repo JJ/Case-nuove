@@ -1105,6 +1105,13 @@ influential_year <- network_measures_year %>%
   select(year, cooks_d, delta_congiurati, delta_longhi) %>%
   slice(1)
 
+model_regular <- lm(closeness_longhi ~ closeness_congiurati, data = network_measures_year, na.action = na.exclude)
+influential_year_regular <- network_measures_year %>%
+  mutate(cooks_d = cooks.distance(model_regular)) %>%
+  arrange(desc(cooks_d)) %>%
+  select(year, cooks_d, closeness_congiurati, closeness_longhi) %>%
+  slice(1)
+
 
 # trying to find the exact point with the correlation
 # ----------------------------------------------------------------------------
