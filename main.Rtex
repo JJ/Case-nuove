@@ -1100,7 +1100,7 @@ model_deltas <- lm(delta_longhi ~ delta_congiurati, data = network_measures_year
 
 # 3. Calculate Cook's distance, sort descending, and extract the highest leverage year
 influential_year <- network_measures_year %>%
-  mutate(cooks_d = cooks.distance(model_pre)) %>%
+  mutate(cooks_d = cooks.distance(model_deltas)) %>%
   arrange(desc(cooks_d)) %>%
   select(year, cooks_d, delta_congiurati, delta_longhi) %>%
   slice(1)
