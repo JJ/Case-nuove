@@ -77,8 +77,8 @@ This study is part of a series of studies applying network science to Venetian h
 \begin{highlights}
 \item We show that the \emph{grandi curti}, the faction that monopolized the dogeship for more than two centuries, occupied a structural advantage within the Venetian marriage network.
 \item We show that the marriage network remained structurally stable for most of the \emph{grandi curti}'s monopoly before undergoing a gradual reorganization towards the end of the period, eventually creating structural holes.
-\item We show that, as network cohesion declined, families occupying high-betweenness positions gained a structural advantage in forming the large electoral coalitions needed to secure the election of one of their members or allies.
-\item Contrary to traditional Venetian historiography, we place the end of the {\em grandi curti} conspiracy at the election of Leonardo Donato in 1606, the first doge from a high-betweenness family, marking the transition from the dominance of a high-closure faction to the growing importance of high-betweenness families.
+\item We show that, as network cohesion declined and structural holes appeared, families occupying high-betweenness positions gained a structural advantage in forming the large electoral coalitions needed to secure the election of one of their members or allies.
+\item Contrary to traditional Venetian historiography, we place the end of the {\em grandi curti} "conspiracy" at the election of Leonardo Donato in 1606, the first doge from a high-betweenness family, marking the transition from the dominance of a high-closure faction to the growing importance of high-betweenness families.
 \end{highlights}
 
 %% Keywords
@@ -265,7 +265,7 @@ kable(family_lists,
 
 \subsection{Electoral institutions and political dynamics}\label{institutions}
 
-Following the Serrata, the hereditary nobility described above constituted the membership of the Great Council, the republic's principal political assembly. and the body responsible for electing the holders of most major offices. Understanding its electoral procedures is therefore essential for interpreting the political significance of the divisions discussed in the previous section.
+Following the \emph{Serrata}, the hereditary nobility described above constituted the membership of the Great Council, the republic's principal political assembly and the body responsible for electing the holders of most major offices. Understanding its electoral procedures is therefore essential for interpreting the political significance of the divisions discussed in the previous section.
 
 The Great Council elected the holders of most major offices of the republic, including the Doge, the six Ducal Councillors, collectively known as the Minor Council, the Senate, the Council of Ten, and the Council of Forty \citep[ch. 1]{maraniniv2}. Including the numerous lower-ranking magistracies, the offices to be filled numbered in the hundreds, and most were held for short terms. As a result, the Great Council met regularly to fill them through elections. These procedures were characterized by three defining features: the frequent use of committees of electors, the selection of their members by lot (sortition), and successive rounds of balloting. By concentrating the final decision in the hands of a relatively small body of electors, these committees facilitated bargaining and compromise among the leading families.
 
@@ -1521,6 +1521,9 @@ This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competit
 \bibliographystyle{elsarticle-harv}
 \bibliography{ours,case-nuove,patrician,marriage,complex-networks}
 
+
+\end{document}
+
 \appendix
 \section{Two failed {\em longhi} attempts during the {\em grandi curti} era}
 
@@ -1651,7 +1654,6 @@ closeness_1521_results <- two_family_analysis(1521,"Grimani","Corner")
 
 The situation in 1521, when there was a close call between the Grimani and Corner families, was slightly different. The social graph is represented in Figure \ref{fig:casenuove.corner}, showing that they have a very similar position. Table \ref{tab:casenuove.corner} shows that the Corner family, belonging to the {\em longhi}, had more first-degree connections with either "faction". However, closeness was \Sexpr{closeness_1521_results[1]} for the Grimani family, \Sexpr{closeness_1521_results[2]} for the Corner. This slight advantage in a closeness-dominated network very probably contributed to the eventual election of Antonio Grimani. There is another factor, however, that has proved to be important: Antonio Grimani was 86 at the moment of the election, and in fact he died less than two years later. The Venetian system was designed to favor doges that did not take too much time in office \citep{merelo2023sa,smith2021long}. these two factors put together probably decided the election.
 
-\end{document}
 
 \endinput
 
