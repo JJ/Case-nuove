@@ -74,8 +74,10 @@ Abstract text.
 
 %%Research highlights
 \begin{highlights}
-\item Research highlight 1
-\item Research highlight 2
+\item We prove that during more than 200 years, the noble social network in the Republic of Venice was in a state of closure, with a high-closeness faction, the {\em grandi curti}, enabled to elect the doge among their own.
+\item The network structure was stable for the greatest part of that period, but due to demographic factor as well as policy changes, started to change structure towards the end of the period, eventually creating structural holes.
+\item These structural holes enabled high-betweenness individuals, initially belonging to the same faction, but eventually extended to other factions, to create the grand coalitions needed to secure the election of a member of their families or faction.
+\item Contrary to traditional Venetian historiography, we set the end of the {\em grandi curti} conspiracy at the time of the election of Leonardo Donato in 1606, belonging to a high-betweenness family, marking the transition from a high-closure faction to a high-betweenness family.
 \end{highlights}
 
 %% Keywords
