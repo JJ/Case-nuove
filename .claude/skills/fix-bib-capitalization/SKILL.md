@@ -50,7 +50,8 @@ produced) against the `.bib` source, and fixes the source.
      → `title={...the {Congress of the Republic of Peru}}`
    Multi-word proper names (e.g. "United States House of Representatives", "Republic of
    Venice") should be wrapped as a single braced group so BibTeX doesn't insert its own
-   capitalization logic mid-phrase.
+   capitalization logic mid-phrase. Incluse also post-question mark
+     capitalization, which is also lowered when rendered.
 
 6. **Verify only entries that are actually cited** in the main file need fixing — skip
    unused `.bib` entries to avoid noisy diffs, but it's fine to also check for correctness
