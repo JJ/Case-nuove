@@ -56,11 +56,6 @@ produced) against the `.bib` source, and fixes the source.
    unused `.bib` entries to avoid noisy diffs, but it's fine to also check for correctness
    if asked.
 
-7. **Recompile to confirm** (`pdflatex` + `bibtex` + `pdflatex` ×2, or ask the user before
-   running if that isn't already routine in this repo) and re-read the new `.bbl`/PDF to
-   confirm the fix rendered correctly. Do not silently skip this verification step — report
-   if you were unable to recompile.
-
 ## Notes
 
 - Never brace an entire title/journal field — that disables sentence casing for the whole
