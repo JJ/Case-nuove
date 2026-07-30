@@ -606,13 +606,14 @@ The analysis proceeds in three stages. Section~\ref{ssec:cohesion} examines chan
 
 \subsection{Structural network cohesion}\label{ssec:cohesion}
 
-We begin by examining the cohesion of the marriage network and the structural position of the patrician groups within it through measures of connectivity, path length, and closeness centrality.
+We begin by examining the cohesion of the marriage network and the structural position of the patrician groups within it through measures of connectivity, path length, modularity and closeness centrality.
 
 <<casenuove.cohesiveness.setup, echo=F, fig.height=5, fig.pos="h!tb", fig.cap="Evolution of the size of the marriage network and its main connected component. Left: total number of families and size of the main connected component. Right: percentage of families belonging to the main connected component.", out.width="50%", fig.height=5, fig.show='hold'>>=
 
 number_of_families_timeline <- data.frame( total_number = integer(),
                                            families_in_MCC = integer(),
                                            percentage_in_MCC = numeric(),
+                                           modularity = numeric(),
                                            year = integer())
 previous_families <- NULL
 family_changes <- list()
@@ -661,11 +662,15 @@ for (y in window_sequence ) {
   number_of_families <- length(V(marriage_graph)$name)
   families_in_MCC <- length(V(marriage_graph_main)$name)
   percentage_in_MCC <- families_in_MCC/number_of_families  * 100
+  
+  communities <- cluster_leiden(marriage_graph_main, resolution = 1)
+  modularity_score <- modularity(marriage_graph_main, membership(communities))
 
   number_of_families_timeline <- rbind( number_of_families_timeline,
                                         data.frame( total_number = number_of_families,
                                                     families_in_MCC = families_in_MCC,
                                                     percentage_in_MCC = percentage_in_MCC,
+                                                    modularity = modularity_score,
                                                     year = last_year))
 
 }
@@ -676,10 +681,11 @@ ggplot( number_of_families_timeline , aes(x=year, y=total_number) ) + geom_line(
 ggplot( number_of_families_timeline, aes(x=year,y=percentage_in_MCC))+ geom_line()+ theme_minimal()
 @
 
-
 Figure~\ref{fig:casenuove.cohesiveness.setup} reports the size of the networks across the overlapping time windows. The left panel compares the total number of nodes (cyan line) with the number belonging to the main connected component (black line), while the right panel reports the percentage of families included in the main connected component. In both panels, the horizontal axis corresponds to the last year of each 75-year window.
 
 Two features stand out in the figure. First, the size of the patrician network enters a period of sharp decline in the second half of the sixteenth century that continues  until 1646, when the admission of new families reverses this trend. Second, except for two brief periods, the main connected component contains {\em all} families present in each time window. Thus, even if political divisions existed, they did not produce a fragmentation of the marriage network into separate components. Families that temporarily fell outside the main connected component remained few in number and were subsequently reabsorbed into it, rather than forming persistent alternative sub-networks.
+
+The average modularity for this period is \Sexpr{round(mean(number_of_families_timeline$modularity),3)} $\pm$ \Sexpr{round(sd(number_of_families_timeline$modularity),3)}, with a range of \Sexpr{round(min(number_of_families_timeline$modularity),3)} -- \Sexpr{round(max(number_of_families_timeline$modularity),3)}, indicating essentially no modularity or community organization within this main connected component that spans all the vertices most of the time. That also implies that, in this period, we cannot really speak about factions, because the whole network is essentially a single community.
 
 Having established that virtually all families belonged to a single connected component, the next step is to examine how closely they were connected to one another. We begin by measuring proximity using the average shortest path length (ASPL).  For each family, we first compute the average shortest path to a given set of nodes; we then average this quantity over all families belonging to the same faction. Figure~\ref{fig:casenuove.analysis} reports three measures:\begin{itemize}
  \item the intra-faction ASPL, computed as the average shortest path from each family to all other families within the same faction and then averaged over all families in the faction. These series are shown as solid lines, with red denoting the \emph{grandi curti} and gold the \emph{longhi};
