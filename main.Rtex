@@ -1518,7 +1518,7 @@ The second concerns the evolution of the Venetian marriage network after the per
 
 \section*{Acknowledgements}
 
-This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
+% This work is supported by the Ministerio espa\~{n}ol de Econom\'{\i}a y Competitividad (Spanish Ministry of Competitivity and Economy) under project PID2023-147409NB-C21.
 
 \bibliographystyle{elsarticle-harv}
 \bibliography{ours,case-nuove,patrician,marriage,complex-networks}
