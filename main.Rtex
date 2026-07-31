@@ -324,13 +324,6 @@ last_year <- max(noble_marriages$year)
 The first dataset, which forms the basis of our network analysis, consists of  Venetian matrimonial records spanning the period from \Sexpr{first_year} to \Sexpr{last_year}. Originally compiled by \cite{PugaTrefler}, it was normalized and adapted by \cite{merelo2024intra} and \cite{histories4020012}. Each record corresponds to a single marriage entry in the Avogaria del Comun registers, the magistracy responsible for recording marriages involving at least one noble. Most entries are dated and include the spouses’ first names and noble family affiliation. The second dataset provides the names of the doges and the year of their appointment and is taken from the {\sf dogesr} package \citep{merelo2022good} which used the Wikipedia timeline as a source. % Loaded now in the casenuove.table.parties chunk
 A third dataset records, for each noble family, its factional affiliation  and the date of its admission to the nobility.  Families are assigned to one of three groups: \emph{longhi}, \emph{grandi curti}, or other \emph{curti}, following  the fifteenth-century classification described in Section~\ref{patriciate}. Admission dates are drawn from \cite{raines2003cooptazione}, which also reports the extinction date for each noble family, defined as the last year in which the family appears in the documentary record. This third dataset is publicly available in the paper repository under an open licence.
 
-<<casenuove.dogi,echo=F,message=F>>=
-load("data/ducali_dogi_data.rda")
-ducali_dogi_data <- ducali_dogi_data %>% filter( Year <= 1630)
-@
-
-
-
 Because the three datasets come from different sources, we harmonize family names to ensure consistent identification across records. When a direct match is not possible, we proceed as follows:\begin{itemize}
 \item When differences reflect only orthographic variation (e.g., Da Mosto vs Mosto or Mosto, Da), we standardize names to the form used in the Puga and Trefler dataset.
 
