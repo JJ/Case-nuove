@@ -303,8 +303,6 @@ Marriage thus played a crucial role in the political and social management of th
 library(dplyr)
 library(igraph)
 
-load("data/venice-marriages-filtered.rda")
-
 @
 
 This section in organized as follows. In Section~\ref{ssec:sources}, we describe the different data sources and the preprocessing steps used to harmonize them. In Section~\ref{ssec:validation}, we discuss how these sources were validated, including a description of potential biases. Finally, in Section~\ref{ssec:exploration}  a descriptive and exploratory analysis is introduced.
