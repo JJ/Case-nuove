@@ -304,7 +304,6 @@ library(dplyr)
 library(igraph)
 
 load("data/venice-marriages-filtered.rda")
-load("data/ducali_dogi_data.rda")
 
 @
 
