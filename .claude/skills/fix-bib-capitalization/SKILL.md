@@ -33,6 +33,8 @@ produced) against the `.bib` source, and fixes the source.
    - Lowercased named institutions or formal bodies (e.g. `congress of the republic of peru`,
      `united states house of representatives`)
    - Lowercased acronyms (e.g. `uk`, `gis`)
+   - Lowercased named historical events/periods/eras (e.g. `black death`, `renaissance` when
+     it names the era rather than used as a plain adjective)
    - Journal names that should be title case but aren't (e.g. `science` → `Science`,
      `physical review e` → `Physical Review E`, `american journal of sociology`)
    Ignore ordinary lowercase common words — sentence case is *correct* for those; only flag
@@ -48,14 +50,20 @@ produced) against the `.bib` source, and fixes the source.
    - `journal={science}` → `journal={Science}`
    - `title={...the Congress of the Republic of Peru}`
      → `title={...the {Congress of the Republic of Peru}}`
+   - `title={Elite Persistence in Medieval Venice after the Black Death}`
+     → `title={Elite Persistence in Medieval {Venice} after the {Black Death}}`
    Multi-word proper names (e.g. "United States House of Representatives", "Republic of
-   Venice") should be wrapped as a single braced group so BibTeX doesn't insert its own
-   capitalization logic mid-phrase. Incluse also post-question mark
-     capitalization, which is also lowered when rendered.
+   Venice", named historical events like "Black Death") should be wrapped as a single braced
+   group so BibTeX doesn't insert its own capitalization logic mid-phrase.
 
-6. **Verify only entries that are actually cited** in the main file need fixing — skip
+6. Also include post-question mark capitalization, which is also lowered when rendered.
+
+7. **Verify only entries that are actually cited** in the main file need fixing — skip
    unused `.bib` entries to avoid noisy diffs, but it's fine to also check for correctness
    if asked.
+
+8. In case of doubt, when there are something that looks like an institution
+   like "European Parliament" and is explicitly capitalized, ask.
 
 ## Notes
 
@@ -67,3 +75,4 @@ produced) against the `.bib` source, and fixes the source.
   don't fix fields that already render correctly.
 - If several `.bib` files exist, don't guess which one holds an entry — grep across all of
   them for the citation key before editing.
+- City names must always be wrapped.
