@@ -338,7 +338,7 @@ The first criterion excludes marriages involving families that never belonged to
 
 <<casenuove.number_of_marriages_per_year, messages=F,echo=F, fig.cap="Number of marriages per year, 1400--1650.", fig.height=4>>=
 library(ggplot2)
-library(dplyr)
+
 FIRST_YEAR_UNDER_STUDY <- 1400
 LAST_YEAR_UNDER_STUDY <- 1650
 
